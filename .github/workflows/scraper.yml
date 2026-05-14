@@ -1,6 +1,8 @@
 name: Ejecutar Scraper
 
 on:
+  schedule:
+    - cron: '0 * * * *'  # Cada 1 hora
   workflow_dispatch:
 
 jobs:
