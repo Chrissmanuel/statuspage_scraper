@@ -19,18 +19,14 @@ jobs:
 
       - name: Setup ChromeDriver
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1 | cut -d'.' -f1)
-          echo "Chrome major version: $CHROME_VERSION"
+          # Instalar chromedriver desde chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq chromium-chromedriver
           
-          # Obtener la URL de descarga correcta desde la API
-          CHROMEDRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/latest-versions-per-milestone-with-downloads.json" | \
-            python3 -c "import sys,json; data=json.load(sys.stdin); print(data['milestones']['${CHROME_VERSION}']['downloads']['chromedriver']['linux64'][0]['url'])")
+          # Crear symlink para que selenium lo encuentre
+          sudo ln -sf /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
           
-          echo "Downloading from: $CHROMEDRIVER_URL"
-          wget -q "$CHROMEDRIVER_URL" -O chromedriver.zip
-          unzip chromedriver.zip
-          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
+          # Verificar instalación
           chromedriver --version
 
       - name: Instalar dependencias
