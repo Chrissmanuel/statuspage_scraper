@@ -19,10 +19,16 @@ jobs:
 
       - name: Setup ChromeDriver
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1)
-          echo "Chrome version: $CHROME_VERSION"
-          wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip"
-          unzip chromedriver-linux64.zip
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1 | cut -d'.' -f1)
+          echo "Chrome major version: $CHROME_VERSION"
+          
+          # Obtener la URL de descarga correcta desde la API
+          CHROMEDRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/latest-versions-per-milestone-with-downloads.json" | \
+            python3 -c "import sys,json; data=json.load(sys.stdin); print(data['milestones']['${CHROME_VERSION}']['downloads']['chromedriver']['linux64'][0]['url'])")
+          
+          echo "Downloading from: $CHROMEDRIVER_URL"
+          wget -q "$CHROMEDRIVER_URL" -O chromedriver.zip
+          unzip chromedriver.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
           chromedriver --version
