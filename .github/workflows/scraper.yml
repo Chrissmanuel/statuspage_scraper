@@ -21,7 +21,7 @@ jobs:
       - name: Setup ChromeDriver
         uses: nanasess/setup-chromedriver@v2
         with:
-          chrome-version: ${{ steps.setup-chrome.outputs.chrome-version }}
+          chromedriver-version: ${{ steps.setup-chrome.outputs.chrome-version }}
 
       - name: Instalar dependencias
         run: |
