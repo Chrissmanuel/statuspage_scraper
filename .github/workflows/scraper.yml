@@ -14,20 +14,11 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Setup Chrome
-        uses: browser-actions/setup-chrome@v1
-
       - name: Setup ChromeDriver
         run: |
-          # Instalar chromedriver desde chromium
           sudo apt-get update -qq
           sudo apt-get install -y -qq chromium-chromedriver
-          
-          # Crear symlink para que selenium lo encuentre
           sudo ln -sf /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
-          
-          # Verificar instalación
-          chromedriver --version
 
       - name: Instalar dependencias
         run: |
