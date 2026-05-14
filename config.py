@@ -4,7 +4,12 @@ from typing import Optional, Dict, Any
 from zoneinfo import ZoneInfo
 
 BASE_DIR = Path(__file__).resolve().parent
-CHROMEDRIVER_PATH = BASE_DIR / "chromedriver.exe"
+
+# Detectar sistema operativo
+if sys.platform == "win32":
+    CHROMEDRIVER_PATH = BASE_DIR / "chromedriver.exe"
+else:
+    CHROMEDRIVER_PATH = "chromedriver"  # En Linux se usa el del PATH
 
 WEB_APP_URL = os.getenv("WEB_APP_URL", "https://script.google.com/macros/s/AKfycbyyuJ4rtYMj4dwHYTx6PvT37fNG-QGbkclS1L18Jc3F1GyEc_63fQurtMXwZ-Q2v4enzw/exec")
 

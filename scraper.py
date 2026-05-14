@@ -93,11 +93,27 @@ class IncidentScraper(AbstractContextManager):
 
     def _crear_driver(self) -> WebDriver:
         opts = Options()
-        opts.add_argument("--headless")
+        
+        # Headless moderno para GitHub Actions
+        opts.add_argument("--headless=new")
+        
+        # Necesarios en Linux/GitHub Actions
+        opts.add_argument("--no-sandbox")
+        opts.add_argument("--disable-dev-shm-usage")
+        opts.add_argument("--disable-gpu")
+        opts.add_argument("--window-size=1920,1080")
+        
+        # Anti detección
         opts.add_argument("--disable-blink-features=AutomationControlled")
         opts.add_experimental_option("excludeSwitches", ["enable-automation"])
         opts.add_experimental_option("useAutomationExtension", False)
-        service = Service(str(CHROMEDRIVER_PATH))
+        
+        # En Linux usar chromedriver del PATH
+        if sys.platform == "win32":
+            service = Service(str(CHROMEDRIVER_PATH))
+        else:
+            service = Service()  # Toma chromedriver del PATH
+        
         return webdriver.Chrome(service=service, options=opts)
 
     def __exit__(self, exc_type, exc_val, exc_tb) -> None:
