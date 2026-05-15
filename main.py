@@ -111,12 +111,10 @@ def main() -> None:
                 
                 # Agregar los resueltos en verificación a la lista para enviar
                 if resueltos_verificacion:
-                    # Para el sheet: sin Pendiente, ID, Periodo_Raw
                     datos_resueltos_sheet = [
                         {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
                         for inc in resueltos_verificacion
                     ]
-                    # Para el histórico: CON ID
                     datos_resueltos_historico = [
                         {k: v for k, v in inc.items() if k not in ["Pendiente", "Periodo_Raw"]}
                         for inc in resueltos_verificacion
