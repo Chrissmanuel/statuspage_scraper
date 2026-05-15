@@ -6,6 +6,8 @@ from models import ProveedorConfig, SelectorMap
 from scraper import IncidentScraper, clasificar_incidente
 from state_manager import GestorEstado
 from utils import configurar_logging, cargar_json, guardar_json, clave_incidente_dict, distribuir_asignados, logger
+from datetime import datetime, timedelta
+
 
 
 PROVEEDORES_LIST = [
@@ -88,7 +90,8 @@ def main() -> None:
             nuevos_pendientes: List[Dict[str, Any]] = []
 
             for prov in PROVEEDORES_LIST:
-                fecha_corte = GestorEstado.obtener_fecha_corte(prov.nombre)
+                # Usar últimas 24 horas como corte
+                fecha_corte = datetime.now() - timedelta(hours=24)
                 logger.info(f"📌 {prov.nombre} usando corte: {fecha_corte.isoformat()}")
 
                 incidentes = bot.ejecutar(prov, fecha_corte)
@@ -141,11 +144,20 @@ def main() -> None:
             # 4. CUARTO: Enviar todos los NO pendientes (resueltos)
             listos_para_enviar = [x for x in todos_los_incidentes if x.get("Pendiente") != "SI"]
             
-            if listos_para_enviar:
+            # ✅ Deducir por ID antes de enviar
+            vistos = set()
+            sin_duplicados = []
+            for inc in listos_para_enviar:
+                clave = f"{inc.get('Proveedor')}_{inc.get('ID')}"
+                if clave not in vistos:
+                    vistos.add(clave)
+                    sin_duplicados.append(inc)
+            
+            if sin_duplicados:
                 # Quitar columnas Pendiente e ID antes de enviar
                 datos_sin_pendiente = [
                     {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
-                    for inc in listos_para_enviar
+                    for inc in sin_duplicados
                 ]
                 
                 # Distribuir asignados
@@ -166,7 +178,7 @@ def main() -> None:
 
             # 5. QUINTO: Resumen final
             total_pendientes = len(todos_pendientes)
-            total_enviados = len([x for x in todos_los_incidentes if x.get("Pendiente") != "SI"])
+            total_enviados = len(sin_duplicados)
             
             logger.info("=" * 50)
             logger.info(f"📊 RESUMEN: {total_enviados} resueltos | ⚠️ {total_pendientes} pendientes")

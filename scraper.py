@@ -40,30 +40,34 @@ def obtener_filtros_proveedor(nombre: str) -> Dict[str, Any]:
 
 
 def clasificar_incidente(datos: Dict[str, Any], config: ProveedorConfig, fecha_corte) -> bool:
-    fecha_inc = None
-
+    # Para Atlassian, extraer la fecha final si existe
     if config.tipo == "atlassian":
         periodo = str(datos.get("Periodo_Raw", datos.get("Periodo", "")))
-        if " - " in periodo:
-            partes = [p.strip() for p in periodo.split(" - ")]
-            if len(partes) >= 2:
-                fecha_fin_str = partes[1]
-                fecha_fin = ParseadorTiempo.extraer_fecha(fecha_fin_str)
-                if fecha_fin:
-                    fecha_inc = fecha_fin
+        tiene_fecha_final = " - " in periodo
+        
+        if tiene_fecha_final:
+            partes = periodo.split(" - ")
+            fecha_fin_str = partes[1].strip()
+            fecha_ini_str = partes[0].strip()
+            fecha_inc = ParseadorTiempo.extraer_fecha(fecha_fin_str)
+            if not fecha_inc:
+                fecha_inc = ParseadorTiempo.extraer_fecha(fecha_ini_str)
         else:
             fecha_inc = ParseadorTiempo.extraer_fecha(periodo)
-
-        if fecha_inc and fecha_inc < fecha_corte:
-            logger.info(f"⏪ {config.nombre} | Anterior al corte (fecha fin): {datos.get('Titulo', '')[:60]}")
-            return False
+            datos["Pendiente"] = "SI"
+        
+        # Sumar 4 horas para equiparar VET a UTC
+        if fecha_inc:
+            from datetime import timedelta
+            fecha_inc_utc = fecha_inc + timedelta(hours=4)
+            if fecha_inc_utc < fecha_corte:
+                logger.info(f"⏪ {config.nombre} | Anterior al corte: {datos.get('Titulo', '')[:60]}")
+                return False
     else:
         fecha_inc = ParseadorTiempo.extraer_fecha(datos.get("Periodo", ""))
         if fecha_inc and fecha_inc < fecha_corte:
-            logger.info(f"⏪ {config.nombre} | Anterior al corte: {datos.get('Titulo', '')[:60]}")
             return False
 
-    # filtros de palabras y duración (igual que ahora)
     filtros = obtener_filtros_proveedor(config.nombre)
     texto_completo = " ".join(str(v) for v in datos.values() if v).lower()
 
