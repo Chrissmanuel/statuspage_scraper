@@ -22,7 +22,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from config import (
     CHROMEDRIVER_PATH, DETAIL_LOAD_SLEEP, FILTROS_GLOBALES, FILTROS_POR_PROVEEDOR,
-    MAX_INCIDENTES_POR_PROVEEDOR, PAGE_LOAD_SLEEP, PROVEEDORES_HABILITADOS, WAIT_TIMEOUT
+    MAX_INCIDENTES_POR_PROVEEDOR, PAGE_LOAD_SLEEP, PROVEEDORES_HABILITADOS, WAIT_TIMEOUT, RESULTADOS_FILE
 )
 from models import IncidentData, ProveedorConfig
 from time_parser import ParseadorTiempo
@@ -39,34 +39,12 @@ def obtener_filtros_proveedor(nombre: str) -> Dict[str, Any]:
     }
 
 
-def clasificar_incidente(datos: Dict[str, Any], config: ProveedorConfig, fecha_corte) -> bool:
-    # Para Atlassian, extraer la fecha final si existe
+def clasificar_incidente(datos: Dict[str, Any], config: ProveedorConfig, fecha_corte=None) -> bool:
     if config.tipo == "atlassian":
         periodo = str(datos.get("Periodo_Raw", datos.get("Periodo", "")))
         tiene_fecha_final = " - " in periodo
-        
-        if tiene_fecha_final:
-            partes = periodo.split(" - ")
-            fecha_fin_str = partes[1].strip()
-            fecha_ini_str = partes[0].strip()
-            fecha_inc = ParseadorTiempo.extraer_fecha(fecha_fin_str)
-            if not fecha_inc:
-                fecha_inc = ParseadorTiempo.extraer_fecha(fecha_ini_str)
-        else:
-            fecha_inc = ParseadorTiempo.extraer_fecha(periodo)
+        if not tiene_fecha_final:
             datos["Pendiente"] = "SI"
-        
-        # Sumar 4 horas para equiparar VET a UTC
-        if fecha_inc:
-            from datetime import timedelta
-            fecha_inc_utc = fecha_inc + timedelta(hours=4)
-            if fecha_inc_utc < fecha_corte:
-                logger.info(f"⏪ {config.nombre} | Anterior al corte: {datos.get('Titulo', '')[:60]}")
-                return False
-    else:
-        fecha_inc = ParseadorTiempo.extraer_fecha(datos.get("Periodo", ""))
-        if fecha_inc and fecha_inc < fecha_corte:
-            return False
 
     filtros = obtener_filtros_proveedor(config.nombre)
     texto_completo = " ".join(str(v) for v in datos.values() if v).lower()
@@ -89,8 +67,9 @@ def clasificar_incidente(datos: Dict[str, Any], config: ProveedorConfig, fecha_c
 
     return True
 
-
 class IncidentScraper(AbstractContextManager):
+
+    
     def __init__(self) -> None:
         self.driver = self._crear_driver()
         self.wait = WebDriverWait(self.driver, WAIT_TIMEOUT)
@@ -167,7 +146,7 @@ class IncidentScraper(AbstractContextManager):
         base = f"{titulo}-{periodo}"
         return "monnet-" + hashlib.md5(base.encode()).hexdigest()
 
-    def ejecutar(self, config: ProveedorConfig, fecha_corte) -> List[Dict[str, Any]]:
+    def ejecutar(self, config: ProveedorConfig, fecha_corte=None) -> List[Dict[str, Any]]:
         if PROVEEDORES_HABILITADOS is not None and config.nombre not in PROVEEDORES_HABILITADOS:
             return []
 
@@ -196,28 +175,11 @@ class IncidentScraper(AbstractContextManager):
                 periodo = ParseadorTiempo.convertir_periodo_a_vet(periodo_raw)
                 titulo = self._safe_text(el, config.selectores.titulo)
 
-                # --- Calcular fecha de corte usando fecha_fin cuando es Atlassian ---
-                fecha_inc = None
-                if config.tipo == "atlassian":
-                    if " - " in periodo_raw:
-                        partes = [p.strip() for p in periodo_raw.split(" - ")]
-                        if len(partes) >= 2:
-                            fecha_fin_str = partes[1]
-                            fecha_fin = ParseadorTiempo.extraer_fecha(fecha_fin_str)
-                            if fecha_fin:
-                                fecha_inc = fecha_fin
-                    else:
-                        fecha_inc = ParseadorTiempo.extraer_fecha(periodo_raw)
-                else:
-                    fecha_inc = ParseadorTiempo.extraer_fecha(periodo)
-
-                if fecha_inc and fecha_inc < fecha_corte:
-                    logger.info(f"⏪ {config.nombre} | Fecha fin anterior al corte: {titulo[:60]}")
-                    if config.tipo == "atlassian":
-                        # en Atlassian rompemos el bucle porque el resto será más antiguo
-                        break
-                    else:
-                        break  # en otros proveedores sólo omitimos este incidente
+                # ✅ Verificar si el ID ya existe en el histórico
+                id_temp = self._obtener_id_temporal(el, config, titulo, periodo)
+                if id_temp and _existe_id_en_historico(id_temp, config.nombre):
+                    logger.info(f"⏪ {config.nombre} | Ya en histórico: {titulo[:60]}")
+                    break
 
                 datos = IncidentData(
                     Proveedor=config.nombre,
@@ -231,21 +193,19 @@ class IncidentScraper(AbstractContextManager):
                 datos.Duracion_Minutos = ParseadorTiempo.calcular_duracion(dur_txt)
 
                 # Nuevo campo ID
+                link = None
                 if config.tipo == "atlassian":
                     try:
                         link = el.find_element(By.CSS_SELECTOR, config.selectores.titulo).get_attribute("href")
                         datos.ID = self.extraer_id_incidente(link)
                     except Exception:
-                        link = None
                         datos.ID = self.generar_id_unico(titulo, periodo)
                 elif config.tipo == "freshstatus":
-                    link = None
                     datos.ID = self.generar_id_unico(titulo, periodo)
 
-                # Abrir detalles solo si es atlassian, tiene link y pasa el filtro de fecha en clasificar_incidente
+                # ✅ SOLO ABRIR DETALLES si es atlassian
                 if config.tipo == "atlassian" and link:
                     try:
-                        # abrir en nueva pestaña y extraer updates
                         self.driver.execute_script("window.open(arguments[0]);", link)
                         self.driver.switch_to.window(self.driver.window_handles[-1])
                         time.sleep(DETAIL_LOAD_SLEEP)
@@ -266,7 +226,6 @@ class IncidentScraper(AbstractContextManager):
                         except Exception:
                             datos.Estado = datos.Estado or "N/A"
 
-                        # Historial
                         try:
                             historial = "\n".join([
                                 f"{normalizar_texto(u.find_element(By.CSS_SELECTOR, 'h2.update-title').text)}: "
@@ -278,7 +237,6 @@ class IncidentScraper(AbstractContextManager):
                         except Exception:
                             pass
 
-                        # Componentes
                         try:
                             datos.Componentes = normalizar_texto(
                                 self.driver.find_element(By.CSS_SELECTOR, "div.components-affected").text
@@ -303,9 +261,9 @@ class IncidentScraper(AbstractContextManager):
                         pass
 
                 row = datos.to_dict()
-                row["Periodo_Raw"] = periodo_raw
+                row['Periodo_Raw'] = periodo_raw
 
-                if not clasificar_incidente(row, config, fecha_corte):
+                if not clasificar_incidente(row, config):
                     continue
 
                 resultados.append(row)
@@ -318,7 +276,21 @@ class IncidentScraper(AbstractContextManager):
                 logger.warning(f"❌ Error procesando incidente {i + 1} de {config.nombre}", exc_info=True)
                 continue
 
+        resultados.reverse()
         return resultados
+
+
+    def _obtener_id_temporal(self, el, config, titulo: str, periodo: str) -> str:
+        """Obtiene el ID sin abrir la página de detalles"""
+        if config.tipo == "atlassian":
+            try:
+                link = el.find_element(By.CSS_SELECTOR, config.selectores.titulo).get_attribute("href")
+                return self.extraer_id_incidente(link)
+            except Exception:
+                return self.generar_id_unico(titulo, periodo)
+        elif config.tipo == "freshstatus":
+            return self.generar_id_unico(titulo, periodo)
+        return ""
 
     def verificar_pendientes(self, pendientes: List[Dict[str, Any]], config: ProveedorConfig) -> List[Dict[str, Any]]:
         resultados = []
@@ -392,3 +364,13 @@ class IncidentScraper(AbstractContextManager):
                 resultados.append(inc)
 
         return resultados
+
+def _existe_id_en_historico(id_incidente: str, proveedor: str) -> bool:
+    """Verifica si un ID ya existe en el histórico"""
+    from utils import cargar_json
+    
+    historico = cargar_json(RESULTADOS_FILE, [])
+    return any(
+        h.get("ID") == id_incidente and h.get("Proveedor") == proveedor 
+        for h in historico
+    )

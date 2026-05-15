@@ -4,10 +4,7 @@ from config import RESULTADOS_FILE, WEB_APP_URL, ASIGNADOS
 from http_client import HttpClient
 from models import ProveedorConfig, SelectorMap
 from scraper import IncidentScraper, clasificar_incidente
-from state_manager import GestorEstado
 from utils import configurar_logging, cargar_json, guardar_json, clave_incidente_dict, distribuir_asignados, logger
-from datetime import datetime, timedelta
-
 
 
 PROVEEDORES_LIST = [
@@ -84,21 +81,16 @@ def main() -> None:
 
     try:
         with IncidentScraper() as bot:
-            # 1. PRIMERO: Hacer scraping normal desde fecha de corte
+            # 1. PRIMERO: Hacer scraping de todos los proveedores
             logger.info("🆕 Iniciando scraping...")
             todos_los_incidentes: List[Dict[str, Any]] = []
             nuevos_pendientes: List[Dict[str, Any]] = []
 
             for prov in PROVEEDORES_LIST:
-                # Usar últimas 24 horas como corte
-                fecha_corte = datetime.now() - timedelta(hours=24)
-                logger.info(f"📌 {prov.nombre} usando corte: {fecha_corte.isoformat()}")
-
-                incidentes = bot.ejecutar(prov, fecha_corte)
+                logger.info(f"📌 Procesando: {prov.nombre}")
+                incidentes = bot.ejecutar(prov)
                 todos_los_incidentes.extend(incidentes)
                 nuevos_pendientes.extend([x for x in incidentes if x.get("Pendiente") == "SI"])
-
-                GestorEstado.actualizar_fecha_corte(prov.nombre)
 
             # 2. SEGUNDO: Verificar pendientes guardados anteriormente
             pendientes_guardados = cargar_json(Path("pendientes_incidentes.json"), [])
@@ -119,12 +111,10 @@ def main() -> None:
                 
                 # Agregar los resueltos en verificación a la lista para enviar
                 if resueltos_verificacion:
-                    # Quitar Pendiente e ID
                     datos_resueltos = [
                         {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
                         for inc in resueltos_verificacion
                     ]
-                    # Distribuir asignados
                     datos_resueltos = distribuir_asignados(datos_resueltos, ASIGNADOS)
                     todos_los_incidentes.extend(datos_resueltos)
                     logger.info(f"✅ {len(resueltos_verificacion)} pendientes anteriores resueltos")
@@ -132,7 +122,6 @@ def main() -> None:
                 siguen_pendientes = []
 
             # 3. TERCERO: Unificar pendientes (nuevos + los que siguen)
-            # Evitar duplicados por ID
             todos_pendientes = siguen_pendientes.copy()
             for nuevo in nuevos_pendientes:
                 if not any(p.get("ID") == nuevo.get("ID") and p.get("Proveedor") == nuevo.get("Proveedor") 
@@ -144,7 +133,7 @@ def main() -> None:
             # 4. CUARTO: Enviar todos los NO pendientes (resueltos)
             listos_para_enviar = [x for x in todos_los_incidentes if x.get("Pendiente") != "SI"]
             
-            # ✅ Deducir por ID antes de enviar
+            # Deducir por ID antes de enviar
             vistos = set()
             sin_duplicados = []
             for inc in listos_para_enviar:
@@ -154,13 +143,11 @@ def main() -> None:
                     sin_duplicados.append(inc)
             
             if sin_duplicados:
-                # Quitar columnas Pendiente e ID antes de enviar
                 datos_sin_pendiente = [
                     {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
                     for inc in sin_duplicados
                 ]
                 
-                # Distribuir asignados
                 datos_sin_pendiente = distribuir_asignados(datos_sin_pendiente, ASIGNADOS)
                 
                 resultado_final, nuevos_incidentes = fusionar_historico(datos_sin_pendiente)
@@ -193,3 +180,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+    
