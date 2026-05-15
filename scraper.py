@@ -185,9 +185,17 @@ class IncidentScraper(AbstractContextManager):
                     logger.info(f"⏪ {config.nombre} | Ya en histórico: {titulo[:60]}")
                     break
 
-                # ✅ Verificar que sea del mes actual o posterior
-                fecha_inc = ParseadorTiempo.extraer_fecha(periodo_raw)
-                if fecha_inc and fecha_inc < inicio_mes:
+                # ✅ Verificar que sea del mes actual o posterior (usando fecha fin)
+                if config.tipo == "atlassian" and " - " in periodo_raw:
+                    partes = periodo_raw.split(" - ")
+                    fecha_fin_str = partes[1].strip()
+                    fecha_verificar = ParseadorTiempo.extraer_fecha(fecha_fin_str)
+                    if not fecha_verificar:
+                        fecha_verificar = ParseadorTiempo.extraer_fecha(partes[0].strip())
+                else:
+                    fecha_verificar = ParseadorTiempo.extraer_fecha(periodo_raw)
+
+                if fecha_verificar and fecha_verificar < inicio_mes:
                     logger.info(f"⏪ {config.nombre} | Anterior a este mes: {titulo[:60]}")
                     break
 
