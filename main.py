@@ -110,7 +110,7 @@ def main() -> None:
                 resueltos_verificacion = [p for p in pendientes_actualizados if p.get("Pendiente") != "SI"]
                 
                 # Agregar los resueltos en verificación a la lista para enviar
-                 if resueltos_verificacion:
+                if resueltos_verificacion:
                     # Para el sheet: sin Pendiente, ID, Periodo_Raw
                     datos_resueltos_sheet = [
                         {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
