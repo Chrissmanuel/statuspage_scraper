@@ -110,13 +110,19 @@ def main() -> None:
                 resueltos_verificacion = [p for p in pendientes_actualizados if p.get("Pendiente") != "SI"]
                 
                 # Agregar los resueltos en verificación a la lista para enviar
-                if resueltos_verificacion:
-                    datos_resueltos = [
+                 if resueltos_verificacion:
+                    # Para el sheet: sin Pendiente, ID, Periodo_Raw
+                    datos_resueltos_sheet = [
                         {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
                         for inc in resueltos_verificacion
                     ]
-                    datos_resueltos = distribuir_asignados(datos_resueltos, ASIGNADOS)
-                    todos_los_incidentes.extend(datos_resueltos)
+                    # Para el histórico: CON ID
+                    datos_resueltos_historico = [
+                        {k: v for k, v in inc.items() if k not in ["Pendiente", "Periodo_Raw"]}
+                        for inc in resueltos_verificacion
+                    ]
+                    datos_resueltos_sheet = distribuir_asignados(datos_resueltos_sheet, ASIGNADOS)
+                    todos_los_incidentes.extend(datos_resueltos_historico)
                     logger.info(f"✅ {len(resueltos_verificacion)} pendientes anteriores resueltos")
             else:
                 siguen_pendientes = []
@@ -143,18 +149,30 @@ def main() -> None:
                     sin_duplicados.append(inc)
             
             if sin_duplicados:
-                datos_sin_pendiente = [
+                # Para enviar al sheet: sin Pendiente, ID, Periodo_Raw
+                datos_para_sheet = [
                     {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
                     for inc in sin_duplicados
                 ]
                 
-                datos_sin_pendiente = distribuir_asignados(datos_sin_pendiente, ASIGNADOS)
+                # Para guardar en histórico: CON ID, sin Pendiente ni Periodo_Raw
+                datos_para_historico = [
+                    {k: v for k, v in inc.items() if k not in ["Pendiente", "Periodo_Raw"]}
+                    for inc in sin_duplicados
+                ]
                 
-                resultado_final, nuevos_incidentes = fusionar_historico(datos_sin_pendiente)
+                datos_para_sheet = distribuir_asignados(datos_para_sheet, ASIGNADOS)
+                
+                resultado_final, nuevos_incidentes = fusionar_historico(datos_para_historico)
                 logger.info(f"💾 Histórico: {len(nuevos_incidentes)} nuevos | {len(resultado_final)} totales")
 
                 if nuevos_incidentes:
-                    if enviar_a_google_sheets(http, nuevos_incidentes):
+                    # Enviar solo los nuevos al sheet (sin ID)
+                    nuevos_para_sheet = [
+                        {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
+                        for inc in nuevos_incidentes
+                    ]
+                    if enviar_a_google_sheets(http, nuevos_para_sheet):
                         logger.info(f"✅ {len(nuevos_incidentes)} enviados a Google Sheets")
                     else:
                         logger.warning("⚠️ Error enviando a Google Sheets")
@@ -180,4 +198,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-    
