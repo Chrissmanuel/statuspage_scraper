@@ -167,6 +167,10 @@ class IncidentScraper(AbstractContextManager):
             logger.warning(f"⚠️ No se encontraron incidentes para {config.nombre}")
             return []
 
+        # ✅ Fecha de corte: inicio del mes actual
+        from datetime import datetime
+        inicio_mes = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        
         resultados: List[Dict[str, Any]] = []
 
         for i, el in enumerate(elementos[:MAX_INCIDENTES_POR_PROVEEDOR]):
@@ -179,6 +183,12 @@ class IncidentScraper(AbstractContextManager):
                 id_temp = self._obtener_id_temporal(el, config, titulo, periodo)
                 if id_temp and _existe_id_en_historico(id_temp, config.nombre):
                     logger.info(f"⏪ {config.nombre} | Ya en histórico: {titulo[:60]}")
+                    break
+
+                # ✅ Verificar que sea del mes actual o posterior
+                fecha_inc = ParseadorTiempo.extraer_fecha(periodo_raw)
+                if fecha_inc and fecha_inc < inicio_mes:
+                    logger.info(f"⏪ {config.nombre} | Anterior a este mes: {titulo[:60]}")
                     break
 
                 datos = IncidentData(
