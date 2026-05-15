@@ -42,7 +42,7 @@ FILTROS_GLOBALES = DEFAULT_FILTROS.copy()
 
 FILTROS_POR_PROVEEDOR: Dict[str, Dict[str, Any]] = {
     "Monnet": {
-        "incluye": ["Peru", "Mexico", "Guatemala","Ecuador", "Chile", "Honduras"],
+        "incluye": ["Peru", "Mexico", "Guatemala","Ecuador", "Honduras"],
         "excluye": ["Brasil","Colombia","Argentina","Mexico", "Chile"],
         "monedas": [],
         "duracion_minima":30,
