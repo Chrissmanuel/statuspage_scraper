@@ -159,20 +159,16 @@ def main() -> None:
                     for inc in sin_duplicados
                 ]
                 
-                # Asignar a ambas listas
+                # ✅ Aplicar asignados a AMBAS listas
                 datos_para_sheet = distribuir_asignados(datos_para_sheet, ASIGNADOS)
+                datos_para_historico = distribuir_asignados(datos_para_historico, ASIGNADOS)
                 
                 resultado_final, nuevos_incidentes = fusionar_historico(datos_para_historico)
                 logger.info(f"💾 Histórico: {len(nuevos_incidentes)} nuevos | {len(resultado_final)} totales")
 
                 if nuevos_incidentes:
-                    # Enviar solo los nuevos al sheet (ya están asignados desde datos_para_sheet)
-                    # Filtrar solo los que son nuevos
-                    nuevos_para_sheet = [
-                        inc for inc in datos_para_sheet 
-                        if clave_incidente_dict(inc) in [clave_incidente_dict(n) for n in nuevos_incidentes]
-                    ]
-                    if enviar_a_google_sheets(http, nuevos_para_sheet):
+                    # Enviar al sheet (ya tienen asignados)
+                    if enviar_a_google_sheets(http, datos_para_sheet):
                         logger.info(f"✅ {len(nuevos_incidentes)} enviados a Google Sheets")
                     else:
                         logger.warning("⚠️ Error enviando a Google Sheets")
