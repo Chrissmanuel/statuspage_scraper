@@ -339,5 +339,38 @@
     "Duracion_Minutos": "30",
     "ID": "incidents/3vlsyhq1g6bz",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittent in ECUADOR - PAYOUTS",
+    "Periodo": "May 16, 08:22 PM - 01:35 AM VET",
+    "Resumen": "Team, We have detected an intermittent in [country], causing slow service in payment dispersion. Which may cause delays in the crediting of payments to end users. If you have any questions or need assistance, please reach out to our Support CX Team at support@monnetpayments.com. The incident is being monitored. Best regards,",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Ecuador",
+    "Duracion_Minutos": "313",
+    "ID": "monnet-6afdf77b6eb1e5ecebe8bed30bb29748",
+    "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Falabella Intermittences - FINTOC",
+    "Periodo": "May 16, 05:21 PM - 05:59 PM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "38",
+    "ID": "incidents/0jzwgkvvhk59",
+    "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Estado Intermittences - FINTOC",
+    "Periodo": "May 16, 06:41 PM - 07:23 PM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "42",
+    "ID": "incidents/4f8lt90kqknb",
+    "Asignado": "Merlis M"
   }
 ]
