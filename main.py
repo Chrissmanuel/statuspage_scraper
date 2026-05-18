@@ -109,11 +109,13 @@ def main() -> None:
                 resueltos_verificacion = [p for p in pendientes_actualizados if p.get("Pendiente") != "SI"]
                 
                 if resueltos_verificacion:
+                    # Para el histórico: CON ID
                     datos_resueltos_historico = [
                         {k: v for k, v in inc.items() if k not in ["Pendiente", "Periodo_Raw"]}
                         for inc in resueltos_verificacion
                     ]
-                    todos_los_incidentes.extend(datos_resueltos_historico)
+                    # Para todos_los_incidentes: MANTENER el ID
+                    todos_los_incidentes.extend(resueltos_verificacion)  # ✅ Sin filtrar
                     logger.info(f"✅ {len(resueltos_verificacion)} pendientes anteriores resueltos")
             else:
                 siguen_pendientes = []
