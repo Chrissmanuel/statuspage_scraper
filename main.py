@@ -128,8 +128,14 @@ def main() -> None:
             guardar_json(Path("pendientes_incidentes.json"), todos_pendientes)
 
             # 4. CUARTO: Enviar SOLO resueltos a History
-            # ✅ Filtrar estrictamente por Pendiente != "SI"
-            solo_resueltos = [x for x in todos_los_incidentes if x.get("Pendiente") == "NO"]
+            # ✅ IDs de los pendientes actuales
+            ids_pendientes = {p.get("ID") for p in todos_pendientes}
+            
+            # ✅ Resueltos = los que NO están en la lista de pendientes
+            solo_resueltos = [
+                x for x in todos_los_incidentes 
+                if x.get("ID") not in ids_pendientes
+            ]
 
             vistos = set()
             sin_duplicados = []
