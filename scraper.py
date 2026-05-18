@@ -225,6 +225,13 @@ class IncidentScraper(AbstractContextManager):
 
                 # ✅ SOLO ABRIR DETALLES si es atlassian
                 if config.tipo == "atlassian" and link:
+                    # ✅ VERIFICAR FILTROS ANTES DE ABRIR (ahorra tiempo)
+                    texto_preliminar = f"{titulo} {datos.Resumen}".lower()
+                    filtros = obtener_filtros_proveedor(config.nombre)
+                    
+                    if filtros["excluye"] and any(normalizar_texto(p).lower() in texto_preliminar for p in filtros["excluye"]):
+                        logger.info(f"⏭️ {config.nombre} | Filtrado (sin abrir): {titulo[:60]}")
+                        continue  # No abre detalles, salta al siguiente
                     try:
                         self.driver.execute_script("window.open(arguments[0]);", link)
                         self.driver.switch_to.window(self.driver.window_handles[-1])
