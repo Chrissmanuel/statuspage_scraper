@@ -2,7 +2,7 @@ name: Ejecutar Scraper
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '*/30 * * * *'  # Cada 30 minutos
   workflow_dispatch:
 
 jobs:
@@ -29,6 +29,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Ejecutar scraper
+        env:
+          WEB_APP_URL: ${{ secrets.WEB_APP_URL }}
         run: |
           python main.py
 
@@ -36,6 +38,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add pendientes_incidentes.json scrape_estado.json resultado_incidentes.json
+          git add pendientes_incidentes.json resultado_incidentes.json
           git diff --staged --quiet || git commit -m "📊 Actualizar estado automático"
           git push

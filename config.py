@@ -12,7 +12,7 @@ if sys.platform == "win32":
 else:
     CHROMEDRIVER_PATH = "chromedriver"  # En Linux se usa el del PATH
 
-WEB_APP_URL = os.getenv("WEB_APP_URL", "https://script.google.com/macros/s/AKfycbyyuJ4rtYMj4dwHYTx6PvT37fNG-QGbkclS1L18Jc3F1GyEc_63fQurtMXwZ-Q2v4enzw/exec")
+WEB_APP_URL = os.getenv("WEB_APP_URL", "")
 
 PENDIENTES_FILE = BASE_DIR / "pendientes_incidentes.json"
 ESTADO_FILE = BASE_DIR / "scrape_estado.json"
