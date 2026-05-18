@@ -1,48 +1,54 @@
 import time
 from typing import Any
-
 import requests
 from requests import Session
-
 from config import HTTP_RETRIES, HTTP_TIMEOUT
 from utils import logger
 
-def post_json(self, url: str, payload: Any, sheet: str = "History", retries: int = HTTP_RETRIES, timeout: int = HTTP_TIMEOUT) -> bool:
+
+class HttpClient:
+    def __init__(self) -> None:
+        self.session = Session()
+
+    def post_json(self, url: str, payload: Any, sheet: str = "History", retries: int = HTTP_RETRIES, timeout: int = HTTP_TIMEOUT) -> bool:
         for intento in range(retries):
             try:
                 body_data = {"sheet": sheet, "data": payload}
                 
-                # 1. Hacemos el POST inicial pero bloqueamos el redireccionamiento automático (allow_redirects=False)
+                # Primer intento con allow_redirects=False para detectar 302
                 r = self.session.post(
                     url,
                     json=body_data,
                     headers={"Content-Type": "application/json"},
                     timeout=timeout,
-                    allow_redirects=False  # <--- CRUCIAL PARA GOOGLE APPS SCRIPT
+                    allow_redirects=False
                 )
                 
-                # 2. Si Google responde con la redirección (302), perseguimos la URL real con los datos
-                if r.status_code == 302:
-                    redirect_url = r.headers.get('Location')
-                    logger.info(f"Redirección detectada (302). Reenviando datos a la URL final...")
-                    
-                    # Hacemos el POST definitivo a la URL final manteniendo el JSON
-                    r = self.session.post(
-                        redirect_url,
-                        json=body_data,
-                        headers={"Content-Type": "application/json"},
-                        timeout=timeout
-                    )
-
-                # 3. Validamos el éxito del envío final
+                # Si Google redirige, seguir la URL manualmente
+                if r.status_code in (301, 302, 303, 307, 308):
+                    redirect_url = r.headers.get("Location", "")
+                    if redirect_url:
+                        logger.info(f"🔄 Redirección ({r.status_code}) → reenviando datos...")
+                        r = self.session.post(
+                            redirect_url,
+                            json=body_data,
+                            headers={"Content-Type": "application/json"},
+                            timeout=timeout
+                        )
+                
                 if 200 <= r.status_code < 300:
-                    logger.info(f"✨ Datos guardados con éxito en la hoja '{sheet}'. Respuesta de Google: {r.text}")
+                    logger.info(f"✅ Datos enviados a '{sheet}' ({len(payload)} filas)")
                     return True
                 
-                logger.warning(f"HTTP {r.status_code} al enviar datos a {sheet}. Respuesta: {r.text}")
+                logger.warning(f"❌ HTTP {r.status_code} al enviar a '{sheet}': {r.text[:100]}")
                 
             except Exception as e:
                 logger.warning(f"⚠️ Intento {intento + 1}/{retries} falló: {e}")
             
-            time.sleep(5)
+            if intento < retries - 1:
+                time.sleep(5)
+        
         return False
+
+    def close(self) -> None:
+        self.session.close()
