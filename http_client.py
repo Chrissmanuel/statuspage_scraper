@@ -13,7 +13,6 @@ class HttpClient:
     def post_json(self, url: str, payload: Any, retries: int = HTTP_RETRIES, timeout: int = HTTP_TIMEOUT) -> bool:
         for intento in range(retries):
             try:
-                # payload YA viene con la estructura correcta: {"sheet": "...", "data": [...]}
                 r = self.session.post(
                     url,
                     json=payload,
@@ -36,3 +35,6 @@ class HttpClient:
                 time.sleep(5)
         
         return False
+
+    def close(self) -> None:
+        self.session.close()
