@@ -74,7 +74,6 @@ def enviar_a_google_sheets(http: HttpClient, datos: List[Dict[str, Any]], sheet:
         return False
     return http.post_json(WEB_APP_URL, {"sheet": sheet, "data": datos})
 
-
 def main() -> None:
     configurar_logging()
     http = HttpClient()
