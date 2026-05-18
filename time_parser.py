@@ -113,9 +113,17 @@ class ParseadorTiempo:
             return periodo
         try:
             texto = normalizar_texto(periodo)
+            
+            # ✅ Detectar timezone antes de limpiar
             tz_origen = UTC if "UTC" in texto.upper() else VET
+            
+            # ✅ Limpiar sufijos de timezone
+            texto = re.sub(r"\s*(GMT|UTC)\b.*?$", "", texto, flags=re.IGNORECASE)
+            texto = re.sub(r"\s*[-+]\d{2}:\d{2}\s*$", "", texto)
+            texto = re.sub(r"\s*[-+]\d{4}\s*$", "", texto)
+            texto = texto.strip()
 
-            # Primero intentar con rango entre diferentes días
+            # ✅ Primero intentar con rango entre diferentes días
             m = re.search(
                 r"([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{1,2}):(\d{2})(?:\s*(am|pm))?\s*-\s*"
                 r"([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{1,2}):(\d{2})(?:\s*(am|pm))?",
