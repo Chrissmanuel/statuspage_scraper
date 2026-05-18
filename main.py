@@ -127,12 +127,13 @@ def main() -> None:
             
             guardar_json(Path("pendientes_incidentes.json"), todos_pendientes)
 
-            # 4. CUARTO: Enviar resueltos a History
-            listos_para_enviar = [x for x in todos_los_incidentes if x.get("Pendiente") != "SI"]
+            # 4. CUARTO: Enviar SOLO resueltos a History
+            # ✅ Filtrar estrictamente por Pendiente != "SI"
+            solo_resueltos = [x for x in todos_los_incidentes if x.get("Pendiente") == "NO"]
 
             vistos = set()
             sin_duplicados = []
-            for inc in listos_para_enviar:
+            for inc in solo_resueltos:
                 clave = f"{inc.get('Proveedor')}_{inc.get('ID')}"
                 if clave not in vistos:
                     vistos.add(clave)
@@ -140,7 +141,7 @@ def main() -> None:
 
             if sin_duplicados:
                 datos_history = [
-                    {k: v for k, v in inc.items() if k not in ["Pendiente", "Periodo_Raw"]}
+                    {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
                     for inc in sin_duplicados
                 ]
                 datos_history = distribuir_asignados(datos_history, ASIGNADOS)
@@ -155,7 +156,6 @@ def main() -> None:
                 logger.info(f"💾 Histórico: {len(nuevos_incidentes)} nuevos | {len(resultado_final)} totales")
 
                 if nuevos_incidentes:
-                    # ✅ Enviar resueltos a History
                     enviar_a_google_sheets(http, datos_history, "History")
                     logger.info(f"✅ {len(nuevos_incidentes)} enviados a History")
             else:
@@ -169,7 +169,6 @@ def main() -> None:
                 ]
                 datos_pending = distribuir_asignados(datos_pending, ASIGNADOS)
                 
-                # ✅ Enviar pendientes a Pending
                 enviar_a_google_sheets(http, datos_pending, "Pending")
                 logger.info(f"⚠️ {len(todos_pendientes)} pendientes enviados a Pending")
 
