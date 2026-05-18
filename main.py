@@ -122,16 +122,19 @@ def main() -> None:
             todos_pendientes = siguen_pendientes.copy()
             for nuevo in nuevos_pendientes:
                 if not any(p.get("ID") == nuevo.get("ID") and p.get("Proveedor") == nuevo.get("Proveedor") 
-                          for p in todos_pendientes):
+                        for p in todos_pendientes):
                     todos_pendientes.append(nuevo)
-            
+
             guardar_json(Path("pendientes_incidentes.json"), todos_pendientes)
 
-            # 4. CUARTO: Enviar SOLO resueltos a History
-            # ✅ IDs de los pendientes actuales
+            # ✅ Calcular ids_pendientes AQUÍ (después de unificar)
             ids_pendientes = {p.get("ID") for p in todos_pendientes}
-            
-            # ✅ Resueltos = los que NO están en la lista de pendientes
+            ids_pendientes = {p.get("ID") for p in todos_pendientes}
+            logger.info(f"🔍 DEBUG ids_pendientes: {ids_pendientes}")
+            logger.info(f"🔍 DEBUG todos_los_incidentes IDs: {[x.get('ID') for x in todos_los_incidentes]}")
+            logger.info(f"🔍 DEBUG: {len(todos_pendientes)} pendientes, IDs: {ids_pendientes}")
+
+            # 4. CUARTO: Enviar SOLO resueltos a History
             solo_resueltos = [
                 x for x in todos_los_incidentes 
                 if x.get("ID") not in ids_pendientes
