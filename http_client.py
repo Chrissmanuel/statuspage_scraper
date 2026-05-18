@@ -15,26 +15,13 @@ class HttpClient:
             try:
                 body_data = {"sheet": sheet, "data": payload}
                 
-                # Primer intento con allow_redirects=False para detectar 302
+                # Usar allow_redirects=True pero con método POST mantenido
                 r = self.session.post(
                     url,
                     json=body_data,
                     headers={"Content-Type": "application/json"},
                     timeout=timeout,
-                    allow_redirects=False
                 )
-                
-                # Si Google redirige, seguir la URL manualmente
-                if r.status_code in (301, 302, 303, 307, 308):
-                    redirect_url = r.headers.get("Location", "")
-                    if redirect_url:
-                        logger.info(f"🔄 Redirección ({r.status_code}) → reenviando datos...")
-                        r = self.session.post(
-                            redirect_url,
-                            json=body_data,
-                            headers={"Content-Type": "application/json"},
-                            timeout=timeout
-                        )
                 
                 if 200 <= r.status_code < 300:
                     logger.info(f"✅ Datos enviados a '{sheet}' ({len(payload)} filas)")
