@@ -109,13 +109,7 @@ def main() -> None:
                 resueltos_verificacion = [p for p in pendientes_actualizados if p.get("Pendiente") != "SI"]
                 
                 if resueltos_verificacion:
-                    # Para el histórico: CON ID
-                    datos_resueltos_historico = [
-                        {k: v for k, v in inc.items() if k not in ["Pendiente", "Periodo_Raw"]}
-                        for inc in resueltos_verificacion
-                    ]
-                    # Para todos_los_incidentes: MANTENER el ID
-                    todos_los_incidentes.extend(resueltos_verificacion)  # ✅ Sin filtrar
+                    todos_los_incidentes.extend(resueltos_verificacion)
                     logger.info(f"✅ {len(resueltos_verificacion)} pendientes anteriores resueltos")
             else:
                 siguen_pendientes = []
@@ -124,18 +118,14 @@ def main() -> None:
             todos_pendientes = siguen_pendientes.copy()
             for nuevo in nuevos_pendientes:
                 if not any(p.get("ID") == nuevo.get("ID") and p.get("Proveedor") == nuevo.get("Proveedor") 
-                        for p in todos_pendientes):
+                          for p in todos_pendientes):
                     todos_pendientes.append(nuevo)
-
+            
             guardar_json(Path("pendientes_incidentes.json"), todos_pendientes)
 
-            # ✅ Calcular ids_pendientes AQUÍ (después de unificar)
-            ids_pendientes = {p.get("ID") for p in todos_pendientes}
-            logger.info(f"🔍 DEBUG ids_pendientes: {ids_pendientes}")
-            logger.info(f"🔍 DEBUG todos_los_incidentes IDs: {[x.get('ID') for x in todos_los_incidentes]}")
-            logger.info(f"🔍 DEBUG: {len(todos_pendientes)} pendientes, IDs: {ids_pendientes}")
-
             # 4. CUARTO: Enviar SOLO resueltos a History
+            ids_pendientes = {p.get("ID") for p in todos_pendientes}
+            
             solo_resueltos = [
                 x for x in todos_los_incidentes 
                 if x.get("ID") not in ids_pendientes
@@ -144,6 +134,8 @@ def main() -> None:
             vistos = set()
             sin_duplicados = []
             for inc in solo_resueltos:
+                if not inc.get("ID"):
+                    continue
                 clave = f"{inc.get('Proveedor')}_{inc.get('ID')}"
                 if clave not in vistos:
                     vistos.add(clave)
@@ -165,9 +157,11 @@ def main() -> None:
                 resultado_final, nuevos_incidentes = fusionar_historico(datos_para_historico)
                 logger.info(f"💾 Histórico: {len(nuevos_incidentes)} nuevos | {len(resultado_final)} totales")
 
-                if nuevos_incidentes:
+                if nuevos_incidentes and datos_history:
                     enviar_a_google_sheets(http, datos_history, "History")
                     logger.info(f"✅ {len(nuevos_incidentes)} enviados a History")
+                else:
+                    logger.info("📭 No hay resueltos nuevos para enviar")
             else:
                 logger.info("📭 No hay resueltos para enviar")
 
