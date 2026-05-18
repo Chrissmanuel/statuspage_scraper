@@ -416,5 +416,27 @@
     "Duracion_Minutos": "3887",
     "ID": "incidents/zknl0bdg9d5n",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittent Peru - PAYINS - QR",
+    "Periodo": "May 18, 05:51 PM - 07:11 PM VET",
+    "Resumen": "Dear team, We are currently experiencing an intermittent issue on our providers side. Our teams are monitoring the situation and working to ensure service stability. For any assistance, please contact support@monnetpayments.com Kind regards, The incident is being monitored. Best regards,",
+    "Estado": "Resolved",
+    "Componentes": "PAYIN/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "80",
+    "ID": "monnet-be3bd5c984a23803f5db59e2d33cbae5",
+    "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittent ECUADOR- PAYINS",
+    "Periodo": "May 18, 06:03 PM - 07:47 PM VET",
+    "Resumen": "We have detected an intermittent issue in the processor channel for ECU, slowing the approval services of operations. If you have any questions or need assistance, please reach out to our Support CX Team at support@monnetpayments.com The incident is being monitored.",
+    "Estado": "Resolved",
+    "Componentes": "PAYIN/ COUNTRIES/ Ecuador",
+    "Duracion_Minutos": "105",
+    "ID": "monnet-73aaaf04c38baeb7fe9216b3e1e2538b",
+    "Asignado": "Luis G"
   }
 ]
