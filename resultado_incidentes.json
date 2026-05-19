@@ -438,5 +438,16 @@
     "Duracion_Minutos": "105",
     "ID": "monnet-73aaaf04c38baeb7fe9216b3e1e2538b",
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence [BCP] - [YAPE] - [PERU]",
+    "Periodo": "May 19, 05:19 AM - 06:11 AM VET",
+    "Resumen": "Dear team, We are currently experiencing an intermittent issue on our providers side. Our teams are monitoring the situation and working to ensure service stability. For any assistance, please contact support@monnetpayments.com Kind regards,",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "53",
+    "ID": "monnet-d9c60a9f82b0ffd15af7718ec884ced8",
+    "Asignado": "Airam S"
   }
 ]
