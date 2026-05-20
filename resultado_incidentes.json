@@ -482,5 +482,49 @@
     "Duracion_Minutos": "30",
     "ID": "incidents/1yvnlqj6qnk2",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Scheduled Maintenance Monnet Integrations - Payins",
+    "Periodo": "May 20, 08:00 AM - 09:00 AM VET",
+    "Resumen": "Dear team, Please be informed that we will be performing an internal deployment, which may cause minor intermittence in the API and Back Office (BO) across all countries during this period. For any assistance, please contact support@monnetpayments.com. We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Completed maintenance",
+    "Componentes": "PAYIN/ API BACK OFFICE PAYIN/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "60",
+    "ID": "monnet-43ac40ae4299bc1ebaf25b38d550f41c",
+    "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Scheduled Maintenance Monnet Integrations - Payins",
+    "Periodo": "May 20, 09:00 AM - 10:00 AM VET",
+    "Resumen": "Dear team, Please be informed that we will be performing an internal deployment, which may cause minor intermittence across all countries during this period. For any assistance, please contact support@monnetpayments.com. We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Completed maintenance",
+    "Componentes": "PAYIN/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "60",
+    "ID": "monnet-3965167c6bc8f78b1cbedc4bd0266817",
+    "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Itau Intermittences - FINTOC",
+    "Periodo": "May 15, 11:29 PM - May 20, 02:41 PM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nInvestigating: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "6672",
+    "ID": "incidents/fql5pwgnn0bq",
+    "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco de Chile Intermittences - FINTOC",
+    "Periodo": "May 15, 11:29 PM - May 20, 02:41 PM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nInvestigating: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "6672",
+    "ID": "incidents/txxn7mxdy3ts",
+    "Asignado": "Greider G"
   }
 ]
