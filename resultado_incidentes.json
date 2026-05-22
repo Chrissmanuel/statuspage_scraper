@@ -548,5 +548,16 @@
     "Duracion_Minutos": "180",
     "ID": "monnet-e1106f65ef6a04abacd14710a89012c1",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence - Bank Transfer - Banco de Credito Peru - Payout",
+    "Periodo": "May 22, 01:35 PM - 03:27 PM VET",
+    "Resumen": "Dear team, We are currently experiencing an intermittent issue on our providers side. Our teams are monitoring the situation and working to ensure service stability. For any assistance, please contact support@monnetpayments.com Kind regards,",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "112",
+    "ID": "monnet-d45cfa16a073a0467e1babcf327fd291",
+    "Asignado": "Airam S"
   }
 ]
