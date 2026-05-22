@@ -537,5 +537,16 @@
     "Duracion_Minutos": "240",
     "ID": "monnet-384d96d9e870c60b8a116beb7387f780",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Scheduled Maintenance Monnet - Payins- PERU- QR",
+    "Periodo": "May 22, 02:00 AM - 05:00 AM VET",
+    "Resumen": "Dear team, Please be informed that our provider will be performing scheduled maintenance. Minor service intermittence may occur. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Completed maintenance",
+    "Componentes": "PAYIN/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "180",
+    "ID": "monnet-e1106f65ef6a04abacd14710a89012c1",
+    "Asignado": "Airam S"
   }
 ]
