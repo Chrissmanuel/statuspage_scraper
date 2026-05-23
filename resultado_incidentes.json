@@ -570,5 +570,27 @@
     "Duracion_Minutos": "330",
     "ID": "monnet-d6c32eed556df45a252f18a84f050519",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Estado- ETPAY",
+    "Periodo": "May 23, 10:14 AM - 11:38 AM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "84",
+    "ID": "incidents/7kdy2qgz2cj0",
+    "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Estado Intermittences - ETPAY",
+    "Periodo": "May 22, 07:09 PM - May 23, 11:38 AM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "1709",
+    "ID": "incidents/hdq2r9mvxztd",
+    "Asignado": "Luis G"
   }
 ]
