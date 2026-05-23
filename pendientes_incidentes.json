@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Estado Intermittences - ETPAY",
+    "Periodo": "May 22, 19:09 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.\n\nHistorial:\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "754",
+    "Pendiente": "SI",
+    "ID": "incidents/hdq2r9mvxztd",
+    "Asignado": "",
+    "Periodo_Raw": "May 22, 19:09 GMT-04:00"
+  }
+]
