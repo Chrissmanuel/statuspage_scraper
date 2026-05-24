@@ -603,5 +603,27 @@
     "Duracion_Minutos": "864",
     "ID": "monnet-7ebaf299b9a88091ee263c4d8b508c81",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence Banco Guayaquil - Payout - Ecu",
+    "Periodo": "May 23, 05:00 PM - May 24, 12:40 PM VET",
+    "Resumen": "Dear team, We are currently experiencing an intermittent issue on our providers side. Our teams are monitoring the situation and working to ensure service stability. For any assistance, please contact support@monnetpayments.com Kind regards,",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Ecuador",
+    "Duracion_Minutos": "1181",
+    "ID": "monnet-ab9ee48ab2bb9dfc78e36dba3c975945",
+    "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence BANCO INTERBANK - PERU - PAYOUT",
+    "Periodo": "May 23, 09:40 PM - 01:10 PM VET",
+    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "930",
+    "ID": "monnet-5e7bdff9091c3bef9fdebfc2c9b01648",
+    "Asignado": "Luis G"
   }
 ]
