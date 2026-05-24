@@ -592,5 +592,16 @@
     "Duracion_Minutos": "1709",
     "ID": "incidents/hdq2r9mvxztd",
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence BANCO INTERBANK - PERU - PAYOUT",
+    "Periodo": "May 23, 09:40 PM - 12:03 PM VET",
+    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "864",
+    "ID": "monnet-7ebaf299b9a88091ee263c4d8b508c81",
+    "Asignado": "Airam S"
   }
 ]
