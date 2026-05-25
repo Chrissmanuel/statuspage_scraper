@@ -636,5 +636,16 @@
     "Duracion_Minutos": "1280",
     "ID": "monnet-a7d9aec01b6c45677a79e961b3c9ab76",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence Ficohsa Guatemala - PAYOUT",
+    "Periodo": "May 25, 03:00 PM - 04:30 PM VET",
+    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Guatemala",
+    "Duracion_Minutos": "90",
+    "ID": "monnet-8b2b2d59c658aa41daee0959dbcba5c7",
+    "Asignado": "Airam S"
   }
 ]
