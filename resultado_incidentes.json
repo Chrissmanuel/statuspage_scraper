@@ -647,5 +647,16 @@
     "Duracion_Minutos": "90",
     "ID": "monnet-8b2b2d59c658aa41daee0959dbcba5c7",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Directa24",
+    "Titulo": "[Scheduled] D24 - Scheduled Maintenance Window",
+    "Periodo": "May 26, 03:00 AM - 03:45 AM VET",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: We would like to inform you that we are scheduling a maintenance window on Tuesday, May 26th, starting at 07:00 AM UTC with a duration of 45 minutes. We will be using this Maintenance Window to perform routine maintenance activities on our infrastructure. Within this maintenance window, our Cashin and Cashout APIs, as well as our back office, may experience intermittent issues.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Cashin APIs, Cashout APIs, and Merchants Portal.",
+    "Duracion_Minutos": "45",
+    "ID": "incidents/mmm2fxs2xsxd",
+    "Asignado": "Airam S"
   }
 ]
