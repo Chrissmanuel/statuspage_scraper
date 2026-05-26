@@ -658,5 +658,16 @@
     "Duracion_Minutos": "45",
     "ID": "incidents/mmm2fxs2xsxd",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence - Payins- PERU - QR",
+    "Periodo": "May 26, 10:45 AM - 04:37 PM VET",
+    "Resumen": "Dear team, Please be informed that the processor will perform scheduled maintenance, which may affect service availability. For assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYIN/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "352",
+    "ID": "monnet-b3a20bf5dd690cd0b77f4200825ebf01",
+    "Asignado": "Airam S"
   }
 ]
