@@ -669,5 +669,38 @@
     "Duracion_Minutos": "352",
     "ID": "monnet-b3a20bf5dd690cd0b77f4200825ebf01",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence Ficohsa Guatemala - PAYOUT",
+    "Periodo": "May 26, 07:00 PM - 08:00 PM VET",
+    "Resumen": "Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Guatemala",
+    "Duracion_Minutos": "60",
+    "ID": "monnet-49361a753842d4b775dec9593f133969",
+    "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence BBVA Peru - Payouts",
+    "Periodo": "May 27, 08:00 AM - 02:10 PM VET",
+    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "370",
+    "ID": "monnet-fad23485a3a79d3f280e912a45575d13",
+    "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco FALABELLA Intermittences - ETPAY",
+    "Periodo": "May 26, 04:29 PM - May 27, 10:12 AM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "1783",
+    "ID": "incidents/8ggdt1gryt7j",
+    "Asignado": "Merlis M"
   }
 ]
