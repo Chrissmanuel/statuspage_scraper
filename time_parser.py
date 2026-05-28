@@ -118,9 +118,10 @@ class ParseadorTiempo:
             tz_origen = UTC if "UTC" in texto.upper() else VET
             
             # ✅ Limpiar sufijos de timezone
-            texto = re.sub(r"\s*(GMT|UTC)\b.*?$", "", texto, flags=re.IGNORECASE)
-            texto = re.sub(r"\s*[-+]\d{2}:\d{2}\s*$", "", texto)
-            texto = re.sub(r"\s*[-+]\d{4}\s*$", "", texto)
+            texto = re.sub(r'\s*(GMT|UTC)\s*[-+]\d{2}:?\d{2}\s*$', '', texto, flags=re.IGNORECASE)
+            texto = re.sub(r'\s*UTC\s*$', '', texto, flags=re.IGNORECASE)
+            texto = re.sub(r'\s*[-+]\d{2}:?\d{2}\s*$', '', texto)
+            texto = re.sub(r'\s+-0[4]\s*$', '', texto)  # Específico para -04 al final
             texto = texto.strip()
 
             # ✅ Primero intentar con rango entre diferentes días
