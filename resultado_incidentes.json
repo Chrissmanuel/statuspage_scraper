@@ -702,5 +702,16 @@
     "Duracion_Minutos": "1783",
     "ID": "incidents/8ggdt1gryt7j",
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence SCOTIABANK PERU - PAYOUT",
+    "Periodo": "May 27, 12:10 PM - 06:49 PM VET",
+    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "400",
+    "ID": "monnet-18d3c79838aa9c735ff79e06c2bc5e84",
+    "Asignado": "Airam S"
   }
 ]
