@@ -724,5 +724,16 @@
     "Duracion_Minutos": "31",
     "ID": "incidents/7zg9cl0dbw7t",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence CASH & CARD PERU / ECUADOR - PAYIN",
+    "Periodo": "May 29, 11:45 AM - 12:46 PM VET",
+    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYIN/ COUNTRIES/ Ecuador Peru",
+    "Duracion_Minutos": "61",
+    "ID": "monnet-923de899ce6aa356cb8d07897b7a91f6",
+    "Asignado": "Airam S"
   }
 ]
