@@ -757,5 +757,16 @@
     "Duracion_Minutos": "179",
     "ID": "monnet-7856d7372e7098cbc7733c4224489d87",
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence YAPE - Peru - Payout",
+    "Periodo": "May 30, 03:40 PM - 04:24 PM VET",
+    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "45",
+    "ID": "monnet-dc43d424fdcdac2dd4570ae43ece3a50",
+    "Asignado": "Airam S"
   }
 ]
