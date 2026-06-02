@@ -82,7 +82,7 @@ def enviar_a_google_sheets(http: HttpClient, datos: List[Dict[str, Any]], sheet:
 
 def main() -> None:
     configurar_logging()
-    migrar_ids_monnet()    # <--- EJECUTAR UNA SOLA VEZ
+    #migrar_ids_monnet()    # <--- EJECUTAR UNA SOLA VEZ
 
     http = HttpClient()
 
