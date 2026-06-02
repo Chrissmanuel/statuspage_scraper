@@ -130,14 +130,11 @@ def main() -> None:
             
             guardar_json(Path("pendientes_incidentes.json"), todos_pendientes)
 
-            # 4. CUARTO: Enviar SOLO resueltos a History
+            # 4. CUARTO: Preparar y enviar resueltos a History
             ids_pendientes = {p.get("ID") for p in todos_pendientes}
             
-            solo_resueltos = [
-                x for x in todos_los_incidentes 
-                if x.get("ID") not in ids_pendientes
-            ]
-
+            solo_resueltos = [x for x in todos_los_incidentes if x.get("ID") not in ids_pendientes]
+            
             vistos = set()
             sin_duplicados = []
             for inc in solo_resueltos:
@@ -147,44 +144,39 @@ def main() -> None:
                 if clave not in vistos:
                     vistos.add(clave)
                     sin_duplicados.append(inc)
-
+            
+            # Preparar datos para History
+            datos_history = [
+                {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
+                for inc in sin_duplicados
+            ]
+            datos_history = distribuir_asignados(datos_history, ASIGNADOS)
+            
+            # Siempre enviar a History (vacío o no)
+            logger.info(f"📤 Enviando {len(datos_history)} incidentes a History")
+            enviar_a_google_sheets(http, datos_history, "History")
+            
+            # Guardar en histórico local solo si hay nuevos
             if sin_duplicados:
-                datos_history = [
-                    {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
-                    for inc in sin_duplicados
-                ]
-                datos_history = distribuir_asignados(datos_history, ASIGNADOS)
-                
                 datos_para_historico = [
                     {k: v for k, v in inc.items() if k not in ["Pendiente", "Periodo_Raw"]}
                     for inc in sin_duplicados
                 ]
                 datos_para_historico = distribuir_asignados(datos_para_historico, ASIGNADOS)
-                
                 resultado_final, nuevos_incidentes = fusionar_historico(datos_para_historico)
                 logger.info(f"💾 Histórico: {len(nuevos_incidentes)} nuevos | {len(resultado_final)} totales")
-
-                if nuevos_incidentes and datos_history:
-                    enviar_a_google_sheets(http, datos_history, "History")
-                    logger.info(f"✅ {len(nuevos_incidentes)} enviados a History")
-                else:
-                    logger.info("📭 No hay resueltos nuevos para enviar")
             else:
-                logger.info("📭 No hay resueltos para enviar")
-
-             # 5. QUINTO: Enviar pendientes a Pending
-            if todos_pendientes:
-                datos_pending = [
-                    {k: v for k, v in inc.items() if k not in ["Periodo_Raw"]}
-                    for inc in todos_pendientes
-                ]
-                datos_pending = distribuir_asignados(datos_pending, ASIGNADOS)
-                
-                # Log corregido
-                logger.info(f"⚠️ Enviando {len(datos_pending)} incidentes a Pending")
-                
-                enviar_a_google_sheets(http, datos_pending, "Pending")
-                logger.info(f"⚠️ {len(todos_pendientes)} pendientes enviados a Pending")
+                logger.info("📭 No hay resueltos nuevos para guardar en histórico")
+            
+            # 5. QUINTO: Enviar pendientes a Pending (siempre)
+            datos_pending = [
+                {k: v for k, v in inc.items() if k not in ["Periodo_Raw"]}
+                for inc in todos_pendientes
+            ]
+            datos_pending = distribuir_asignados(datos_pending, ASIGNADOS)
+            
+            logger.info(f"⚠️ Enviando {len(datos_pending)} incidentes a Pending")
+            enviar_a_google_sheets(http, datos_pending, "Pending")
 
             # 6. SEXTO: Resumen final
             total_pendientes = len(todos_pendientes)
