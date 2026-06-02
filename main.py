@@ -5,7 +5,7 @@ from http_client import HttpClient
 from models import ProveedorConfig, SelectorMap
 from scraper import IncidentScraper, clasificar_incidente
 from utils import configurar_logging, cargar_json, guardar_json, clave_incidente_dict, distribuir_asignados, logger
-from utils import migrar_ids_a_nuevo_formato
+from utils import migrar_ids_monnet
 
 
 
@@ -79,7 +79,7 @@ def enviar_a_google_sheets(http: HttpClient, datos: List[Dict[str, Any]], sheet:
 
 def main() -> None:
     configurar_logging()
-    #migrar_ids_a_nuevo_formato()   # <--- EJECUTAR UNA SOLA VEZ
+    migrar_ids_monnet()    # <--- EJECUTAR UNA SOLA VEZ
 
     http = HttpClient()
 

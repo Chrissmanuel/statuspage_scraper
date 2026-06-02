@@ -103,45 +103,60 @@ def distribuir_asignados(incidentes: List[Dict[str, Any]], asignados: List[str])
     return incidentes
 
 
-def migrar_ids_a_nuevo_formato():
-    """Migra los IDs existentes en resultado_incidentes.json y pendientes_incidentes.json al nuevo formato (título + fecha_inicio)."""
-    from scraper import IncidentScraper  # Importamos aquí para evitar circular
+def migrar_ids_monnet():
+    """
+    Migra los IDs de los incidentes de Monnet (freshstatus) al nuevo formato:
+    - Prioriza el ID real de Freshstatus (ej. fs_1607716) si se puede extraer del Periodo_Raw
+    - Si no, usa el hash de título + fecha_inicio normalizada
+    """
+    from scraper import IncidentScraper
     from config import RESULTADOS_FILE, PENDIENTES_FILE
     
     historico = cargar_json(RESULTADOS_FILE, [])
     if not historico:
+        logger.info("📭 No hay histórico para migrar")
         return
     
     modificado = False
     mapping_viejo_nuevo = {}
     
     for inc in historico:
+        if inc.get("Proveedor") != "Monnet":
+            continue
+        
         viejo_id = inc.get("ID", "")
         titulo = inc.get("Titulo", "")
-        # Intentar obtener fecha_inicio del campo Periodo o Periodo_Raw
         periodo_raw = inc.get("Periodo_Raw", inc.get("Periodo", ""))
+        
+        # Intentar obtener ID real de Freshstatus desde Periodo_Raw
+        # Nota: En el histórico antiguo no guardamos el href, así que no podemos obtener el ID real
+        # Solo podemos usar el fallback de título+fecha_inicio
         fecha_inicio = IncidentScraper.extraer_fecha_inicio(periodo_raw)
-        if not fecha_inicio:
-            # fallback: si no hay raw, intentar extraer del Periodo ya en VET
-            fecha_inicio = IncidentScraper.extraer_fecha_inicio(inc.get("Periodo", ""))
         if not fecha_inicio:
             continue
         
         nuevo_id = IncidentScraper.generar_id_unico(titulo, fecha_inicio)
+        
         if viejo_id != nuevo_id:
             inc["ID"] = nuevo_id
             modificado = True
             mapping_viejo_nuevo[viejo_id] = nuevo_id
+            logger.debug(f"  {titulo[:50]}... {viejo_id[:8]} → {nuevo_id[:8]}")
     
     if modificado:
         guardar_json(RESULTADOS_FILE, historico)
-        logger.info(f"✅ Migrados {len(mapping_viejo_nuevo)} incidentes en histórico")
+        logger.info(f"✅ Migrados {len(mapping_viejo_nuevo)} incidentes de Monnet en histórico")
         
         # Migrar pendientes
         pendientes = cargar_json(PENDIENTES_FILE, [])
+        pendientes_migrados = 0
         for pend in pendientes:
-            viejo = pend.get("ID", "")
-            if viejo in mapping_viejo_nuevo:
-                pend["ID"] = mapping_viejo_nuevo[viejo]
+            if pend.get("Proveedor") == "Monnet":
+                viejo = pend.get("ID", "")
+                if viejo in mapping_viejo_nuevo:
+                    pend["ID"] = mapping_viejo_nuevo[viejo]
+                    pendientes_migrados += 1
         guardar_json(PENDIENTES_FILE, pendientes)
-        logger.info(f"✅ Migrados {sum(1 for p in pendientes if p.get('ID') in mapping_viejo_nuevo)} pendientes")
+        logger.info(f"✅ Migrados {pendientes_migrados} pendientes de Monnet")
+    else:
+        logger.info("📭 No se necesitaron migraciones para Monnet")

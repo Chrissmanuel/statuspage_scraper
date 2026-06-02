@@ -108,7 +108,6 @@ class IncidentScraper(AbstractContextManager):
         if not selector:
             return default
         try:
-            # si 'el' es WebDriver (usado para páginas internas), soportar ese caso
             if hasattr(el, "find_element"):
                 return normalizar_texto(el.find_element(By.CSS_SELECTOR, selector).text)
             else:
@@ -125,10 +124,22 @@ class IncidentScraper(AbstractContextManager):
             except Exception:
                 pass
     
+    def _extraer_id_freshstatus_real(self, elemento) -> Optional[str]:
+        """Intenta obtener el ID numérico real del incidente desde la URL en página activa."""
+        try:
+            enlace = elemento.find_element(By.CSS_SELECTOR, "a.incident-title, a.PO")
+            href = enlace.get_attribute("href")
+            match = re.search(r'/incident/(\d+)', href)
+            if match:
+                return f"fs_{match.group(1)}"
+        except:
+            pass
+        return None
+    
     def _scrapear_activos_freshstatus(self, config: ProveedorConfig) -> List[Dict[str, Any]]:
         """
         Scrapea la página activa (raíz) de un proveedor freshstatus para obtener
-        incidentes en curso (pendientes). Usa el título + fecha de inicio como ID persistente.
+        incidentes en curso (pendientes).
         """
         if not config.active_url:
             return []
@@ -191,8 +202,12 @@ class IncidentScraper(AbstractContextManager):
                 else:
                     datos.Duracion_Minutos = 0
                 
-                # Generar ID persistente basado en título + fecha de inicio
-                datos.ID = self.generar_id_unico(titulo, fecha_inicio)
+                # Generar ID: priorizar ID real de Freshstatus, fallback con título+fecha_inicio
+                id_real = self._extraer_id_freshstatus_real(el)
+                if id_real:
+                    datos.ID = id_real
+                else:
+                    datos.ID = self.generar_id_unico(titulo, fecha_inicio)
                 
                 # Componentes
                 try:
@@ -259,6 +274,8 @@ class IncidentScraper(AbstractContextManager):
         inicio = re.sub(r'\b0(\d):', r'\1:', inicio)
         # Eliminar puntos de "p.m." o "a.m." si existen
         inicio = inicio.replace('.', '')
+        # Eliminar coma después del día
+        inicio = re.sub(r'(\d+),', r'\1', inicio)
         # Asegurar un solo espacio entre palabras
         inicio = re.sub(r'\s+', ' ', inicio).strip()
         return inicio
@@ -271,7 +288,7 @@ class IncidentScraper(AbstractContextManager):
         
         resultados: List[Dict[str, Any]] = []
         
-        # --- NUEVO: Scrapear incidentes activos (pendientes) si existe active_url ---
+        # --- Scrapear incidentes activos (pendientes) si existe active_url ---
         if config.tipo == "freshstatus" and config.active_url:
             activos = self._scrapear_activos_freshstatus(config)
             resultados.extend(activos)
@@ -290,13 +307,11 @@ class IncidentScraper(AbstractContextManager):
             elementos = self.driver.find_elements(By.CSS_SELECTOR, config.container)
         except (TimeoutException, WebDriverException):
             logger.warning(f"⚠️ No se encontraron incidentes para {config.nombre}")
-            return []
+            return resultados
 
         # ✅ Fecha de corte: inicio del mes actual
         from datetime import datetime
         inicio_mes = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-        
-        resultados: List[Dict[str, Any]] = []
 
         for i, el in enumerate(elementos[:MAX_INCIDENTES_POR_PROVEEDOR]):
             try:
@@ -351,7 +366,7 @@ class IncidentScraper(AbstractContextManager):
                         link = el.find_element(By.CSS_SELECTOR, config.selectores.titulo).get_attribute("href")
                         datos.ID = self.extraer_id_incidente(link)
                     except Exception:
-                        datos.ID = self.generar_id_unico(titulo, fecha_inicio)  # fallback también con fecha_inicio
+                        datos.ID = self.generar_id_unico(titulo, fecha_inicio)
                 elif config.tipo == "freshstatus":
                     datos.ID = self.generar_id_unico(titulo, fecha_inicio)
 
@@ -436,7 +451,6 @@ class IncidentScraper(AbstractContextManager):
         resultados.reverse()
         return resultados
 
-
     def _obtener_id_temporal(self, el, config, titulo: str, periodo: str) -> str:
         """Obtiene el ID sin abrir la página de detalles"""
         if config.tipo == "atlassian":
@@ -455,11 +469,9 @@ class IncidentScraper(AbstractContextManager):
         for inc in pendientes:
             try:
                 if config.tipo == "atlassian":
-                    # construir URL robusta a partir del ID; ID puede venir como "incidents/xxxx", "incident/xxxx", o solo "xxxx"
                     id_val = inc.get("ID", "")
                     if id_val.startswith("/"):
                         id_val = id_val.lstrip("/")
-                    # si el ID ya es una URL absoluta
                     if id_val.startswith("http"):
                         url = id_val
                     else:
@@ -476,7 +488,6 @@ class IncidentScraper(AbstractContextManager):
                     self.driver.get(url)
                     time.sleep(DETAIL_LOAD_SLEEP)
                     try:
-                        # intentar extraer periodo interno (si existe) y updates
                         periodo = ""
                         try:
                             periodo = self.driver.find_element(By.CSS_SELECTOR, "div.incident-data div.secondary").text
@@ -494,13 +505,12 @@ class IncidentScraper(AbstractContextManager):
                             else:
                                 inc["Pendiente"] = "SI" if not tiene_fecha_fin else inc.get("Pendiente", "SI")
                         except Exception:
-                            # si no encuentra updates, fallback al periodo externo
                             inc["Pendiente"] = "SI" if not tiene_fecha_fin else "NO"
                     except Exception:
                         inc["Pendiente"] = "SI"
 
                 elif config.tipo == "freshstatus":
-                    actuales = self.ejecutar(config, ParseadorTiempo.hoy_inicio())
+                    actuales = self.ejecutar(config, None)  # None porque no usamos fecha_corte
                     match = next((a for a in actuales if a["ID"] == inc["ID"]), None)
                     if match:
                         periodo = match["Periodo"]
@@ -521,6 +531,7 @@ class IncidentScraper(AbstractContextManager):
                 resultados.append(inc)
 
         return resultados
+
 
 def _existe_id_en_historico(id_incidente: str, proveedor: str) -> bool:
     """Verifica si un ID ya existe en el histórico"""
