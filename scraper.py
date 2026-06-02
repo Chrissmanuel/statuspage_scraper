@@ -327,6 +327,32 @@ class IncidentScraper(AbstractContextManager):
                 # ✅ Verificar si el ID ya existe en el histórico (usamos el ID que se generará)
                 if config.tipo == "freshstatus":
                     id_temp = self.generar_id_unico(titulo, fecha_inicio)
+
+                      # ===== CÓDIGO DE DEPURACIÓN =====
+                    logger.info(f"🔍 DEPURACIÓN Monnet:")
+                    logger.info(f"   Título: {titulo[:50]}...")
+                    logger.info(f"   periodo_raw: '{periodo_raw}'")
+                    logger.info(f"   fecha_inicio: '{fecha_inicio}'")
+                    logger.info(f"   ID generado: {id_temp}")
+                    
+                    # Leer el histórico y buscar manualmente
+                    from utils import cargar_json
+                    from config import RESULTADOS_FILE
+                    historico = cargar_json(RESULTADOS_FILE, [])
+                    existe = False
+                    for h in historico:
+                        if h.get("Proveedor") == "Monnet" and h.get("ID") == id_temp:
+                            existe = True
+                            logger.info(f"   ✅ ID encontrado en histórico: {h.get('Titulo')[:50]}...")
+                            break
+                    if not existe:
+                        logger.info(f"   ❌ ID NO encontrado en histórico")
+                    # ===== FIN DEPURACIÓN =====
+                    
+                    if id_temp and _existe_id_en_historico(id_temp, config.nombre):
+                        logger.info(f"⏪ {config.nombre} | Ya en histórico: {titulo[:60]}")
+                        continue
+                    
                 else:  # atlassian
                     id_temp = self._obtener_id_temporal(el, config, titulo, periodo)
                 if id_temp and _existe_id_en_historico(id_temp, config.nombre):
