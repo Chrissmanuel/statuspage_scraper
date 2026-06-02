@@ -3,7 +3,7 @@ name: Ejecutar Scraper
 on:
   schedule:
     - cron: '*/30 * * * *'  # Cada 30 minutos
-  workflow_dispatch:
+  workflow_dispatch:  # Permite ejecución manual
 
 jobs:
   run-scraper:
@@ -13,6 +13,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Verificar secretos (debug)
+        run: |
+          if [ -n "$WEB_APP_URL" ]; then
+            echo "✅ WEB_APP_URL está configurado"
+          else
+            echo "❌ WEB_APP_URL NO está configurado"
+          fi
+        env:
+          WEB_APP_URL: ${{ secrets.WEB_APP_URL }}
 
       - uses: actions/setup-python@v5
         with:
