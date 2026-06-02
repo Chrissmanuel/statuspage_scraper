@@ -823,38 +823,5 @@
     "Duracion_Minutos": "60",
     "ID": "7fc9eb8519a344b644854a5bf3fb9232",
     "Asignado": "Airam S"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Internal Intermittence Monnet - Payins - Peru",
-    "Periodo": "Jun 01, 10:00 AM - 11:00 AM VET",
-    "Resumen": "Dear team, We are currently experiencing an intermittent issue on our side. Our teams are monitoring the situation and working to ensure service stability. For any assistance, please contact support@monnetpayments.com Kind regards,",
-    "Estado": "Completed maintenance",
-    "Componentes": "PAYIN/ API BACK OFFICE PAYIN/ COUNTRIES/ Peru",
-    "Duracion_Minutos": "60",
-    "ID": "7f0280078a4678100b723d727bc90fef",
-    "Asignado": "Luis G"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence ECUADOR - PAYOUTS",
-    "Periodo": "Jun 01, 02:00 PM - 04:25 PM VET",
-    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Resolved",
-    "Componentes": "PAYOUT/ COUNTRIES/ Ecuador",
-    "Duracion_Minutos": "145",
-    "ID": "e9db274de8bf4e3c7aa9cad9679da2ce",
-    "Asignado": "Merlis M"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Scheduled Maintenance by Provider - Payins - Payouts - Peru",
-    "Periodo": "Jun 02, 11:30 AM - 12:30 PM VET",
-    "Resumen": "Dear team, Please be informed that our partner will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Completed maintenance",
-    "Componentes": "PAYIN/ API PAYIN/ COUNTRIES/ Peru PAYOUT/ API PAYOUT/ COUNTRIES/ Peru",
-    "Duracion_Minutos": "60",
-    "ID": "19ec75080af04060330e5f9dbc5d2992",
-    "Asignado": "Greider G"
   }
 ]
