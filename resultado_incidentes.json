@@ -812,5 +812,16 @@
     "Duracion_Minutos": "2780",
     "ID": "incidents/hwhj62mmz2l2",
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Scheduled Maintenance by Provider - Payins - Payouts - Peru",
+    "Periodo": "Jun 02, 07:30 AM - 08:30 AM VET",
+    "Resumen": "Dear team, Please be informed that our partner will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Completed maintenance",
+    "Componentes": "PAYIN/ API PAYIN/ COUNTRIES/ Peru PAYOUT/ API PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "60",
+    "ID": "monnet-32a65d0d80d26008ccf7f5a90e74303d",
+    "Asignado": "Airam S"
   }
 ]
