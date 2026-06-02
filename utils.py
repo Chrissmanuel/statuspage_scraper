@@ -102,3 +102,46 @@ def distribuir_asignados(incidentes: List[Dict[str, Any]], asignados: List[str])
     
     return incidentes
 
+
+def migrar_ids_a_nuevo_formato():
+    """Migra los IDs existentes en resultado_incidentes.json y pendientes_incidentes.json al nuevo formato (título + fecha_inicio)."""
+    from scraper import IncidentScraper  # Importamos aquí para evitar circular
+    from config import RESULTADOS_FILE, PENDIENTES_FILE
+    
+    historico = cargar_json(RESULTADOS_FILE, [])
+    if not historico:
+        return
+    
+    modificado = False
+    mapping_viejo_nuevo = {}
+    
+    for inc in historico:
+        viejo_id = inc.get("ID", "")
+        titulo = inc.get("Titulo", "")
+        # Intentar obtener fecha_inicio del campo Periodo o Periodo_Raw
+        periodo_raw = inc.get("Periodo_Raw", inc.get("Periodo", ""))
+        fecha_inicio = IncidentScraper.extraer_fecha_inicio(periodo_raw)
+        if not fecha_inicio:
+            # fallback: si no hay raw, intentar extraer del Periodo ya en VET
+            fecha_inicio = IncidentScraper.extraer_fecha_inicio(inc.get("Periodo", ""))
+        if not fecha_inicio:
+            continue
+        
+        nuevo_id = IncidentScraper.generar_id_unico(titulo, fecha_inicio)
+        if viejo_id != nuevo_id:
+            inc["ID"] = nuevo_id
+            modificado = True
+            mapping_viejo_nuevo[viejo_id] = nuevo_id
+    
+    if modificado:
+        guardar_json(RESULTADOS_FILE, historico)
+        logger.info(f"✅ Migrados {len(mapping_viejo_nuevo)} incidentes en histórico")
+        
+        # Migrar pendientes
+        pendientes = cargar_json(PENDIENTES_FILE, [])
+        for pend in pendientes:
+            viejo = pend.get("ID", "")
+            if viejo in mapping_viejo_nuevo:
+                pend["ID"] = mapping_viejo_nuevo[viejo]
+        guardar_json(PENDIENTES_FILE, pendientes)
+        logger.info(f"✅ Migrados {sum(1 for p in pendientes if p.get('ID') in mapping_viejo_nuevo)} pendientes")
