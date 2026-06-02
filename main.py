@@ -172,14 +172,15 @@ def main() -> None:
             else:
                 logger.info("📭 No hay resueltos para enviar")
 
-            # 5. QUINTO: Enviar pendientes a Pending
+             # 5. QUINTO: Enviar pendientes a Pending
             if todos_pendientes:
                 datos_pending = [
                     {k: v for k, v in inc.items() if k not in ["Periodo_Raw"]}
                     for inc in todos_pendientes
                 ]
                 datos_pending = distribuir_asignados(datos_pending, ASIGNADOS)
-                logger.info(f"📤 Enviando {len(datos_history)} incidentes a History")
+                
+                # Log corregido
                 logger.info(f"⚠️ Enviando {len(datos_pending)} incidentes a Pending")
                 
                 enviar_a_google_sheets(http, datos_pending, "Pending")
