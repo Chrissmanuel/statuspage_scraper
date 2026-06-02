@@ -254,30 +254,49 @@ class IncidentScraper(AbstractContextManager):
 
     @staticmethod
     def extraer_fecha_inicio(periodo_raw: str) -> str:
-        """
-        Extrae la fecha de inicio de un período y la normaliza a un formato consistente.
-        Ejemplo: "May 28, 02:20 PM -04" -> "may 28, 2:20 pm"
-        """
         if not periodo_raw:
             return ""
-        # Eliminar zona horaria
+        
+        # Detectar y convertir zona horaria a UTC
+        es_utc = "UTC" in periodo_raw.upper() or "GMT" in periodo_raw.upper()
+        
+        # Limpiar y extraer inicio
         limpio = re.sub(r'\s*[-+]\d{2}:?\d{2}\s*$', '', periodo_raw)
         limpio = re.sub(r'\s*(GMT|UTC)[-+]\d{2}:?\d{2}\s*$', '', limpio, flags=re.IGNORECASE)
-        # Tomar la primera parte si hay rango
+        limpio = re.sub(r'\s*UTC\s*$', '', limpio, flags=re.IGNORECASE)
+        
         if " - " in limpio:
             inicio = limpio.split(" - ")[0].strip()
         else:
             inicio = limpio.strip()
-        # Normalizar: minúsculas, remover cero a la izquierda en horas, asegurar espacio
+        
+        # Si es UTC, convertir la hora restando 4 horas (UTC-4 = VET)
+        if es_utc:
+            # Extraer hora y convertir
+            match = re.match(r'([A-Za-z]{3})\s+(\d{1,2}),?\s+(\d{1,2}):(\d{2})\s+(am|pm)', inicio, re.IGNORECASE)
+            if match:
+                mes_str, dia, hora, minuto, ampm = match.groups()
+                hora = int(hora)
+                if ampm.lower() == "pm" and hora < 12:
+                    hora += 12
+                if ampm.lower() == "am" and hora == 12:
+                    hora = 0
+                # Restar 4 horas (UTC-4 a VET es lo mismo, pero si es UTC, ajustamos)
+                hora = (hora - 4) % 24
+                # Convertir de vuelta a 12h
+                nuevo_ampm = "am" if hora < 12 else "pm"
+                hora_12 = hora % 12
+                if hora_12 == 0:
+                    hora_12 = 12
+                inicio = f"{mes_str} {dia}, {hora_12}:{minuto} {nuevo_ampm}"
+        
+        # Normalización final
         inicio = inicio.lower()
-        # Convertir "02:20 pm" a "2:20 pm"
-        inicio = re.sub(r'\b0(\d):', r'\1:', inicio)
-        # Eliminar puntos de "p.m." o "a.m." si existen
         inicio = inicio.replace('.', '')
-        # Eliminar coma después del día
+        inicio = re.sub(r'\b0(\d):', r'\1:', inicio)
         inicio = re.sub(r'(\d+),', r'\1', inicio)
-        # Asegurar un solo espacio entre palabras
         inicio = re.sub(r'\s+', ' ', inicio).strip()
+        
         return inicio
 
     def ejecutar(self, config: ProveedorConfig, fecha_corte=None) -> List[Dict[str, Any]]:
