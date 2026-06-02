@@ -711,55 +711,7 @@
     "Estado": "Resolved",
     "Componentes": "PAYOUT/ COUNTRIES/ Peru",
     "Duracion_Minutos": "400",
-<<<<<<< HEAD
     "ID": "monnet-18d3c79838aa9c735ff79e06c2bc5e84",
-=======
-    "ID": "034aaaef19be13b2a738c927bd43c0eb",
-    "Asignado": "Airam S"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Internal Intermittence Monnet - Payins - Peru",
-    "Periodo": "Jun 01, 06:00 AM - 07:00 AM VET",
-    "Resumen": "Dear team, We are currently experiencing an intermittent issue on our side. Our teams are monitoring the situation and working to ensure service stability. For any assistance, please contact support@monnetpayments.com Kind regards,",
-    "Estado": "Completed maintenance",
-    "Componentes": "PAYIN/ API BACK OFFICE PAYIN/ COUNTRIES/ Peru",
-    "Duracion_Minutos": "60",
-    "ID": "746e3add72d9c1af11e91626ec888a2a",
-    "Asignado": "Airam S"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence ECUADOR - PAYOUTS",
-    "Periodo": "Jun 01, 10:00 AM - 12:25 PM VET",
-    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Resolved",
-    "Componentes": "PAYOUT/ COUNTRIES/ Ecuador",
-    "Duracion_Minutos": "145",
-    "ID": "d7faa653af0dfd33f68d84b58f055a9b",
-    "Asignado": "Luis G"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Scheduled Maintenance by Provider - Payins - Payouts - Peru",
-    "Periodo": "Jun 02, 07:30 AM - 08:30 AM VET",
-    "Resumen": "Dear team, Please be informed that our partner will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Completed maintenance",
-    "Componentes": "PAYIN/ API PAYIN/ COUNTRIES/ Peru PAYOUT/ API PAYOUT/ COUNTRIES/ Peru",
-    "Duracion_Minutos": "60",
-    "ID": "94bf07b6a0484b6e4581ddf7108b79c1",
-    "Asignado": "Airam S"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Banco BCI Intermittences - FINTOC",
-    "Periodo": "May 30, 12:48 - Jun 1, 11:08 GMT-04:00",
-    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Resolved: This incident has been resolved.",
-    "Componentes": "This incident affected: Payin (Chile).",
-    "Duracion_Minutos": "2780",
-    "ID": "b9ae978011b5224d3aa55f4bd0b7b501",
->>>>>>> 0db5bbfafdd4432736801188af511410d0ecff2b
     "Asignado": "Airam S"
   },
   {
@@ -829,7 +781,6 @@
     "Asignado": "Airam S"
   },
   {
-<<<<<<< HEAD
     "Proveedor": "Monnet",
     "Titulo": "Internal Intermittence Monnet - Payins - Peru",
     "Periodo": "Jun 01, 06:00 AM - 07:00 AM VET",
@@ -852,8 +803,6 @@
     "Asignado": "Luis G"
   },
   {
-=======
->>>>>>> 0db5bbfafdd4432736801188af511410d0ecff2b
     "Proveedor": "Alps",
     "Titulo": "Banco BCI Intermittences - FINTOC",
     "Periodo": "May 30, 12:48 PM - Jun 01, 11:08 AM VET",
@@ -866,40 +815,13 @@
   },
   {
     "Proveedor": "Monnet",
-    "Titulo": "Internal Intermittence Monnet - Payins - Peru",
-    "Periodo": "Jun 01, 10:00 AM - 11:00 AM VET",
-    "Resumen": "Dear team, We are currently experiencing an intermittent issue on our side. Our teams are monitoring the situation and working to ensure service stability. For any assistance, please contact support@monnetpayments.com Kind regards,",
-    "Estado": "Completed maintenance",
-    "Componentes": "PAYIN/ API BACK OFFICE PAYIN/ COUNTRIES/ Peru",
-    "Duracion_Minutos": "60",
-    "ID": "b7b92e7da6838382e1ef152986c84d5e",
-    "Asignado": "Luis G"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence ECUADOR - PAYOUTS",
-    "Periodo": "Jun 01, 02:00 PM - 04:25 PM VET",
-    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Resolved",
-    "Componentes": "PAYOUT/ COUNTRIES/ Ecuador",
-    "Duracion_Minutos": "145",
-    "ID": "c306b478f81f3427ec467e7a325e14c1",
-    "Asignado": "Merlis M"
-  },
-  {
-    "Proveedor": "Monnet",
     "Titulo": "Scheduled Maintenance by Provider - Payins - Payouts - Peru",
-    "Periodo": "Jun 02, 11:30 AM - 12:30 PM VET",
+    "Periodo": "Jun 02, 07:30 AM - 08:30 AM VET",
     "Resumen": "Dear team, Please be informed that our partner will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Completed maintenance",
     "Componentes": "PAYIN/ API PAYIN/ COUNTRIES/ Peru PAYOUT/ API PAYOUT/ COUNTRIES/ Peru",
     "Duracion_Minutos": "60",
-<<<<<<< HEAD
     "ID": "monnet-32a65d0d80d26008ccf7f5a90e74303d",
     "Asignado": "Airam S"
-=======
-    "ID": "823e015cbb38deb5b148d203c839a311",
-    "Asignado": "Greider G"
->>>>>>> 0db5bbfafdd4432736801188af511410d0ecff2b
   }
 ]
