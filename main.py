@@ -6,6 +6,8 @@ from models import ProveedorConfig, SelectorMap
 from scraper import IncidentScraper, clasificar_incidente
 from utils import configurar_logging, cargar_json, guardar_json, clave_incidente_dict, distribuir_asignados, logger
 from utils import migrar_ids_monnet
+import os
+os.environ['TZ'] = 'America/Caracas'
 
 
 
