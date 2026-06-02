@@ -179,6 +179,8 @@ def main() -> None:
                     for inc in todos_pendientes
                 ]
                 datos_pending = distribuir_asignados(datos_pending, ASIGNADOS)
+                logger.info(f"📤 Enviando {len(datos_history)} incidentes a History")
+                logger.info(f"⚠️ Enviando {len(datos_pending)} incidentes a Pending")
                 
                 enviar_a_google_sheets(http, datos_pending, "Pending")
                 logger.info(f"⚠️ {len(todos_pendientes)} pendientes enviados a Pending")
