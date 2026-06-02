@@ -107,6 +107,7 @@ class ParseadorTiempo:
             return int((datetime.now() - fechas[0]).total_seconds() // 60)
         return 0
 
+
     @classmethod
     def convertir_periodo_a_vet(cls, periodo: str) -> str:
         if not periodo:
@@ -114,80 +115,95 @@ class ParseadorTiempo:
         try:
             texto = normalizar_texto(periodo)
             
-            # ✅ Detectar timezone antes de limpiar
-            tz_origen = UTC if "UTC" in texto.upper() else VET
-            
-            # ✅ Limpiar sufijos de timezone
+            # Eliminar sufijos de zona horaria (ej: -04, UTC-4, GMT-4)
+            texto = re.sub(r'\s*[-+]\d{2}:?\d{2}\s*$', '', texto)
             texto = re.sub(r'\s*(GMT|UTC)\s*[-+]\d{2}:?\d{2}\s*$', '', texto, flags=re.IGNORECASE)
             texto = re.sub(r'\s*UTC\s*$', '', texto, flags=re.IGNORECASE)
-            texto = re.sub(r'\s*[-+]\d{2}:?\d{2}\s*$', '', texto)
-            texto = re.sub(r'\s+-0[4]\s*$', '', texto)  # Específico para -04 al final
             texto = texto.strip()
-
-            # ✅ Primero intentar con rango entre diferentes días
-            m = re.search(
-                r"([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{1,2}):(\d{2})(?:\s*(am|pm))?\s*-\s*"
-                r"([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{1,2}):(\d{2})(?:\s*(am|pm))?",
-                texto,
-                re.IGNORECASE,
-            )
             
-            if m:
-                mes1, dia1, h1, mi1, ampm1, mes2, dia2, h2, mi2, ampm2 = m.groups()
-                year = datetime.now().year
-                month1 = MESES[mes1.lower()[:3]]
-                month2 = MESES[mes2.lower()[:3]]
-
-                h1, h2 = int(h1), int(h2)
-                if ampm1 and ampm1.lower() == "pm" and h1 < 12:
-                    h1 += 12
-                if ampm2 and ampm2.lower() == "pm" and h2 < 12:
-                    h2 += 12
-                if ampm1 and ampm1.lower() == "am" and h1 == 12:
-                    h1 = 0
-                if ampm2 and ampm2.lower() == "am" and h2 == 12:
-                    h2 = 0
-
-                inicio = datetime(year, month1, int(dia1), h1, int(mi1), tzinfo=tz_origen)
-                fin = datetime(year, month2, int(dia2), h2, int(mi2), tzinfo=tz_origen)
-
-                inicio_vet = inicio.astimezone(VET)
-                fin_vet = fin.astimezone(VET)
-
-                # Si es el mismo día, mostrar formato corto
-                if inicio_vet.date() == fin_vet.date():
-                    return f"{inicio_vet.strftime('%b %d, %I:%M %p')} - {fin_vet.strftime('%I:%M %p')} VET"
+            # Si no contiene " - ", devolver original
+            if " - " not in texto:
+                return periodo
+            
+            # Dividir en inicio y fin
+            partes = texto.split(" - ")
+            if len(partes) != 2:
+                return periodo
+            
+            inicio_str, fin_str = partes[0].strip(), partes[1].strip()
+            
+            # Función auxiliar para parsear una fecha/hora
+            def parse_fecha_hora(s: str) -> Optional[datetime]:
+                # Patrones: "May 23, 09:40 pm"  o  "09:40 pm" (sin fecha)
+                # Primero intentar con mes día, hora
+                m = re.match(r"([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{1,2}):(\d{2})\s*(am|pm)", s, re.IGNORECASE)
+                if m:
+                    mes_str, dia, hora, minuto, ampm = m.groups()
+                    mes = MESES.get(mes_str[:3].lower())
+                    if not mes:
+                        return None
+                    hora = int(hora)
+                    if ampm.lower() == "pm" and hora < 12:
+                        hora += 12
+                    if ampm.lower() == "am" and hora == 12:
+                        hora = 0
+                    year = datetime.now().year
+                    # Ajuste de año si mes es enero y hoy es diciembre (evitar año futuro)
+                    if mes == 1 and datetime.now().month == 12:
+                        year += 1
+                    return datetime(year, mes, int(dia), hora, int(minuto))
+                
+                # Si no tiene fecha, solo hora (asumir mismo día que la otra parte)
+                m = re.match(r"(\d{1,2}):(\d{2})\s*(am|pm)", s, re.IGNORECASE)
+                if m:
+                    hora, minuto, ampm = m.groups()
+                    hora = int(hora)
+                    if ampm.lower() == "pm" and hora < 12:
+                        hora += 12
+                    if ampm.lower() == "am" and hora == 12:
+                        hora = 0
+                    return datetime(1, 1, 1, hora, int(minuto))  # fecha dummy, se ajustará después
+                return None
+            
+            inicio_dt = parse_fecha_hora(inicio_str)
+            fin_dt = parse_fecha_hora(fin_str)
+            
+            if not inicio_dt or not fin_dt:
+                return periodo
+            
+            # Determinar zona horaria origen: si el raw contenía -04 o UTC-4 asumimos UTC-4 (mismo que VET)
+            # Como VET es UTC-4, podemos asumir que ambos están en VET si no se especifica otra.
+            # Simplemente asignamos zona VET a los datetime sin zona.
+            tz = VET
+            
+            # Si inicio_dt tiene año 1 (solo hora), le asignamos el mismo día que fin_dt (si fin tiene fecha)
+            if inicio_dt.year == 1:
+                if fin_dt.year != 1:
+                    inicio_dt = inicio_dt.replace(year=fin_dt.year, month=fin_dt.month, day=fin_dt.day)
                 else:
-                    return f"{inicio_vet.strftime('%b %d, %I:%M %p')} - {fin_vet.strftime('%b %d, %I:%M %p')} VET"
-
-            # Si no es rango entre días, intentar con rango del mismo día
-            m = re.search(
-                r"([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{1,2}):(\d{2})(?:\s*(am|pm))?\s*-\s*(\d{1,2}):(\d{2})(?:\s*(am|pm))?",
-                texto,
-                re.IGNORECASE,
-            )
-            if m:
-                mes, dia, h1, mi1, ampm1, h2, mi2, ampm2 = m.groups()
-                year = datetime.now().year
-                month = MESES[mes.lower()[:3]]
-
-                h1, h2 = int(h1), int(h2)
-                if ampm1 and ampm1.lower() == "pm" and h1 < 12:
-                    h1 += 12
-                if ampm2 and ampm2.lower() == "pm" and h2 < 12:
-                    h2 += 12
-                if ampm1 and ampm1.lower() == "am" and h1 == 12:
-                    h1 = 0
-                if ampm2 and ampm2.lower() == "am" and h2 == 12:
-                    h2 = 0
-
-                inicio = datetime(year, month, int(dia), h1, int(mi1), tzinfo=tz_origen)
-                fin = datetime(year, month, int(dia), h2, int(mi2), tzinfo=tz_origen)
-
-                inicio_vet = inicio.astimezone(VET)
-                fin_vet = fin.astimezone(VET)
-
+                    # ambos son solo hora, usamos hoy
+                    hoy = datetime.now()
+                    inicio_dt = inicio_dt.replace(year=hoy.year, month=hoy.month, day=hoy.day)
+            
+            if fin_dt.year == 1:
+                if inicio_dt.year != 1:
+                    fin_dt = fin_dt.replace(year=inicio_dt.year, month=inicio_dt.month, day=inicio_dt.day)
+                    # Si fin es menor que inicio, asumimos que es al día siguiente
+                    if fin_dt < inicio_dt:
+                        fin_dt += timedelta(days=1)
+                else:
+                    hoy = datetime.now()
+                    fin_dt = fin_dt.replace(year=hoy.year, month=hoy.month, day=hoy.day)
+            
+            # Asignar zona horaria
+            inicio_vet = inicio_dt.replace(tzinfo=tz) if inicio_dt.tzinfo is None else inicio_dt.astimezone(tz)
+            fin_vet = fin_dt.replace(tzinfo=tz) if fin_dt.tzinfo is None else fin_dt.astimezone(tz)
+            
+            # Formatear
+            if inicio_vet.date() == fin_vet.date():
                 return f"{inicio_vet.strftime('%b %d, %I:%M %p')} - {fin_vet.strftime('%I:%M %p')} VET"
+            else:
+                return f"{inicio_vet.strftime('%b %d, %I:%M %p')} - {fin_vet.strftime('%b %d, %I:%M %p')} VET"
 
             return periodo
         except Exception:

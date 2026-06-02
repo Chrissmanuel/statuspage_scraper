@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Tuple
 import unicodedata
 
 
-from config import LOG_FILE
+from config import LOG_FILE, RESULTADOS_FILE
 
 def configurar_logging() -> None:
     logging.basicConfig(
@@ -50,25 +50,55 @@ def clave_incidente_dict(x: Dict[str, Any]) -> Tuple[str, str, str]:
         str(x.get("Periodo", "")).strip(),
     )
 
+def _obtener_ultimo_asignado_desde_historico() -> str | None:
+    """
+    Lee el archivo resultado_incidentes.json y devuelve el Asignado del último incidente.
+    Si no hay histórico o no tiene asignado, retorna None.
+    """
+    historico = cargar_json(RESULTADOS_FILE, [])
+    if not historico:
+        return None
+    # El último elemento de la lista (asumimos orden cronológico)
+    ultimo = historico[-1]
+    return ultimo.get("Asignado")
+
 def distribuir_asignados(incidentes: List[Dict[str, Any]], asignados: List[str]) -> List[Dict[str, Any]]:
     """
-    Distribuye los incidentes equitativamente entre la lista de asignados.
+    Distribuye los incidentes de forma equitativa y continua usando el último asignado
+    del histórico como punto de partida. Si no hay histórico, empieza por el primero.
+    
+    Los incidentes que ya tienen un asignado válido se respetan, y la rotación continúa
+    desde el último asignado de la lista proporcionada (o desde el histórico).
     """
     if not asignados:
         return incidentes
+
+    # 1. Determinar el "último asignado" conocido
+    ultimo_asignado = _obtener_ultimo_asignado_desde_historico()
     
-    # Contar cuántos tiene cada uno actualmente (si ya vienen con asignación)
+    # Si no hay histórico, empezamos con el primer asignado (índice -1 para que el próximo sea 0)
+    if ultimo_asignado is None or ultimo_asignado not in asignados:
+        idx_ultimo = -1
+    else:
+        idx_ultimo = asignados.index(ultimo_asignado)
+    
+    # El siguiente índice a usar es el siguiente al último (circular)
+    siguiente_idx = (idx_ultimo + 1) % len(asignados)
+    
+    # 2. Contar asignaciones existentes en el lote actual (para no romper balance)
     conteo = {nombre: 0 for nombre in asignados}
     for inc in incidentes:
         if inc.get("Asignado") in conteo:
             conteo[inc["Asignado"]] += 1
     
-    # Asignar a los que no tienen asignado
+    # 3. Asignar a los que no tienen asignado (o tienen uno inválido)
+    idx_actual = siguiente_idx
     for inc in incidentes:
         if not inc.get("Asignado") or inc["Asignado"] not in conteo:
-            # Buscar el que menos tiene
-            asignado = min(conteo, key=conteo.get)
+            asignado = asignados[idx_actual % len(asignados)]
             inc["Asignado"] = asignado
-            conteo[asignado] += 1
+            conteo[asignado] = conteo.get(asignado, 0) + 1
+            idx_actual += 1
     
     return incidentes
+

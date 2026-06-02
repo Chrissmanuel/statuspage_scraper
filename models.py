@@ -17,6 +17,7 @@ class ProveedorConfig:
     selectores: SelectorMap
     tipo: str
     navegacion_profunda: bool = False
+    active_url: Optional[str] = None
 
 @dataclass
 class IncidentData:

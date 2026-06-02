@@ -124,6 +124,97 @@ class IncidentScraper(AbstractContextManager):
                 element.click()
             except Exception:
                 pass
+    
+    def _scrapear_activos_freshstatus(self, config: ProveedorConfig) -> List[Dict[str, Any]]:
+        """
+        Scrapea la página activa (raíz) de un proveedor freshstatus para obtener
+        incidentes en curso (pendientes). Usa el título + fecha de inicio como ID persistente.
+        """
+        if not config.active_url:
+            return []
+        
+        logger.info(f"🔍 {config.nombre} | Scrapeando activos (pendientes) desde {config.active_url}")
+        self.driver.get(config.active_url)
+        time.sleep(PAGE_LOAD_SLEEP)
+        
+        try:
+            self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, config.container)))
+            # Los activos tienen clase 'liveincident' además del container
+            elementos = self.driver.find_elements(By.CSS_SELECTOR, f"{config.container}.liveincident")
+        except (TimeoutException, WebDriverException):
+            logger.warning(f"⚠️ {config.nombre} | No se encontraron incidentes activos")
+            return []
+        
+        resultados = []
+        for el in elementos:
+            try:
+                titulo = self._safe_text(el, config.selectores.titulo)
+                if not titulo or titulo == "N/A":
+                    continue
+
+                # Extraer período (raw)
+                periodo_raw = self._safe_text(el, config.selectores.periodo)
+                if not periodo_raw or periodo_raw == "N/A":
+                    # Intentar obtener el texto "Started: ..."
+                    try:
+                        started = el.find_element(By.CSS_SELECTOR, "span.style__LabelInfo-sc-19bjpya-14 .title + span")
+                        periodo_raw = started.text
+                    except:
+                        periodo_raw = ""
+                
+                # Extraer fecha de inicio (sin zona horaria, sin rango)
+                fecha_inicio = self.extraer_fecha_inicio(periodo_raw)
+                if not fecha_inicio:
+                    fecha_inicio = periodo_raw  # fallback
+                
+                # Convertir período a VET para mostrar bonito
+                periodo_vet = ParseadorTiempo.convertir_periodo_a_vet(periodo_raw)
+                
+                # Resumen
+                resumen = self._safe_text(el, config.selectores.resumen)
+                estado = self._safe_text(el, config.selectores.estado) if config.selectores.estado else "Active"
+                
+                # Crear IncidentData
+                datos = IncidentData(
+                    Proveedor=config.nombre,
+                    Titulo=titulo,
+                    Periodo=periodo_vet,
+                    Resumen=resumen,
+                    Estado=estado,
+                    Pendiente="SI",  # Forzar pendiente
+                )
+                
+                # Duración: si existe campo de duración, calcular; si no, 0
+                dur_txt = self._safe_text(el, config.selectores.duracion_raw)
+                if dur_txt and dur_txt != "N/A":
+                    datos.Duracion_Minutos = ParseadorTiempo.calcular_duracion(dur_txt)
+                else:
+                    datos.Duracion_Minutos = 0
+                
+                # Generar ID persistente basado en título + fecha de inicio
+                datos.ID = self.generar_id_unico(titulo, fecha_inicio)
+                
+                # Componentes
+                try:
+                    componentes = el.find_element(By.CSS_SELECTOR, "div.components-affected").text
+                    datos.Componentes = normalizar_texto(
+                        componentes.replace("Affected services", "").replace("This incident affected:", "").strip()
+                    ) or "N/A"
+                except:
+                    datos.Componentes = "N/A"
+                
+                row = datos.to_dict()
+                row['Periodo_Raw'] = periodo_raw
+                
+                # Aplicar filtros (excluye palabras, etc.)
+                if clasificar_incidente(row, config):
+                    resultados.append(row)
+                    logger.info(f"⚠️ PENDIENTE (activo) {config.nombre} | {row['Titulo'][:60]}... | ID: {datos.ID}")
+            except Exception as e:
+                logger.warning(f"❌ Error procesando incidente activo: {e}")
+                continue
+        
+        return resultados
 
     @staticmethod
     def extraer_id_incidente(href: str) -> str:
@@ -139,18 +230,52 @@ class IncidentScraper(AbstractContextManager):
         return path
 
     @staticmethod
-    def generar_id_unico(titulo: str, periodo: str) -> str:
+    def generar_id_unico(titulo: str, fecha_inicio: str) -> str:
         """
-        Genera un ID único basado en título + periodo.
+        Genera un ID único basado en título + fecha de inicio.
         """
-        base = f"{titulo}-{periodo}"
-        return "monnet-" + hashlib.md5(base.encode()).hexdigest()
+        base = f"{titulo}-{fecha_inicio}"
+        return hashlib.md5(base.encode()).hexdigest()
+
+    @staticmethod
+    def extraer_fecha_inicio(periodo_raw: str) -> str:
+        """
+        Extrae la fecha de inicio de un período y la normaliza a un formato consistente.
+        Ejemplo: "May 28, 02:20 PM -04" -> "may 28, 2:20 pm"
+        """
+        if not periodo_raw:
+            return ""
+        # Eliminar zona horaria
+        limpio = re.sub(r'\s*[-+]\d{2}:?\d{2}\s*$', '', periodo_raw)
+        limpio = re.sub(r'\s*(GMT|UTC)[-+]\d{2}:?\d{2}\s*$', '', limpio, flags=re.IGNORECASE)
+        # Tomar la primera parte si hay rango
+        if " - " in limpio:
+            inicio = limpio.split(" - ")[0].strip()
+        else:
+            inicio = limpio.strip()
+        # Normalizar: minúsculas, remover cero a la izquierda en horas, asegurar espacio
+        inicio = inicio.lower()
+        # Convertir "02:20 pm" a "2:20 pm"
+        inicio = re.sub(r'\b0(\d):', r'\1:', inicio)
+        # Eliminar puntos de "p.m." o "a.m." si existen
+        inicio = inicio.replace('.', '')
+        # Asegurar un solo espacio entre palabras
+        inicio = re.sub(r'\s+', ' ', inicio).strip()
+        return inicio
 
     def ejecutar(self, config: ProveedorConfig, fecha_corte=None) -> List[Dict[str, Any]]:
         if PROVEEDORES_HABILITADOS is not None and config.nombre not in PROVEEDORES_HABILITADOS:
             return []
 
         logger.info(f"🔍 Iniciando proveedor: {config.nombre}")
+        
+        resultados: List[Dict[str, Any]] = []
+        
+        # --- NUEVO: Scrapear incidentes activos (pendientes) si existe active_url ---
+        if config.tipo == "freshstatus" and config.active_url:
+            activos = self._scrapear_activos_freshstatus(config)
+            resultados.extend(activos)
+
         self.driver.get(config.url)
         self.main_window = self.driver.current_window_handle
         time.sleep(PAGE_LOAD_SLEEP)
@@ -179,8 +304,16 @@ class IncidentScraper(AbstractContextManager):
                 periodo = ParseadorTiempo.convertir_periodo_a_vet(periodo_raw)
                 titulo = self._safe_text(el, config.selectores.titulo)
 
-                # ✅ Verificar si el ID ya existe en el histórico
-                id_temp = self._obtener_id_temporal(el, config, titulo, periodo)
+                # Extraer fecha de inicio (para ID persistente en freshstatus)
+                fecha_inicio = self.extraer_fecha_inicio(periodo_raw)
+                if not fecha_inicio:
+                    fecha_inicio = periodo_raw  # fallback
+
+                # ✅ Verificar si el ID ya existe en el histórico (usamos el ID que se generará)
+                if config.tipo == "freshstatus":
+                    id_temp = self.generar_id_unico(titulo, fecha_inicio)
+                else:  # atlassian
+                    id_temp = self._obtener_id_temporal(el, config, titulo, periodo)
                 if id_temp and _existe_id_en_historico(id_temp, config.nombre):
                     logger.info(f"⏪ {config.nombre} | Ya en histórico: {titulo[:60]}")
                     break
@@ -189,7 +322,6 @@ class IncidentScraper(AbstractContextManager):
                 if config.tipo == "atlassian" and " - " in periodo_raw:
                     partes = periodo_raw.split(" - ")
                     fecha_fin_str = partes[1].strip()
-                    # Limpiar sufijos de timezone
                     fecha_fin_str = re.sub(r'\s*(GMT|UTC)[-+]\d{2}:?\d{2}.*$', '', fecha_fin_str, flags=re.IGNORECASE).strip()
                     fecha_verificar = ParseadorTiempo.extraer_fecha(fecha_fin_str)
                     if not fecha_verificar:
@@ -212,26 +344,24 @@ class IncidentScraper(AbstractContextManager):
                 dur_txt = self._safe_text(el, config.selectores.duracion_raw) if config.tipo == "freshstatus" else datos.Periodo
                 datos.Duracion_Minutos = ParseadorTiempo.calcular_duracion(dur_txt)
 
-                # Nuevo campo ID
+                # ✅ Asignación del ID usando fecha_inicio para freshstatus
                 link = None
                 if config.tipo == "atlassian":
                     try:
                         link = el.find_element(By.CSS_SELECTOR, config.selectores.titulo).get_attribute("href")
                         datos.ID = self.extraer_id_incidente(link)
                     except Exception:
-                        datos.ID = self.generar_id_unico(titulo, periodo)
+                        datos.ID = self.generar_id_unico(titulo, fecha_inicio)  # fallback también con fecha_inicio
                 elif config.tipo == "freshstatus":
-                    datos.ID = self.generar_id_unico(titulo, periodo)
+                    datos.ID = self.generar_id_unico(titulo, fecha_inicio)
 
                 # ✅ SOLO ABRIR DETALLES si es atlassian
                 if config.tipo == "atlassian" and link:
-                    # ✅ VERIFICAR FILTROS ANTES DE ABRIR (ahorra tiempo)
                     texto_preliminar = f"{titulo} {datos.Resumen}".lower()
                     filtros = obtener_filtros_proveedor(config.nombre)
-                    
                     if filtros["excluye"] and any(normalizar_texto(p).lower() in texto_preliminar for p in filtros["excluye"]):
                         logger.info(f"⏭️ {config.nombre} | Filtrado (sin abrir): {titulo[:60]}")
-                        continue  # No abre detalles, salta al siguiente
+                        continue
                     try:
                         self.driver.execute_script("window.open(arguments[0]);", link)
                         self.driver.switch_to.window(self.driver.window_handles[-1])

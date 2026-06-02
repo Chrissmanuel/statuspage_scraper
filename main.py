@@ -5,6 +5,8 @@ from http_client import HttpClient
 from models import ProveedorConfig, SelectorMap
 from scraper import IncidentScraper, clasificar_incidente
 from utils import configurar_logging, cargar_json, guardar_json, clave_incidente_dict, distribuir_asignados, logger
+from utils import migrar_ids_a_nuevo_formato
+
 
 
 PROVEEDORES_LIST = [
@@ -18,10 +20,11 @@ PROVEEDORES_LIST = [
             "div.gYoMm .style__TimeStamp-sc-19bjpya-9",
             "div[class*='DescriptionContainer']",
             'div[class*="LableTag"] span',
-        ),
-        "freshstatus",
-        False,
     ),
+    "freshstatus",
+    False,
+    active_url="https://monnetpayments.freshstatus.io/",  # <-- NUEVO
+),
     ProveedorConfig(
         "Alps",
         "https://status.alps.cl/history",
