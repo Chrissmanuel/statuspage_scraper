@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – BCP - PAYOUTS",
+    "Periodo": "Jun 03, 01:50 PM -04",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "N/A",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "236",
+    "Pendiente": "SI",
+    "ID": "5b3f648817b420b568d1cb0ff7d4fdd0",
+    "Asignado": "",
+    "Periodo_Raw": "Jun 03, 01:50 PM -04"
+  }
+]
