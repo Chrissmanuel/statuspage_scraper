@@ -834,5 +834,27 @@
     "Duracion_Minutos": "180",
     "ID": "a7d949aa49235b3943d3848db5e316d0",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco FALABELLA Intermittences - ETPAY",
+    "Periodo": "Jun 3, 11:04 - 11:51 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "47",
+    "ID": "incidents/43rw3czy7jfj",
+    "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco FALABELLA Intermittences - FINTOC",
+    "Periodo": "Jun 3, 10:51 - 11:51 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "60",
+    "ID": "incidents/4zt4h25v02nv",
+    "Asignado": "Merlis M"
   }
 ]
