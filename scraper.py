@@ -195,9 +195,18 @@ class IncidentScraper(AbstractContextManager):
                     Pendiente="SI",  # Forzar pendiente
                 )
                 
-                # Duración: si existe campo de duración, calcular; si no, 0
-                dur_txt = self._safe_text(el, config.selectores.duracion_raw)
-                if dur_txt and dur_txt != "N/A":
+                # 🛠️ CORRECCIÓN DE DURACIÓN PARA ACTIVOS:
+                # Primero intentamos buscar la clase explícita '.duration' que usa Freshstatus en vivo
+                dur_txt = "N/A"
+                try:
+                    elemento_duracion = el.find_element(By.CSS_SELECTOR, "span.duration")
+                    # Intentamos leer el atributo 'title' ("1 hour, 55 minutes") o el texto interno
+                    dur_txt = elemento_duracion.get_attribute("title") or elemento_duracion.text
+                except:
+                    # Fallback al selector original de tu configuración por si acaso
+                    dur_txt = self._safe_text(el, config.selectores.duracion_raw)
+
+                if dur_txt and dur_txt != "N/A" and dur_txt.strip() != "":
                     datos.Duracion_Minutos = ParseadorTiempo.calcular_duracion(dur_txt)
                 else:
                     datos.Duracion_Minutos = 0
@@ -221,10 +230,10 @@ class IncidentScraper(AbstractContextManager):
                 row = datos.to_dict()
                 row['Periodo_Raw'] = periodo_raw
                 
-                # Aplicar filtros (excluye palabras, etc.)
+                # Aplicar filtros (excluye palabras, duraciones mínimas, etc.)
                 if clasificar_incidente(row, config):
                     resultados.append(row)
-                    logger.info(f"⚠️ PENDIENTE (activo) {config.nombre} | {row['Titulo'][:60]}... | ID: {datos.ID}")
+                    logger.info(f"⚠️ PENDIENTE (activo) {config.nombre} | {row['Titulo'][:60]}... | ID: {datos.ID} ({datos.Duracion_Minutos} min)")
             except Exception as e:
                 logger.warning(f"❌ Error procesando incidente activo: {e}")
                 continue
