@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco FALABELLA Intermittences - FINTOC",
+    "Periodo": "Jun 3, 10:51 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.\n\nHistorial:\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "270",
+    "Pendiente": "SI",
+    "ID": "incidents/4zt4h25v02nv",
+    "Asignado": "",
+    "Periodo_Raw": "Jun 3, 10:51 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco FALABELLA Intermittences - ETPAY",
+    "Periodo": "Jun 3, 11:04 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.\n\nHistorial:\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "257",
+    "Pendiente": "SI",
+    "ID": "incidents/43rw3czy7jfj",
+    "Asignado": "",
+    "Periodo_Raw": "Jun 3, 11:04 GMT-04:00"
+  }
+]
