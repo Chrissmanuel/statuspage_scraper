@@ -2,8 +2,10 @@ name: Ejecutar Scraper
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # Cada 30 minutos
-  workflow_dispatch:  # Permite ejecución manual
+    # 💡 Ejecuta en el minuto 14 y 44 de cada hora para evitar la congestión de GitHub.
+    # Esto reduce drásticamente los retrasos y asegura que corra cada ~30 minutos.
+    - cron: '14,44 * * * *'  
+  workflow_dispatch:  # Permite ejecución manual desde la pestaña Actions
 
 jobs:
   run-scraper:
@@ -12,7 +14,8 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
 
       - name: Verificar secretos (debug)
         run: |
@@ -24,15 +27,11 @@ jobs:
         env:
           WEB_APP_URL: ${{ secrets.WEB_APP_URL }}
 
-      - uses: actions/setup-python@v5
+      - name: Configurar Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - name: Setup ChromeDriver
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq chromium-chromedriver
-          sudo ln -sf /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
+          cache: 'pip' # ⚡ Descarga las librerías más rápido usando la caché de GitHub
 
       - name: Instalar dependencias
         run: |
@@ -46,8 +45,14 @@ jobs:
 
       - name: Guardar cambios en el repositorio
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # 💡 Asegura que los archivos existan (si no existen, los crea vacíos) 
+          # para que 'git add' no lance un error si el scraper no generó datos.
+          touch pendientes_incidentes.json resultado_incidentes.json
+          
           git add pendientes_incidentes.json resultado_incidentes.json
-          git diff --staged --quiet || git commit -m "📊 Actualizar estado automático"
-          git push
+          
+          # Compara si hay cambios reales. Si los hay, hace commit y push de forma segura.
+          git diff --staged --quiet || (git commit -m "📊 Actualizar estado automático" && git push)
