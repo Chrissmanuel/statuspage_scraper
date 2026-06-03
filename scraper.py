@@ -88,8 +88,8 @@ class IncidentScraper(AbstractContextManager):
         opts.add_experimental_option("useAutomationExtension", False)
         
         # En Linux, usar Chromium en lugar de Chrome
-        if sys.platform != "win32":
-            opts.binary_location = "/usr/bin/chromium-browser"
+        #if sys.platform != "win32":
+         #   opts.binary_location = "/usr/bin/chromium-browser"
         
         if sys.platform == "win32":
             service = Service(str(CHROMEDRIVER_PATH))
