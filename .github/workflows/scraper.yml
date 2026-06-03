@@ -1,11 +1,10 @@
 name: Ejecutar Scraper
 
 on:
-  schedule:
-    # 💡 Ejecuta en el minuto 14 y 44 de cada hora para evitar la congestión de GitHub.
-    # Esto reduce drásticamente los retrasos y asegura que corra cada ~30 minutos.
-    - cron: '14,44 * * * *'  
-  workflow_dispatch:  # Permite ejecución manual desde la pestaña Actions
+  # 🔌 Esto permite que servicios externos despierten este repositorio al instante
+  repository_dispatch:
+    types: [disparar_scraper]
+  workflow_dispatch: # Conservarlo para poder pulsar el botón manual si quieres
 
 jobs:
   run-scraper:
