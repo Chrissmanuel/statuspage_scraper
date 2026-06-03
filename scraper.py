@@ -150,7 +150,6 @@ class IncidentScraper(AbstractContextManager):
         
         try:
             self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, config.container)))
-            # Los activos tienen clase 'liveincident' además del container
             elementos = self.driver.find_elements(By.CSS_SELECTOR, f"{config.container}.liveincident")
         except (TimeoutException, WebDriverException):
             logger.warning(f"⚠️ {config.nombre} | No se encontraron incidentes activos")
@@ -166,22 +165,20 @@ class IncidentScraper(AbstractContextManager):
                 # Extraer período (raw)
                 periodo_raw = self._safe_text(el, config.selectores.periodo)
                 if not periodo_raw or periodo_raw == "N/A":
-                    # Intentar obtener el texto "Started: ..."
                     try:
                         started = el.find_element(By.CSS_SELECTOR, "span.style__LabelInfo-sc-19bjpya-14 .title + span")
                         periodo_raw = started.text
                     except:
                         periodo_raw = ""
                 
-                # Extraer fecha de inicio (sin zona horaria, sin rango)
+                # Extraer fecha de inicio limpia
                 fecha_inicio = self.extraer_fecha_inicio(periodo_raw)
                 if not fecha_inicio:
                     fecha_inicio = periodo_raw  # fallback
                 
-                # Convertir período a VET para mostrar bonito
+                # Convertir período a VET para mostrar bonito en la celda
                 periodo_vet = ParseadorTiempo.convertir_periodo_a_vet(periodo_raw)
                 
-                # Resumen
                 resumen = self._safe_text(el, config.selectores.resumen)
                 estado = self._safe_text(el, config.selectores.estado) if config.selectores.estado else "Active"
                 
@@ -189,21 +186,18 @@ class IncidentScraper(AbstractContextManager):
                 datos = IncidentData(
                     Proveedor=config.nombre,
                     Titulo=titulo,
-                    Periodo=periodo_vet,
+                    Periodo=periodo_vet, # Se mantiene visualmente estético
                     Resumen=resumen,
                     Estado=estado,
-                    Pendiente="SI",  # Forzar pendiente
+                    Pendiente="SI",
                 )
                 
-                # 🛠️ CORRECCIÓN DE DURACIÓN PARA ACTIVOS:
-                # Primero intentamos buscar la clase explícita '.duration' que usa Freshstatus en vivo
+                # Extraer duración real desde el span.duration de la página
                 dur_txt = "N/A"
                 try:
                     elemento_duracion = el.find_element(By.CSS_SELECTOR, "span.duration")
-                    # Intentamos leer el atributo 'title' ("1 hour, 55 minutes") o el texto interno
                     dur_txt = elemento_duracion.get_attribute("title") or elemento_duracion.text
                 except:
-                    # Fallback al selector original de tu configuración por si acaso
                     dur_txt = self._safe_text(el, config.selectores.duracion_raw)
 
                 if dur_txt and dur_txt != "N/A" and dur_txt.strip() != "":
@@ -211,14 +205,9 @@ class IncidentScraper(AbstractContextManager):
                 else:
                     datos.Duracion_Minutos = 0
                 
-                # Generar ID: priorizar ID real de Freshstatus, fallback con título+fecha_inicio
-                id_real = self._extraer_id_freshstatus_real(el)
-                if id_real:
-                    datos.ID = id_real
-                else:
-                    datos.ID = self.generar_id_unico(titulo, fecha_inicio)
+                # 🔥 CORRECCIÓN 1: SIEMPRE generar el ID mediante el Hash estándar (Igual que en Atlassian)
+                datos.ID = self.generar_id_unico(titulo, fecha_inicio)
                 
-                # Componentes
                 try:
                     componentes = el.find_element(By.CSS_SELECTOR, "div.components-affected").text
                     datos.Componentes = normalizar_texto(
@@ -228,9 +217,10 @@ class IncidentScraper(AbstractContextManager):
                     datos.Componentes = "N/A"
                 
                 row = datos.to_dict()
-                row['Periodo_Raw'] = periodo_raw
                 
-                # Aplicar filtros (excluye palabras, duraciones mínimas, etc.)
+                # 🔥 CORRECCIÓN 2: Guardamos la fecha cruda de inicio de forma explícita para enviársela a Google
+                row['Periodo_Raw'] = periodo_raw 
+                
                 if clasificar_incidente(row, config):
                     resultados.append(row)
                     logger.info(f"⚠️ PENDIENTE (activo) {config.nombre} | {row['Titulo'][:60]}... | ID: {datos.ID} ({datos.Duracion_Minutos} min)")
