@@ -158,13 +158,19 @@ class IncidentScraper(AbstractContextManager):
         resultados = []
         for el in elementos:
             try:
-                titulo_sucio = self._safe_text(el, config.selectores.titulo)
-                if not titulo_sucio or titulo_sucio == "N/A":
-                    continue
+                # 🔥 RESTRUCTURACIÓN DE BÚSQUEDA DEL TÍTULO:
+                titulo = "N/A"
+                try:
+                    # Buscamos primero la clase nativa y exacta de Freshstatus para el título aislado
+                    elemento_titulo_limpio = el.find_element(By.CSS_SELECTOR, "div.incidentTitle")
+                    titulo = elemento_titulo_limpio.text.strip()
+                except:
+                    # Fallback si cambia la estructura de la página
+                    titulo_sucio = self._safe_text(el, config.selectores.titulo)
+                    if titulo_sucio and titulo_sucio != "N/A":
+                        titulo = titulo_sucio.split("\n")[0].strip()
 
-                # 🔥 CORRECCIÓN CRÍTICA: Aislamos únicamente la primera línea de texto para separar el título del resumen
-                titulo = titulo_sucio.split("\n")[0].strip()
-                if not titulo:
+                if not titulo or titulo == "N/A" or titulo == "":
                     continue
 
                 # Extraer período (raw)
@@ -184,14 +190,21 @@ class IncidentScraper(AbstractContextManager):
                 # Convertir período a VET para mostrar bonito en la celda
                 periodo_vet = ParseadorTiempo.convertir_periodo_a_vet(periodo_raw)
                 
-                resumen = self._safe_text(el, config.selectores.resumen)
+                # Intentar capturar el resumen de forma limpia mediante su contenedor de estilo
+                resumen = "N/A"
+                try:
+                    elemento_resumen = el.find_element(By.CSS_SELECTOR, "div[class*='DescriptionContainer']")
+                    resumen = elemento_resumen.text.strip()
+                except:
+                    resumen = self._safe_text(el, config.selectores.resumen)
+
                 estado = self._safe_text(el, config.selectores.estado) if config.selectores.estado else "Active"
                 
-                # Crear IncidentData con el Título ya purificado
+                # Crear IncidentData
                 datos = IncidentData(
                     Proveedor=config.nombre,
                     Titulo=titulo,
-                    Periodo=periodo_vet, # Se mantiene visualmente estético
+                    Periodo=periodo_vet,
                     Resumen=resumen,
                     Estado=estado,
                     Pendiente="SI",
@@ -210,7 +223,7 @@ class IncidentScraper(AbstractContextManager):
                 else:
                     datos.Duracion_Minutos = 0
                 
-                # 🔥 CORRECCIÓN 1: Generar el ID mediante el Hash basado en el Título LIMPIO
+                # Generar el ID mediante el Hash basado en el nuevo título extraído quirúrgicamente
                 datos.ID = self.generar_id_unico(titulo, fecha_inicio)
                 
                 try:
@@ -222,8 +235,6 @@ class IncidentScraper(AbstractContextManager):
                     datos.Componentes = "N/A"
                 
                 row = datos.to_dict()
-                
-                # 🔥 CORRECCIÓN 2: Guardamos la fecha cruda de inicio de forma explícita para enviársela a Google
                 row['Periodo_Raw'] = periodo_raw 
                 
                 if clasificar_incidente(row, config):
