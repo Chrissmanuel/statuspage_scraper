@@ -801,5 +801,27 @@
     "Duracion_Minutos": "145",
     "ID": "c342db5d386d3e78526cda9f2d655fd4",
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Scheduled Maintenance by Provider - Payins - Payouts - Peru",
+    "Periodo": "Jun 02, 07:30 AM - 08:30 AM VET",
+    "Resumen": "Dear team, Please be informed that our partner will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Completed maintenance",
+    "Componentes": "PAYIN/ API PAYIN/ COUNTRIES/ Peru PAYOUT/ API PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "60",
+    "ID": "7fc9eb8519a344b644854a5bf3fb9232",
+    "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BCI Intermittences - FINTOC",
+    "Periodo": "May 30, 12:48 - Jun 1, 11:08 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "2780",
+    "ID": "incidents/hwhj62mmz2l2",
+    "Asignado": "Greider G"
   }
 ]
