@@ -158,8 +158,13 @@ class IncidentScraper(AbstractContextManager):
         resultados = []
         for el in elementos:
             try:
-                titulo = self._safe_text(el, config.selectores.titulo)
-                if not titulo or titulo == "N/A":
+                titulo_sucio = self._safe_text(el, config.selectores.titulo)
+                if not titulo_sucio or titulo_sucio == "N/A":
+                    continue
+
+                # 🔥 CORRECCIÓN CRÍTICA: Aislamos únicamente la primera línea de texto para separar el título del resumen
+                titulo = titulo_sucio.split("\n")[0].strip()
+                if not titulo:
                     continue
 
                 # Extraer período (raw)
@@ -182,7 +187,7 @@ class IncidentScraper(AbstractContextManager):
                 resumen = self._safe_text(el, config.selectores.resumen)
                 estado = self._safe_text(el, config.selectores.estado) if config.selectores.estado else "Active"
                 
-                # Crear IncidentData
+                # Crear IncidentData con el Título ya purificado
                 datos = IncidentData(
                     Proveedor=config.nombre,
                     Titulo=titulo,
@@ -205,7 +210,7 @@ class IncidentScraper(AbstractContextManager):
                 else:
                     datos.Duracion_Minutos = 0
                 
-                # 🔥 CORRECCIÓN 1: SIEMPRE generar el ID mediante el Hash estándar (Igual que en Atlassian)
+                # 🔥 CORRECCIÓN 1: Generar el ID mediante el Hash basado en el Título LIMPIO
                 datos.ID = self.generar_id_unico(titulo, fecha_inicio)
                 
                 try:
