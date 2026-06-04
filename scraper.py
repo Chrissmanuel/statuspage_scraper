@@ -549,15 +549,19 @@ class IncidentScraper(AbstractContextManager):
                     match = next((a for a in actuales if a["ID"] == inc["ID"]), None)
                     if match:
                         periodo = match["Periodo"]
-                        tiene_fecha_fin = "-" in periodo
+                        # Detectamos si de verdad tiene una fecha de cierre (ej. Jun 04, 08:20 AM - 01:15 PM -04)
+                        tiene_fecha_fin = "-" in periodo and len(periodo.split("-")) >= 2
+                        
                         if not tiene_fecha_fin:
                             inc["Pendiente"] = "SI"
+                            inc["Estado"] = match.get("Estado", "N/A")
                         else:
-                            inc["Estado"] = match["Estado"]
-                            # 🟢 CORRECCIÓN CRÍTICA: Actualizamos el periodo para que incluya la fecha fin en el historial
+                            # 🟢 SI TIENE FECHA FIN -> ESTÁ RESUELTO, pase lo que pase con el texto del estado
+                            inc["Estado"] = match.get("Estado") if match.get("Estado") != "N/A" else "Resolved"
                             inc["Periodo"] = match["Periodo"] 
-                            inc["Pendiente"] = "NO" if "Resolved" in match["Estado"] or "Completed" in match["Estado"] else "SI"
+                            inc["Pendiente"] = "NO"  # Rompemos el bucle mandándolo a History
                     else:
+                        # Si ya ni siquiera aparece en la web principal, asumimos que se cerró y archivó
                         inc["Pendiente"] = "NO"
                         inc["Estado"] = "Resolved"
 
