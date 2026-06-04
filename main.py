@@ -76,8 +76,12 @@ def fusionar_historico(nuevos: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any
 
 
 def enviar_a_google_sheets(http: HttpClient, datos: List[Dict[str, Any]], sheet: str = "History") -> bool:
-    if not datos or not WEB_APP_URL:
+    if not WEB_APP_URL:
         return False
+    # Bloquear si está vacío y es History, pero PERMITIR si es Pending para que limpie la hoja
+    if not datos and sheet != "Pending":
+        return False
+    
     return http.post_json(WEB_APP_URL, {"sheet": sheet, "data": datos})
 
 def main() -> None:
