@@ -262,10 +262,11 @@ class IncidentScraper(AbstractContextManager):
     @staticmethod
     def generar_id_unico(titulo: str, fecha_inicio: str) -> str:
         """
-        Genera un ID único basado en título + fecha de inicio.
+        Generar un ID único e inmutable usando guiones bajos
         """
-        base = f"{titulo}-{fecha_inicio}"
-        return hashlib.md5(base.encode()).hexdigest()
+        # Forzamos limpieza de espacios fantasmas y pasamos a minúsculas para asegurar paridad
+        base = f"Monnet_{titulo.strip()}_{fecha_inicio.strip()}".lower()
+        return hashlib.md5(base.encode("utf-8")).hexdigest()
 
     @staticmethod
     def extraer_fecha_inicio(periodo_raw: str) -> str:
@@ -347,6 +348,21 @@ class IncidentScraper(AbstractContextManager):
         from datetime import datetime
         inicio_mes = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
+        El bucle for está excelentemente estructurado, pero para garantizar que los IDs de Monnet sean 100% estables e inmutables (tanto en el archivo de pendientes como en el histórico final), necesitamos corregir una pequeña trampa silenciosa que tiene tu método generar_id_unico en scraper.py.
+
+🚨 El problema oculto en generar_id_unico
+Si dejas el bucle tal como está, la variable fecha_inicio pasará como un texto limpio (por ejemplo, "Jun 04, 08:20 AM"). Sin embargo, tu función generar_id_unico hace esto por detrás:
+
+Python
+base = f"{titulo}-{fecha_inicio}"
+Esto genera una cadena unida por un guion medio, pero no incluye el nombre del proveedor (Monnet), por lo que si dos proveedores distintos tienen un incidente con el mismo título y hora exacta, sus IDs colisionarían. Además, no se están forzando las minúsculas, lo que provoca que pequeños cambios de formato alteren el Hash MD5 resultante.
+
+🛠️ La solución definitiva
+Para que tu bucle funcione a la perfección, no dañe nada y use el ID persistente definitivo, debemos unificar y simplificar el cálculo de la variable fecha_inicio exclusivamente para freshstatus.
+
+Aquí tienes tu bucle for modificado quirúrgicamente. He optimizado la sección superior de la fecha y la asignación del ID final:
+
+Python
         for i, el in enumerate(elementos[:MAX_INCIDENTES_POR_PROVEEDOR]):
             try:
                 periodo_raw = self._safe_text(el, config.selectores.periodo)
@@ -354,25 +370,28 @@ class IncidentScraper(AbstractContextManager):
                 titulo = self._safe_text(el, config.selectores.titulo)
 
                 # =========================================================================
-                # 🟢 AQUÍ VA EL CAMBIO EXACTO: LIMPIEZA ABSOLUTA DE FECHA DE INICIO CON REGEX
+                # 🟢 EXTRACCIÓN BLINDADA DE FECHA INICIO PARA FRESHSTATUS (MONNET)
                 # =========================================================================
-                # Buscamos el formato "Mes Día, Hora:Minuto AM/PM" (ej: Jun 04, 08:20 AM)
-                match_fecha_inicio = re.search(r"([a-zA-Z]{3}\s+\d{1,2},\s+\d{1,2}:\d{2}\s*(?:AM|PM|am|pm))", periodo_raw)
-                
-                if match_fecha_inicio:
-                    # Forzamos a usar estrictamente esta base limpia (ej: "Jun 04, 08:20 AM")
-                    fecha_inicio = match_fecha_inicio.group(1).strip()
+                if config.tipo == "freshstatus":
+                    # Buscamos el formato "Mes Día, Hora:Minuto AM/PM" (ej: Jun 04, 08:20 AM)
+                    match_fecha_inicio = re.search(r"([a-zA-Z]{3}\s+\d{1,2},\s+\d{1,2}:\d{2}\s*(?:AM|PM|am|pm))", periodo_raw)
+                    if match_fecha_inicio:
+                        fecha_inicio = match_fecha_inicio.group(1).strip()
+                    else:
+                        fecha_inicio = periodo_raw.split("-")[0].strip()
                 else:
-                    # Fallback por si la regex no encuentra el patrón común
+                    # Atlassian sigue usando su fallback normal
                     fecha_inicio = periodo_raw.split("-")[0].strip()
                 # =========================================================================
 
                 # ✅ Verificar si el ID ya existe en el histórico (usamos el ID que se generará)
                 if config.tipo == "freshstatus":
-                    id_temp = self.generar_id_unico(titulo, fecha_inicio)
-                    
+                    # Forzamos una base idéntica e inmune a mayúsculas/minúsculas para el hash temporal
+                    base_id = f"Monnet_{titulo.strip()}_{fecha_inicio.strip()}".lower()
+                    id_temp = hashlib.md5(base_id.encode("utf-8")).hexdigest()
                 else:  # atlassian
                     id_temp = self._obtener_id_temporal(el, config, titulo, periodo)
+
                 if id_temp and _existe_id_en_historico(id_temp, config.nombre):
                     logger.info(f"⏪ {config.nombre} | Ya en histórico: {titulo[:60]}")
                     break
@@ -403,16 +422,17 @@ class IncidentScraper(AbstractContextManager):
                 dur_txt = self._safe_text(el, config.selectores.duracion_raw) if config.tipo == "freshstatus" else datos.Periodo
                 datos.Duracion_Minutos = ParseadorTiempo.calcular_duracion(dur_txt)
 
-                # ✅ Asignación del ID usando fecha_inicio para freshstatus
+                # ✅ Asignación del ID final persistente
                 link = None
                 if config.tipo == "atlassian":
                     try:
                         link = el.find_element(By.CSS_SELECTOR, config.selectores.titulo).get_attribute("href")
                         datos.ID = self.extraer_id_incidente(link)
                     except Exception:
-                        datos.ID = self.generar_id_unico(titulo, fecha_inicio)
+                        datos.ID = id_temp
                 elif config.tipo == "freshstatus":
-                    datos.ID = self.generar_id_unico(titulo, fecha_inicio)
+                    # Usamos exactamente el mismo ID calculado arriba
+                    datos.ID = id_temp
 
                 # ✅ SOLO ABRIR DETALLES si es atlassian
                 if config.tipo == "atlassian" and link:
