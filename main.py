@@ -123,9 +123,21 @@ def main() -> None:
 
             # 3. TERCERO: Unificar pendientes
             todos_pendientes = siguen_pendientes.copy()
+            
             for nuevo in nuevos_pendientes:
-                if not any(p.get("ID") == nuevo.get("ID") and p.get("Proveedor") == nuevo.get("Proveedor") 
-                          for p in todos_pendientes):
+                # Buscamos si ya existía en la lista de pendientes anteriores
+                encontrado = False
+                for i, p in enumerate(todos_pendientes):
+                    if p.get("ID") == nuevo.get("ID") and p.get("Proveedor") == nuevo.get("Proveedor"):
+                        # 🔥 ¡ACTUALIZACIÓN CRÍTICA!: Si ya existía, reemplazamos sus minutos por los minutos reales del nuevo scraping
+                        todos_pendientes[i]["Duracion_Minutos"] = nuevo.get("Duracion_Minutos", 0)
+                        todos_pendientes[i]["Periodo"] = nuevo.get("Periodo", "")
+                        todos_pendientes[i]["Resumen"] = nuevo.get("Resumen", "")
+                        encontrado = True
+                        break
+                
+                # Si el incidente es completamente nuevo de esta ejecución, lo agregamos a la cola
+                if not encontrado:
                     todos_pendientes.append(nuevo)
             
             guardar_json(Path("pendientes_incidentes.json"), todos_pendientes)
