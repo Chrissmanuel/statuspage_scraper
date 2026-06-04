@@ -915,17 +915,6 @@
   {
     "Proveedor": "Monnet",
     "Titulo": "Intermittence BCP - PAYOUTS",
-    "Periodo": "Jun 03, 01:50 PM - 09:20 PM VET",
-    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Resolved",
-    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
-    "Duracion_Minutos": "450",
-    "ID": "956a0179186042b19e9fae774be331e7",
-    "Asignado": "Airam S"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence BCP - PAYOUTS",
     "Periodo": "Jun 04, 08:20 AM - 01:05 PM VET",
     "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Resolved",
