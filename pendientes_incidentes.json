@@ -6,7 +6,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "N/A",
     "Componentes": "PAYOUT/ COUNTRIES/ Peru",
-    "Duracion_Minutos": "205",
+    "Duracion_Minutos": "221",
     "Pendiente": "SI",
     "ID": "e2060778aa52df41187d3e960d95db51",
     "Asignado": "",
@@ -19,23 +19,10 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.\n\nHistorial:\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "140",
+    "Duracion_Minutos": "155",
     "Pendiente": "SI",
     "ID": "incidents/dk5f2f7s35p3",
     "Asignado": "",
     "Periodo_Raw": "Jun 4, 09:25 GMT-04:00"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Banco BCI Intermittences - FINTOC",
-    "Periodo": "Jun 4, 11:00 GMT-04:00",
-    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.\n\nHistorial:\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "45",
-    "Pendiente": "SI",
-    "ID": "incidents/dxt5wpr6lrdl",
-    "Asignado": "",
-    "Periodo_Raw": "Jun 4, 11:00 GMT-04:00"
   }
 ]
