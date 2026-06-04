@@ -382,7 +382,7 @@ class IncidentScraper(AbstractContextManager):
                 if config.tipo == "atlassian" and " - " in periodo_raw:
                     partes = periodo_raw.split(" - ")
                     fecha_fin_str = partes[1].strip()
-                    fecha_fin_str = re.sub(r'\s*(GMT|UTC)[-+]\d{2}:?\\d{2}.*$', '', fecha_fin_str, flags=re.IGNORECASE).strip()
+                    fecha_fin_str = re.sub(r'\s*(GMT|UTC)[-+]\d{2}:?\d{2}.*$', '', fecha_fin_str, flags=re.IGNORECASE).strip()
                     fecha_verificar = ParseadorTiempo.extraer_fecha(fecha_fin_str)
                     if not fecha_verificar:
                         fecha_verificar = ParseadorTiempo.extraer_fecha(partes[0].strip())
