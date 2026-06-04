@@ -561,7 +561,8 @@ class IncidentScraper(AbstractContextManager):
                     if match:
                         periodo = match["Periodo"]
                         # Detectamos si de verdad tiene una fecha de cierre (ej. Jun 04, 08:20 AM - 01:15 PM -04)
-                        tiene_fecha_fin = "-" in periodo and len(periodo.split("-")) >= 2
+                        tiene_fecha_fin = " - " in periodo and len(periodo.split(" - ")) >= 2
+
                         
                         if not tiene_fecha_fin:
                             inc["Pendiente"] = "SI"
