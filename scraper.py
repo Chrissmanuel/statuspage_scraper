@@ -358,11 +358,9 @@ class IncidentScraper(AbstractContextManager):
                 # 🟢 EXTRACCIÓN BLINDADA DE FECHA INICIO PARA FRESHSTATUS (MONNET)
                 # =========================================================================
                 if config.tipo == "freshstatus":
-                    # Buscamos el formato "Mes Día, Hora:Minuto AM/PM" (ej: Jun 04, 08:20 AM)
-                    match_fecha_inicio = re.search(r"([a-zA-Z]{3}\s+\d{1,2},\s+\d{1,2}:\d{2}\s*(?:AM|PM|am|pm))", periodo_raw)
-                    if match_fecha_inicio:
-                        fecha_inicio = match_fecha_inicio.group(1).strip()
-                    else:
+                    # Usamos la misma función de normalización que el scraper de pendientes
+                    fecha_inicio = self.extraer_fecha_inicio(periodo_raw)
+                    if not fecha_inicio:
                         fecha_inicio = periodo_raw.split("-")[0].strip()
                 else:
                     # Atlassian sigue usando su fallback normal
@@ -371,9 +369,8 @@ class IncidentScraper(AbstractContextManager):
 
                 # ✅ Verificar si el ID ya existe en el histórico (usamos el ID que se generará)
                 if config.tipo == "freshstatus":
-                    # Forzamos una base idéntica e inmune a mayúsculas/minúsculas para el hash temporal
-                    base_id = f"Monnet_{titulo.strip()}_{fecha_inicio.strip()}".lower()
-                    id_temp = hashlib.md5(base_id.encode("utf-8")).hexdigest()
+                    # Usamos la misma función de hashing para asegurar hashes idénticos
+                    id_temp = self.generar_id_unico(titulo, fecha_inicio)
                 else:  # atlassian
                     id_temp = self._obtener_id_temporal(el, config, titulo, periodo)
 
