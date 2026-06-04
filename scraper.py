@@ -554,6 +554,8 @@ class IncidentScraper(AbstractContextManager):
                             inc["Pendiente"] = "SI"
                         else:
                             inc["Estado"] = match["Estado"]
+                            # 🟢 CORRECCIÓN CRÍTICA: Actualizamos el periodo para que incluya la fecha fin en el historial
+                            inc["Periodo"] = match["Periodo"] 
                             inc["Pendiente"] = "NO" if "Resolved" in match["Estado"] or "Completed" in match["Estado"] else "SI"
                     else:
                         inc["Pendiente"] = "NO"
