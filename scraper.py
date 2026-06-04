@@ -348,21 +348,6 @@ class IncidentScraper(AbstractContextManager):
         from datetime import datetime
         inicio_mes = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
-        El bucle for está excelentemente estructurado, pero para garantizar que los IDs de Monnet sean 100% estables e inmutables (tanto en el archivo de pendientes como en el histórico final), necesitamos corregir una pequeña trampa silenciosa que tiene tu método generar_id_unico en scraper.py.
-
-🚨 El problema oculto en generar_id_unico
-Si dejas el bucle tal como está, la variable fecha_inicio pasará como un texto limpio (por ejemplo, "Jun 04, 08:20 AM"). Sin embargo, tu función generar_id_unico hace esto por detrás:
-
-Python
-base = f"{titulo}-{fecha_inicio}"
-Esto genera una cadena unida por un guion medio, pero no incluye el nombre del proveedor (Monnet), por lo que si dos proveedores distintos tienen un incidente con el mismo título y hora exacta, sus IDs colisionarían. Además, no se están forzando las minúsculas, lo que provoca que pequeños cambios de formato alteren el Hash MD5 resultante.
-
-🛠️ La solución definitiva
-Para que tu bucle funcione a la perfección, no dañe nada y use el ID persistente definitivo, debemos unificar y simplificar el cálculo de la variable fecha_inicio exclusivamente para freshstatus.
-
-Aquí tienes tu bucle for modificado quirúrgicamente. He optimizado la sección superior de la fecha y la asignación del ID final:
-
-Python
         for i, el in enumerate(elementos[:MAX_INCIDENTES_POR_PROVEEDOR]):
             try:
                 periodo_raw = self._safe_text(el, config.selectores.periodo)
