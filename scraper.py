@@ -353,10 +353,19 @@ class IncidentScraper(AbstractContextManager):
                 periodo = ParseadorTiempo.convertir_periodo_a_vet(periodo_raw)
                 titulo = self._safe_text(el, config.selectores.titulo)
 
-                # Extraer fecha de inicio (para ID persistente en freshstatus)
-                fecha_inicio = self.extraer_fecha_inicio(periodo_raw)
-                if not fecha_inicio:
-                    fecha_inicio = periodo_raw  # fallback
+                # =========================================================================
+                # 🟢 AQUÍ VA EL CAMBIO EXACTO: LIMPIEZA ABSOLUTA DE FECHA DE INICIO CON REGEX
+                # =========================================================================
+                # Buscamos el formato "Mes Día, Hora:Minuto AM/PM" (ej: Jun 04, 08:20 AM)
+                match_fecha_inicio = re.search(r"([a-zA-Z]{3}\s+\d{1,2},\s+\d{1,2}:\d{2}\s*(?:AM|PM|am|pm))", periodo_raw)
+                
+                if match_fecha_inicio:
+                    # Forzamos a usar estrictamente esta base limpia (ej: "Jun 04, 08:20 AM")
+                    fecha_inicio = match_fecha_inicio.group(1).strip()
+                else:
+                    # Fallback por si la regex no encuentra el patrón común
+                    fecha_inicio = periodo_raw.split("-")[0].strip()
+                # =========================================================================
 
                 # ✅ Verificar si el ID ya existe en el histórico (usamos el ID que se generará)
                 if config.tipo == "freshstatus":
@@ -372,7 +381,7 @@ class IncidentScraper(AbstractContextManager):
                 if config.tipo == "atlassian" and " - " in periodo_raw:
                     partes = periodo_raw.split(" - ")
                     fecha_fin_str = partes[1].strip()
-                    fecha_fin_str = re.sub(r'\s*(GMT|UTC)[-+]\d{2}:?\d{2}.*$', '', fecha_fin_str, flags=re.IGNORECASE).strip()
+                    fecha_fin_str = re.sub(r'\s*(GMT|UTC)[-+]\d{2}:?\\d{2}.*$', '', fecha_fin_str, flags=re.IGNORECASE).strip()
                     fecha_verificar = ParseadorTiempo.extraer_fecha(fecha_fin_str)
                     if not fecha_verificar:
                         fecha_verificar = ParseadorTiempo.extraer_fecha(partes[0].strip())
