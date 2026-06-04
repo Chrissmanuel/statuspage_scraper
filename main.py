@@ -166,7 +166,25 @@ def main() -> None:
                 if match_origen and match_origen.get("Asignado"):
                     inc["Asignado"] = match_origen["Asignado"]
                 else:
-                    inc["Asignado"] = inc.get("Asignado") or "Sin Asignar"
+                    inc["Asignado"] = "" # Lo dejamos vacío para detectarlo en el siguiente paso
+
+            # ✅ 2. ASIGNACIÓN A HUÉRFANOS (Incidentes rápidos que van directo a History)
+            sin_asignar = [inc for inc in sin_duplicados if not inc.get("Asignado")]
+            
+            if sin_asignar:
+                # Les repartimos un operador solo a los que no tienen
+                sin_asignar = distribuir_asignados(sin_asignar, ASIGNADOS)
+                
+                # Reintegramos los nombres a la lista principal que va a History
+                for huerfano in sin_asignar:
+                    for inc in sin_duplicados:
+                        if inc.get("ID") == huerfano.get("ID"):
+                            inc["Asignado"] = huerfano.get("Asignado")
+            
+            # Filtro de seguridad final por si ocurre un error
+            for inc in sin_duplicados:
+                if not inc.get("Asignado"):
+                    inc["Asignado"] = "Sin Asignar"
 
             # Preparar datos para la hoja History (Mantiene el asignado heredado)
             datos_history = [
