@@ -125,21 +125,20 @@ def main() -> None:
             todos_pendientes = siguen_pendientes.copy()
             
             for nuevo in nuevos_pendientes:
-                # Buscamos si ya existía en la lista de pendientes anteriores
                 encontrado = False
                 for i, p in enumerate(todos_pendientes):
                     if p.get("ID") == nuevo.get("ID") and p.get("Proveedor") == nuevo.get("Proveedor"):
-                        # 🔥 ¡ACTUALIZACIÓN CRÍTICA!: Si ya existía, reemplazamos sus minutos por los minutos reales del nuevo scraping
                         todos_pendientes[i]["Duracion_Minutos"] = nuevo.get("Duracion_Minutos", 0)
                         todos_pendientes[i]["Periodo"] = nuevo.get("Periodo", "")
                         todos_pendientes[i]["Resumen"] = nuevo.get("Resumen", "")
                         encontrado = True
                         break
                 
-                # Si el incidente es completamente nuevo de esta ejecución, lo agregamos a la cola
                 if not encontrado:
                     todos_pendientes.append(nuevo)
             
+            # ✅ ÚNICO PUNTO DE ASIGNACIÓN: Aquí se sella el operador de forma permanente
+            todos_pendientes = distribuir_asignados(todos_pendientes, ASIGNADOS)
             guardar_json(Path("pendientes_incidentes.json"), todos_pendientes)
 
             # 4. CUARTO: Preparar y enviar resueltos a History
@@ -157,36 +156,41 @@ def main() -> None:
                     vistos.add(clave)
                     sin_duplicados.append(inc)
             
-            # Preparar datos para History
+            # ✅ HERENCIA DE ASIGNADO: Copiamos el operador original del JSON histórico de pendientes
+            for inc in sin_duplicados:
+                match_origen = next((p for p in pendientes_guardados if p.get("ID") == inc.get("ID")), None)
+                if match_origen and match_origen.get("Asignado"):
+                    inc["Asignado"] = match_origen["Asignado"]
+                else:
+                    inc["Asignado"] = inc.get("Asignado") or "Sin Asignar"
+
+            # Preparar datos para la hoja History (Mantiene el asignado heredado)
             datos_history = [
                 {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
                 for inc in sin_duplicados
             ]
-            datos_history = distribuir_asignados(datos_history, ASIGNADOS)
             
-            # Siempre enviar a History (vacío o no)
             logger.info(f"📤 Enviando {len(datos_history)} incidentes a History")
             enviar_a_google_sheets(http, datos_history, "History")
             
-            # Guardar en histórico local solo si hay nuevos
+            # Guardar en histórico local (Corregido el bloque duplicado que tenías)
             if sin_duplicados:
                 datos_para_historico = [
                     {k: v for k, v in inc.items() if k not in ["Pendiente", "Periodo_Raw"]}
                     for inc in sin_duplicados
                 ]
-                datos_para_historico = distribuir_asignados(datos_para_historico, ASIGNADOS)
                 resultado_final, nuevos_incidentes = fusionar_historico(datos_para_historico)
                 logger.info(f"💾 Histórico: {len(nuevos_incidentes)} nuevos | {len(resultado_final)} totales")
             else:
                 logger.info("📭 No hay resueltos nuevos para guardar en histórico")
             
-            # 5. QUINTO: Enviar pendientes a Pending (siempre)
+            # 5. QUINTO: Enviar pendientes a Pending
             datos_pending = [
                 {k: v for k, v in inc.items() if k not in ["Periodo_Raw"]}
                 for inc in todos_pendientes
             ]
-            datos_pending = distribuir_asignados(datos_pending, ASIGNADOS)
             
+            # ✅ CORRECCIÓN: Quitamos el 'distribuir_asignados' de aquí para no pisar el orden del punto 3
             logger.info(f"⚠️ Enviando {len(datos_pending)} incidentes a Pending")
             enviar_a_google_sheets(http, datos_pending, "Pending")
 
