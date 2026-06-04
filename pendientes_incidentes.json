@@ -11,5 +11,18 @@
     "ID": "e2060778aa52df41187d3e960d95db51",
     "Asignado": "",
     "Periodo_Raw": "Jun 04, 08:20 AM -04"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BCI Intermittences - ETPAY",
+    "Periodo": "Jun 4, 09:25 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.\n\nHistorial:\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "245",
+    "Pendiente": "SI",
+    "ID": "incidents/dk5f2f7s35p3",
+    "Asignado": "",
+    "Periodo_Raw": "Jun 4, 09:25 GMT-04:00"
   }
 ]
