@@ -43,11 +43,18 @@ def guardar_json(ruta: Path, datos: Any) -> None:
     with ruta.open("w", encoding="utf-8") as f:
         json.dump(datos, f, indent=2, ensure_ascii=False)
 
-def clave_incidente_dict(x: Dict[str, Any]) -> Tuple[str, str, str]:
+def clave_incidente_dict(x: Dict[str, Any]) -> Tuple[str, str]:
+    """
+    Retorna una tupla con Proveedor e ID para deduplicar correctamente.
+    Esto es más confiable que usar Titulo+Periodo que pueden variar.
+    
+    Usada en:
+    - main.py: fusionar_historico() para deduplicar histórico
+    - state_manager.py: gestionar_pendientes() para deduplicar pendientes
+    """
     return (
         str(x.get("Proveedor", "")).strip(),
-        str(x.get("Titulo", "")).strip(),
-        str(x.get("Periodo", "")).strip(),
+        str(x.get("ID", "")).strip(),
     )
 
 def _obtener_ultimo_asignado_desde_historico() -> str | None:
