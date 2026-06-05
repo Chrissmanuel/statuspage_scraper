@@ -262,10 +262,14 @@ class IncidentScraper(AbstractContextManager):
     @staticmethod
     def generar_id_unico(titulo: str, fecha_inicio: str) -> str:
         """
-        Generar un ID único e inmutable usando guiones bajos
+        Generar un ID único e inmutable para Monnet usando titulo + fecha_inicio.
+        El hash es estable siempre que el título y fecha sean idénticos.
         """
-        # Forzamos limpieza de espacios fantasmas y pasamos a minúsculas para asegurar paridad
-        base = f"Monnet_{titulo.strip()}_{fecha_inicio.strip()}".lower()
+        # Forzamos limpieza exhaustiva para asegurar que espacios fantasmas no rompan el hash
+        titulo_limpio = " ".join(titulo.strip().split())  # Normaliza espacios múltiples
+        fecha_limpia = " ".join(fecha_inicio.strip().split())  # Normaliza espacios múltiples
+        
+        base = f"{titulo_limpio.lower()}_{fecha_limpia.lower()}"
         return hashlib.md5(base.encode("utf-8")).hexdigest()
 
     @staticmethod
@@ -367,13 +371,20 @@ class IncidentScraper(AbstractContextManager):
                         if titulo_sucio and titulo_sucio != "N/A":
                             titulo = titulo_sucio.split("\n")[0].strip()
                         else:
-                            titulo = titulo_sucio
-
+                            titulo = "N/A - No Title"  # ✅ Marca explícitamente cuando no hay título
+                    
+                    # ✅ Skip si el título sigue siendo N/A
+                    if titulo == "N/A - No Title":
+                        continue
+                        
                     fecha_inicio = self.extraer_fecha_inicio(periodo_raw)
                     if not fecha_inicio:
                         fecha_inicio = periodo_raw.split("-")[0].strip()
                 else:
                     titulo = self._safe_text(el, config.selectores.titulo)
+                    # ✅ Skip si no hay título en Atlassian también
+                    if not titulo or titulo == "N/A":
+                        continue
                     fecha_inicio = periodo_raw.split("-")[0].strip()
                 # =========================================================================
 

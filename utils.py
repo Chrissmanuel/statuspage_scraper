@@ -112,58 +112,143 @@ def distribuir_asignados(incidentes: List[Dict[str, Any]], asignados: List[str])
 
 def migrar_ids_monnet():
     """
-    Migra los IDs de los incidentes de Monnet (freshstatus) al nuevo formato:
-    - Prioriza el ID real de Freshstatus (ej. fs_1607716) si se puede extraer del Periodo_Raw
-    - Si no, usa el hash de título + fecha_inicio normalizada
+    🟢 MIGRACIÓN SEGURA: Convierte IDs viejos de Monnet al nuevo formato.
+    
+    ESTRATEGIA DE DEDUPLICACIÓN:
+    - Viejos IDs: Basados en (Proveedor, Titulo, Periodo_Raw) - PUEDE VARIAR
+    - Nuevos IDs: Hash MD5 de (titulo + fecha_inicio) - ESTABLE E INMUTABLE
+    
+    Esta función preserva los datos históricos sin perder información.
+    
+    ⚠️ EJECUTAR UNA SOLA VEZ al cambiar la estrategia de IDs.
     """
     from scraper import IncidentScraper
-    from config import RESULTADOS_FILE, PENDIENTES_FILE
+    from config import PENDIENTES_FILE, RESULTADOS_FILE
+    import hashlib
     
+    logger.info("🔄 INICIANDO MIGRACIÓN DE IDs MONNET...")
+    
+    # 1. CARGAR DATOS HISTÓRICOS
     historico = cargar_json(RESULTADOS_FILE, [])
     if not historico:
         logger.info("📭 No hay histórico para migrar")
         return
     
+    # Contar cuántos incidentes de Monnet hay
+    monnet_count = sum(1 for inc in historico if inc.get("Proveedor") == "Monnet")
+    if monnet_count == 0:
+        logger.info("📭 No hay incidentes de Monnet en el histórico")
+        return
+    
+    logger.info(f"📊 Encontrados {monnet_count} incidentes de Monnet para procesar")
+    
     modificado = False
     mapping_viejo_nuevo = {}
+    fallos = []
     
-    for inc in historico:
+    # 2. PROCESAR CADA INCIDENTE DE MONNET
+    for idx, inc in enumerate(historico):
         if inc.get("Proveedor") != "Monnet":
             continue
         
         viejo_id = inc.get("ID", "")
-        titulo = inc.get("Titulo", "")
-        periodo_raw = inc.get("Periodo_Raw", inc.get("Periodo", ""))
+        titulo = inc.get("Titulo", "").strip()
+        periodo_raw = inc.get("Periodo_Raw", inc.get("Periodo", "")).strip()
         
-        # Intentar obtener ID real de Freshstatus desde Periodo_Raw
-        # Nota: En el histórico antiguo no guardamos el href, así que no podemos obtener el ID real
-        # Solo podemos usar el fallback de título+fecha_inicio
-        fecha_inicio = IncidentScraper.extraer_fecha_inicio(periodo_raw)
-        if not fecha_inicio:
+        # ✅ VALIDACIÓN: Asegurarse que tenemos datos básicos
+        if not viejo_id or not titulo:
+            logger.warning(f"⚠️ Incidente sin ID o Título válido: {inc}")
+            fallos.append(("sin_datos", inc))
             continue
         
-        nuevo_id = IncidentScraper.generar_id_unico(titulo, fecha_inicio)
+        try:
+            # 🔴 EXTRAER FECHA DE INICIO (es la clave para generar el nuevo ID)
+            fecha_inicio = IncidentScraper.extraer_fecha_inicio(periodo_raw)
+            
+            if not fecha_inicio or fecha_inicio == "":
+                logger.warning(f"⚠️ No se pudo extraer fecha_inicio de: {periodo_raw[:50]}")
+                fallos.append(("sin_fecha", inc))
+                continue
+            
+            # 🟢 GENERAR NUEVO ID CON LA MISMA LÓGICA QUE scraper.py
+            # IMPORTANTE: Debe coincidir EXACTAMENTE con scraper.py línea 268
+            titulo_limpio = " ".join(titulo.strip().split())  # Normalizar espacios
+            fecha_limpia = " ".join(fecha_inicio.strip().split())  # Normalizar espacios
+            base = f"{titulo_limpio.lower()}_{fecha_limpia.lower()}"
+            nuevo_id = hashlib.md5(base.encode("utf-8")).hexdigest()
+            
+            # ✅ COMPARAR Y ACTUALIZAR SI ES DIFERENTE
+            if viejo_id != nuevo_id:
+                inc["ID"] = nuevo_id
+                modificado = True
+                mapping_viejo_nuevo[viejo_id] = nuevo_id
+                logger.info(f"✅ {idx+1}/{monnet_count} | {titulo[:40]}... | {viejo_id[:8]} → {nuevo_id[:8]}")
+            else:
+                logger.info(f"ℹ️ {idx+1}/{monnet_count} | {titulo[:40]}... | ID ya es correcto ({nuevo_id[:8]})")
         
-        if viejo_id != nuevo_id:
-            inc["ID"] = nuevo_id
-            modificado = True
-            mapping_viejo_nuevo[viejo_id] = nuevo_id
-            logger.debug(f"  {titulo[:50]}... {viejo_id[:8]} → {nuevo_id[:8]}")
+        except Exception as e:
+            logger.error(f"❌ Error procesando {titulo[:40]}: {e}")
+            fallos.append(("error", inc, str(e)))
+            continue
     
+    # 3. GUARDAR CAMBIOS EN HISTÓRICO
     if modificado:
-        guardar_json(RESULTADOS_FILE, historico)
-        logger.info(f"✅ Migrados {len(mapping_viejo_nuevo)} incidentes de Monnet en histórico")
-        
-        # Migrar pendientes
+        try:
+            guardar_json(RESULTADOS_FILE, historico)
+            logger.info(f"✅ Histórico guardado: {len(mapping_viejo_nuevo)} IDs migrados")
+        except Exception as e:
+            logger.error(f"❌ Error guardando histórico: {e}")
+            return
+    else:
+        logger.info("ℹ️ Todos los IDs de Monnet ya están en el nuevo formato")
+    
+    # 4. MIGRAR PENDIENTES
+    try:
         pendientes = cargar_json(PENDIENTES_FILE, [])
         pendientes_migrados = 0
+        pendientes_sin_cambio = 0
+        
         for pend in pendientes:
-            if pend.get("Proveedor") == "Monnet":
-                viejo = pend.get("ID", "")
-                if viejo in mapping_viejo_nuevo:
-                    pend["ID"] = mapping_viejo_nuevo[viejo]
-                    pendientes_migrados += 1
-        guardar_json(PENDIENTES_FILE, pendientes)
-        logger.info(f"✅ Migrados {pendientes_migrados} pendientes de Monnet")
-    else:
-        logger.info("📭 No se necesitaron migraciones para Monnet")
+            if pend.get("Proveedor") != "Monnet":
+                continue
+            
+            viejo_pend_id = pend.get("ID", "")
+            
+            # Si el viejo ID está en el mapping, actualizar
+            if viejo_pend_id in mapping_viejo_nuevo:
+                nuevo_pend_id = mapping_viejo_nuevo[viejo_pend_id]
+                pend["ID"] = nuevo_pend_id
+                pendientes_migrados += 1
+                logger.info(f"📌 Pendiente migrado: {viejo_pend_id[:8]} → {nuevo_pend_id[:8]}")
+            else:
+                # Si NO está en el mapping, probablemente ya tiene el nuevo ID
+                pendientes_sin_cambio += 1
+        
+        if pendientes:
+            guardar_json(PENDIENTES_FILE, pendientes)
+            logger.info(f"✅ Pendientes: {pendientes_migrados} migrados, {pendientes_sin_cambio} ya actualizados")
+        else:
+            logger.info("ℹ️ No hay pendientes para migrar")
+    
+    except Exception as e:
+        logger.error(f"❌ Error migrando pendientes: {e}")
+        return
+    
+    # 5. REPORTE FINAL
+    logger.info("=" * 60)
+    if fallos:
+        logger.warning(f"⚠️ MIGRACIONES CON FALLOS:")
+        for tipo_fallo, *datos in fallos:
+            if tipo_fallo == "sin_datos":
+                logger.warning(f"   - Sin datos básicos: {datos[0]}")
+            elif tipo_fallo == "sin_fecha":
+                logger.warning(f"   - Sin fecha extraída: {datos[0].get('Titulo', 'N/A')[:40]}")
+            elif tipo_fallo == "error":
+                logger.warning(f"   - Error: {datos[1]}")
+    
+    logger.info(f"📊 RESUMEN FINAL:")
+    logger.info(f"   ✅ IDs migrados: {len(mapping_viejo_nuevo)}")
+    logger.info(f"   ⚠️ Fallos/omisiones: {len(fallos)}")
+    logger.info(f"   📌 Pendientes migrados: {pendientes_migrados}")
+    logger.info("=" * 60)
+    logger.info("✨ MIGRACIÓN COMPLETADA")

@@ -60,12 +60,23 @@ PROVEEDORES_LIST = [
 
 
 def fusionar_historico(nuevos: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+    """
+    Fusiona nuevos incidentes con el histórico usando ID como clave primaria.
+    Esto evita duplicados correctamente.
+    """
     historico = cargar_json(RESULTADOS_FILE, [])
-    mapa = {clave_incidente_dict(x): x for x in historico}
+    # 🟢 CORRECCIÓN: Usar ID + Proveedor como clave primaria (más fiable que Periodo)
+    mapa = {
+        (h.get("Proveedor"), h.get("ID")): h 
+        for h in historico 
+        if h.get("ID")  # Solo si tiene ID válido
+    }
 
     nuevos_unicos = []
     for inc in nuevos:
-        clave = clave_incidente_dict(inc)
+        if not inc.get("ID"):  # Skip si no tiene ID
+            continue
+        clave = (inc.get("Proveedor"), inc.get("ID"))
         if clave not in mapa:
             mapa[clave] = inc
             nuevos_unicos.append(inc)
@@ -86,7 +97,7 @@ def enviar_a_google_sheets(http: HttpClient, datos: List[Dict[str, Any]], sheet:
 
 def main() -> None:
     configurar_logging()
-    #migrar_ids_monnet()    # <--- EJECUTAR UNA SOLA VEZ
+    migrar_ids_monnet()    # <--- EJECUTAR UNA SOLA VEZ
 
     http = HttpClient()
 
@@ -183,17 +194,15 @@ def main() -> None:
 
             # 💾 GUARDAR EN HISTÓRICO LOCAL PRIMERO (Filtra los reales nuevos contra el JSON)
             if sin_duplicados:
-                datos_para_historico = [
-                    {k: v for k, v in inc.items() if k not in ["Pendiente", "Periodo_Raw"]}
-                    for inc in sin_duplicados
-                ]
+                # 🟢 CORRECCIÓN: Mantener TODOS los campos para deduplicación correcta
+                datos_para_historico = sin_duplicados.copy()
                 resultado_final, nuevos_incidentes = fusionar_historico(datos_para_historico)
                 logger.info(f"💾 Histórico: {len(nuevos_incidentes)} nuevos | {len(resultado_final)} totales")
                 
                 # 📤 ENVIAR SOLO LOS INCIDENTES NUEVOS REALES A GOOGLE SHEETS
                 if nuevos_incidentes:
                     datos_history = [
-                        {k: v for k, v in inc.items() if k not in ["ID"]}
+                        {k: v for k, v in inc.items() if k not in ["ID", "Periodo_Raw", "Pendiente"]}
                         for inc in nuevos_incidentes
                     ]
                     logger.info(f"📤 Enviando {len(datos_history)} nuevos incidentes reales a History")
@@ -205,7 +214,7 @@ def main() -> None:
             
             # 5. QUINTO: Enviar pendientes a Pending
             datos_pending = [
-                {k: v for k, v in inc.items() if k not in ["Periodo_Raw"]}
+                {k: v for k, v in inc.items() if k not in ["Periodo_Raw", "Pendiente"]}
                 for inc in todos_pendientes
             ]
             
