@@ -596,12 +596,17 @@
   {
     "Proveedor": "Monnet",
     "Titulo": "Intermittence BANCO INTERBANK - PERU - PAYOUT",
-    "Periodo": "May 23, 09:40 PM - 12:03 PM VET",
+    "Periodo": "May 23, 09:40 PM - 07:00 PM VET",
     "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Resolved",
     "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+<<<<<<< HEAD
     "Duracion_Minutos": "864",
     "ID": "f834fdf319d5d42248e2a87922239726",
+=======
+    "Duracion_Minutos": "1280",
+    "ID": "a1b5ad8c938a5c71eb68ffc3382bc93d",
+>>>>>>> 44103e1fa6c4ffa90176e0f537ace85a4c4bab29
     "Asignado": "Airam S"
   },
   {
@@ -617,6 +622,7 @@
   },
   {
     "Proveedor": "Monnet",
+<<<<<<< HEAD
     "Titulo": "Intermittence BANCO INTERBANK - PERU - PAYOUT",
     "Periodo": "May 23, 09:40 PM - 01:10 PM VET",
     "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
@@ -639,6 +645,8 @@
   },
   {
     "Proveedor": "Monnet",
+=======
+>>>>>>> 44103e1fa6c4ffa90176e0f537ace85a4c4bab29
     "Titulo": "Intermittence Ficohsa Guatemala - PAYOUT",
     "Periodo": "May 25, 03:00 PM - 04:30 PM VET",
     "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
@@ -933,5 +941,27 @@
     "Duracion_Minutos": "450",
     "ID": "3af855d36ca93424ddc1c8a9c09bac71",
     "Asignado": "Greider G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence BCP / YAPE - PAYINS",
+    "Periodo": "Jun 03, 02:00 PM - 03:57 PM VET",
+    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYIN/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "117",
+    "ID": "8edd82d07b93d9bd73a32a428c3d63b4",
+    "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence BCP - PAYOUTS",
+    "Periodo": "Jun 04, 08:20 AM - 01:05 PM VET",
+    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "285",
+    "ID": "2e0f434b55ad059918cae56839157938",
+    "Asignado": "Luis G"
   }
 ]
