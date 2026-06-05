@@ -166,36 +166,22 @@ def main() -> None:
                 if match_origen and match_origen.get("Asignado"):
                     inc["Asignado"] = match_origen["Asignado"]
                 else:
-                    inc["Asignado"] = "" # Lo dejamos vacío para detectarlo en el siguiente paso
+                    inc["Asignado"] = ""
 
-            # ✅ 2. ASIGNACIÓN A HUÉRFANOS (Incidentes rápidos que van directo a History)
+            # ✅ ASIGNACIÓN A HUÉRFANOS (Incidentes rápidos que van directo a History)
             sin_asignar = [inc for inc in sin_duplicados if not inc.get("Asignado")]
-            
             if sin_asignar:
-                # Les repartimos un operador solo a los que no tienen
                 sin_asignar = distribuir_asignados(sin_asignar, ASIGNADOS)
-                
-                # Reintegramos los nombres a la lista principal que va a History
                 for huerfano in sin_asignar:
                     for inc in sin_duplicados:
                         if inc.get("ID") == huerfano.get("ID"):
                             inc["Asignado"] = huerfano.get("Asignado")
             
-            # Filtro de seguridad final por si ocurre un error
             for inc in sin_duplicados:
                 if not inc.get("Asignado"):
                     inc["Asignado"] = "Sin Asignar"
 
-            # Preparar datos para la hoja History (Mantiene el asignado heredado)
-            datos_history = [
-                {k: v for k, v in inc.items() if k not in ["Pendiente", "ID", "Periodo_Raw"]}
-                for inc in sin_duplicados
-            ]
-            
-            logger.info(f"📤 Enviando {len(datos_history)} incidentes a History")
-            enviar_a_google_sheets(http, datos_history, "History")
-            
-            # Guardar en histórico local (Corregido el bloque duplicado que tenías)
+            # 💾 GUARDAR EN HISTÓRICO LOCAL PRIMERO (Filtra los reales nuevos contra el JSON)
             if sin_duplicados:
                 datos_para_historico = [
                     {k: v for k, v in inc.items() if k not in ["Pendiente", "Periodo_Raw"]}
@@ -203,6 +189,17 @@ def main() -> None:
                 ]
                 resultado_final, nuevos_incidentes = fusionar_historico(datos_para_historico)
                 logger.info(f"💾 Histórico: {len(nuevos_incidentes)} nuevos | {len(resultado_final)} totales")
+                
+                # 📤 ENVIAR SOLO LOS INCIDENTES NUEVOS REALES A GOOGLE SHEETS
+                if nuevos_incidentes:
+                    datos_history = [
+                        {k: v for k, v in inc.items() if k not in ["ID"]}
+                        for inc in nuevos_incidentes
+                    ]
+                    logger.info(f"📤 Enviando {len(datos_history)} nuevos incidentes reales a History")
+                    enviar_a_google_sheets(http, datos_history, "History")
+                else:
+                    logger.info("📭 No hay nuevos incidentes para enviar a la hoja History")
             else:
                 logger.info("📭 No hay resueltos nuevos para guardar en histórico")
             

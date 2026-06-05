@@ -352,24 +352,33 @@ class IncidentScraper(AbstractContextManager):
             try:
                 periodo_raw = self._safe_text(el, config.selectores.periodo)
                 periodo = ParseadorTiempo.convertir_periodo_a_vet(periodo_raw)
-                titulo = self._safe_text(el, config.selectores.titulo)
 
                 # =========================================================================
-                # 🟢 EXTRACCIÓN BLINDADA DE FECHA INICIO PARA FRESHSTATUS (MONNET)
+                # 🟢 EXTRACCIÓN BLINDADA DE TÍTULO Y FECHA INICIO PARA FRESHSTATUS (MONNET)
                 # =========================================================================
                 if config.tipo == "freshstatus":
-                    # Usamos la misma función de normalización que el scraper de pendientes
+                    try:
+                        # Buscamos primero la clase nativa y exacta de Freshstatus para el título aislado
+                        elemento_titulo_limpio = el.find_element(By.CSS_SELECTOR, "div.incidentTitle")
+                        titulo = elemento_titulo_limpio.text.strip()
+                    except:
+                        # Fallback si cambia la estructura de la página
+                        titulo_sucio = self._safe_text(el, config.selectores.titulo)
+                        if titulo_sucio and titulo_sucio != "N/A":
+                            titulo = titulo_sucio.split("\n")[0].strip()
+                        else:
+                            titulo = titulo_sucio
+
                     fecha_inicio = self.extraer_fecha_inicio(periodo_raw)
                     if not fecha_inicio:
                         fecha_inicio = periodo_raw.split("-")[0].strip()
                 else:
-                    # Atlassian sigue usando su fallback normal
+                    titulo = self._safe_text(el, config.selectores.titulo)
                     fecha_inicio = periodo_raw.split("-")[0].strip()
                 # =========================================================================
 
                 # ✅ Verificar si el ID ya existe en el histórico (usamos el ID que se generará)
                 if config.tipo == "freshstatus":
-                    # Usamos la misma función de hashing para asegurar hashes idénticos
                     id_temp = self.generar_id_unico(titulo, fecha_inicio)
                 else:  # atlassian
                     id_temp = self._obtener_id_temporal(el, config, titulo, periodo)
