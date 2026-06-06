@@ -959,5 +959,18 @@
     "ID": "8a96ae728d3d52bb9514d53bd4f10060",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jun 05, 10:21 PM -04"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Scheduled Maintenance Wallets / Bank Transfer + Peru]",
+    "Periodo": "Jun 06, 02:00 AM - 07:00 AM VET",
+    "Resumen": "Dear team, Please be informed that our partner will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Completed maintenance",
+    "Componentes": "PAYIN/ COUNTRIES/ Peru PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "300",
+    "Pendiente": "NO",
+    "ID": "c8be00ba7ce2a56a46a6956033d72df1",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Jun 06, 02:00 am - 07:00 am -04"
   }
 ]
