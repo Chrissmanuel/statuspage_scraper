@@ -600,7 +600,7 @@
     "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Resolved",
     "Componentes": "PAYOUT/ COUNTRIES/ Peru",
-    "Duracion_Minutos": "864",
+    "Duracion_Minutos": "1280",
     "ID": "f834fdf319d5d42248e2a87922239726",
     "Asignado": "Airam S"
   },
@@ -613,28 +613,6 @@
     "Componentes": "PAYOUT/ COUNTRIES/ Ecuador",
     "Duracion_Minutos": "1181",
     "ID": "2798081282d409d5d278a246caff8227",
-    "Asignado": "Airam S"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence BANCO INTERBANK - PERU - PAYOUT",
-    "Periodo": "May 23, 09:40 PM - 01:10 PM VET",
-    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Resolved",
-    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
-    "Duracion_Minutos": "930",
-    "ID": "f834fdf319d5d42248e2a87922239726",
-    "Asignado": "Luis G"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence BANCO INTERBANK - PERU - PAYOUT",
-    "Periodo": "May 23, 09:40 PM - 07:00 PM VET",
-    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Resolved",
-    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
-    "Duracion_Minutos": "1280",
-    "ID": "f834fdf319d5d42248e2a87922239726",
     "Asignado": "Airam S"
   },
   {
@@ -955,5 +933,31 @@
     "Duracion_Minutos": "285",
     "ID": "2e0f434b55ad059918cae56839157938",
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence Payouts - PERU- BBVA - BANCO INTERBANK",
+    "Periodo": "Jun 05, 10:21 PM - Jun 06, 01:16 AM VET",
+    "Resumen": "Dear team, We are currently experiencing an intermittent issue on our providers side. Our teams are monitoring the situation and working to ensure service stability. For any assistance, please contact support@monnetpayments.com Kind regards,",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "176",
+    "Pendiente": "NO",
+    "ID": "a2ce04c6d4bf22cf0d07624f4e0793f4",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Jun 05, 10:21 pm - Jun 06, 01:16 am -04"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Payouts - PERU- BBVA - BANCO INTERBANK",
+    "Periodo": "Jun 05, 10:21 PM -04",
+    "Resumen": "Dear team,\nWe are currently experiencing an intermittent issue on our provider’s side. Our teams are monitoring the situation and working to ensure service stability.\nFor any assistance, please contact support@monnetpayments.com\nKind regards,",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "174",
+    "Pendiente": "NO",
+    "ID": "8a96ae728d3d52bb9514d53bd4f10060",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Jun 05, 10:21 PM -04"
   }
 ]
