@@ -6,10 +6,23 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "N/A",
     "Componentes": "PAYIN/ COUNTRIES/ Mexico",
-    "Duracion_Minutos": "745",
+    "Duracion_Minutos": "760",
     "Pendiente": "SI",
     "ID": "e89afb1d58cf0304f69c9a8caaad67cd",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jun 05, 10:20 AM -04"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Payouts - PERU- BBVA - BANCO INTERBANK",
+    "Periodo": "Jun 05, 10:21 PM -04",
+    "Resumen": "Dear team,\nWe are currently experiencing an intermittent issue on our provider’s side. Our teams are monitoring the situation and working to ensure service stability.\nFor any assistance, please contact support@monnetpayments.com\nKind regards,",
+    "Estado": "N/A",
+    "Componentes": "PAYOUT/ COUNTRIES/ Peru",
+    "Duracion_Minutos": "39",
+    "Pendiente": "SI",
+    "ID": "8a96ae728d3d52bb9514d53bd4f10060",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Jun 05, 10:21 PM -04"
   }
 ]
