@@ -972,5 +972,18 @@
     "ID": "c8be00ba7ce2a56a46a6956033d72df1",
     "Asignado": "Greider G",
     "Periodo_Raw": "Jun 06, 02:00 am - 07:00 am -04"
+  },
+  {
+    "Proveedor": "Directa24",
+    "Titulo": "[Scheduled] Pix System Maintenance",
+    "Periodo": "Jun 7, 06:00 - 11:00 UTC",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: We would like to inform you that we are scheduling a maintenance window for Pix on Sunday, June 7th, from 06:00 AM to 11:00 AM UTC. We will be using this maintenance window to implement improvements to our Pix processing. During this period, Pix transactions may experience intermittent issues.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Payment methods (Brazil - Pix).",
+    "Duracion_Minutos": "300",
+    "Pendiente": "NO",
+    "ID": "incidents/hmqzt2q4429x",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Jun 7, 06:00 - 11:00 UTC"
   }
 ]

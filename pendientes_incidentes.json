@@ -6,7 +6,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "N/A",
     "Componentes": "PAYIN/ COUNTRIES/ Mexico",
-    "Duracion_Minutos": "2665",
+    "Duracion_Minutos": "2680",
     "Pendiente": "SI",
     "ID": "e89afb1d58cf0304f69c9a8caaad67cd",
     "Asignado": "Merlis M",
@@ -19,23 +19,10 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.\n\nHistorial:\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "1861",
+    "Duracion_Minutos": "1876",
     "Pendiente": "SI",
     "ID": "incidents/yj3ylkntp8b3",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jun 5, 23:44 GMT-04:00"
-  },
-  {
-    "Proveedor": "Directa24",
-    "Titulo": "[Scheduled] Pix System Maintenance",
-    "Periodo": "Jun 7, 06:00 UTC",
-    "Resumen": "Scheduled maintenance is currently in progress. We will provide updates as necessary.\n\nHistorial:\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: We would like to inform you that we are scheduling a maintenance window for Pix on Sunday, June 7th, from 06:00 AM to 11:00 AM UTC. We will be using this maintenance window to implement improvements to our Pix processing. During this period, Pix transactions may experience intermittent issues.",
-    "Estado": "In progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.",
-    "Componentes": "This scheduled maintenance affects: Payment methods (Brazil - Pix).",
-    "Duracion_Minutos": "45",
-    "Pendiente": "SI",
-    "ID": "incidents/hmqzt2q4429x",
-    "Asignado": "Airam S",
-    "Periodo_Raw": "Jun 7, 06:00 UTC"
   }
 ]
