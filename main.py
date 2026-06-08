@@ -5,7 +5,7 @@ from http_client import HttpClient
 from models import ProveedorConfig, SelectorMap
 from scraper import IncidentScraper, clasificar_incidente
 from utils import configurar_logging, cargar_json, guardar_json, clave_incidente_dict, distribuir_asignados, logger
-from utils import migrar_ids_monnet
+
 import os
 os.environ['TZ'] = 'America/Caracas'
 
@@ -97,7 +97,11 @@ def enviar_a_google_sheets(http: HttpClient, datos: List[Dict[str, Any]], sheet:
 
 def main() -> None:
     configurar_logging()
-    #migrar_ids_monnet()    # <--- EJECUTAR UNA SOLA VEZ
+    
+    # 🔥 EJECUTAR MIGRACIÓN POR FECHA UNA SOLA VEZ
+    #from utils import migrar_ids_monnet_por_fecha
+    #migrar_ids_monnet_por_fecha()
+    #return  # Comentar después de ejecutar
 
     http = HttpClient()
 
@@ -110,7 +114,12 @@ def main() -> None:
 
             for prov in PROVEEDORES_LIST:
                 logger.info(f"📌 Procesando: {prov.nombre}")
-                incidentes = bot.ejecutar(prov)
+                
+                # Obtener fecha de última ejecución para este proveedor
+                from state_manager import GestorEstado
+                fecha_corte = GestorEstado.obtener_fecha_corte(prov.nombre)
+                
+                incidentes = bot.ejecutar(prov, fecha_corte)
                 todos_los_incidentes.extend(incidentes)
                 nuevos_pendientes.extend([x for x in incidentes if x.get("Pendiente") == "SI"])
 
@@ -123,9 +132,19 @@ def main() -> None:
                 
                 for prov in PROVEEDORES_LIST:
                     pendientes_prov = [p for p in pendientes_guardados if p.get("Proveedor") == prov.nombre]
-                    if pendientes_prov:
-                        verificados = bot.verificar_pendientes(pendientes_prov, prov)
-                        pendientes_actualizados.extend(verificados)
+                    if not pendientes_prov:
+                        continue
+                    
+                    # 🔥 SKIP COMPLETO para Monnet - ya se manejan en la primera pasada
+                    if prov.nombre == "Monnet":
+                        logger.info(f"⏭️ Saltando verificación de Monnet (ya se procesaron en scraping)")
+                        # Los pendientes de Monnet se mantienen como estaban
+                        pendientes_actualizados.extend(pendientes_prov)
+                        continue
+                    
+                    # Para otros proveedores, usar Selenium
+                    verificados = bot.verificar_pendientes(pendientes_prov, prov)
+                    pendientes_actualizados.extend(verificados)
                 
                 siguen_pendientes = [p for p in pendientes_actualizados if p.get("Pendiente") == "SI"]
                 resueltos_verificacion = [p for p in pendientes_actualizados if p.get("Pendiente") != "SI"]

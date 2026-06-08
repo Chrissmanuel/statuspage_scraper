@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Tuple
 import unicodedata
 
 
-from config import LOG_FILE, RESULTADOS_FILE
+from config import LOG_FILE, RESULTADOS_FILE, PENDIENTES_FILE
 
 def configurar_logging() -> None:
     logging.basicConfig(
@@ -108,147 +108,392 @@ def distribuir_asignados(incidentes: List[Dict[str, Any]], asignados: List[str])
             idx_actual += 1
     
     return incidentes
-
-
-def migrar_ids_monnet():
-    """
-    🟢 MIGRACIÓN SEGURA: Convierte IDs viejos de Monnet al nuevo formato.
     
-    ESTRATEGIA DE DEDUPLICACIÓN:
-    - Viejos IDs: Basados en (Proveedor, Titulo, Periodo_Raw) - PUEDE VARIAR
-    - Nuevos IDs: Hash MD5 de (titulo + fecha_inicio) - ESTABLE E INMUTABLE
+    # Función para extraer fecha de inicio del período_raw
+    def extraer_fecha_inicio_desde_periodo(periodo_raw: str) -> str:
+        """Extrae solo la fecha de inicio de un período raw"""
+        if not periodo_raw:
+            return ""
+        
+        # Limpiar zona horaria
+        limpio = re.sub(r'\s*[-+]\d{2}:?\d{2}\s*$', '', periodo_raw)
+        limpio = re.sub(r'\s*(GMT|UTC)[-+]\d{2}:?\d{2}\s*$', '', limpio, flags=re.IGNORECASE)
+        
+        # Si tiene rango (ej: "Jun 06, 02:00 AM - 07:00 AM")
+        if " - " in limpio:
+            inicio = limpio.split(" - ")[0].strip()
+        else:
+            inicio = limpio.strip()
+        
+        # Normalizar formato
+        inicio = inicio.lower()
+        inicio = re.sub(r'\s+', ' ', inicio)
+        
+        # Convertir a formato estándar: "mmm dd, hh:mm am/pm"
+        # Ejemplo: "jun 06, 02:00 am"
+        match = re.match(r'([a-z]{3})\s+(\d{1,2}),?\s+(\d{1,2}):(\d{2})\s*(am|pm)', inicio, re.IGNORECASE)
+        if match:
+            mes, dia, hora, minuto, ampm = match.groups()
+            # Normalizar: primera letra mayúscula, resto minúscula
+            mes = mes.capitalize()
+            return f"{mes} {int(dia):02d}, {int(hora):02d}:{minuto} {ampm.upper()}"
+        
+        return inicio
     
-    Esta función preserva los datos históricos sin perder información.
+    # Migrar histórico
+    historico_migrados = 0
+    historico_ya_nativos = 0
+    historico_no_encontrados = []
     
-    ⚠️ EJECUTAR UNA SOLA VEZ al cambiar la estrategia de IDs.
-    """
-    from scraper import IncidentScraper
-    from config import PENDIENTES_FILE, RESULTADOS_FILE
-    import hashlib
-    
-    logger.info("🔄 INICIANDO MIGRACIÓN DE IDs MONNET...")
-    
-    # 1. CARGAR DATOS HISTÓRICOS
-    historico = cargar_json(RESULTADOS_FILE, [])
-    if not historico:
-        logger.info("📭 No hay histórico para migrar")
-        return
-    
-    # Contar cuántos incidentes de Monnet hay
-    monnet_count = sum(1 for inc in historico if inc.get("Proveedor") == "Monnet")
-    if monnet_count == 0:
-        logger.info("📭 No hay incidentes de Monnet en el histórico")
-        return
-    
-    logger.info(f"📊 Encontrados {monnet_count} incidentes de Monnet para procesar")
-    
-    modificado = False
-    mapping_viejo_nuevo = {}
-    fallos = []
-    
-    # 2. PROCESAR CADA INCIDENTE DE MONNET
-    for idx, inc in enumerate(historico):
+    for inc in historico:
         if inc.get("Proveedor") != "Monnet":
             continue
         
         viejo_id = inc.get("ID", "")
-        titulo = inc.get("Titulo", "").strip()
-        periodo_raw = inc.get("Periodo_Raw", inc.get("Periodo", "")).strip()
         
-        # ✅ VALIDACIÓN: Asegurarse que tenemos datos básicos
-        if not viejo_id or not titulo:
-            logger.warning(f"⚠️ Incidente sin ID o Título válido: {inc}")
-            fallos.append(("sin_datos", inc))
+        # Si ya es ID nativo (solo números), saltar
+        if viejo_id.isdigit():
+            historico_ya_nativos += 1
             continue
         
-        try:
-            # 🔴 EXTRAER FECHA DE INICIO (es la clave para generar el nuevo ID)
-            fecha_inicio = IncidentScraper.extraer_fecha_inicio(periodo_raw)
-            
-            if not fecha_inicio or fecha_inicio == "":
-                logger.warning(f"⚠️ No se pudo extraer fecha_inicio de: {periodo_raw[:50]}")
-                fallos.append(("sin_fecha", inc))
-                continue
-            
-            # 🟢 GENERAR NUEVO ID CON LA MISMA LÓGICA QUE scraper.py
-            # IMPORTANTE: Debe coincidir EXACTAMENTE con scraper.py línea 268
-            titulo_limpio = " ".join(titulo.strip().split())  # Normalizar espacios
-            fecha_limpia = " ".join(fecha_inicio.strip().split())  # Normalizar espacios
-            base = f"{titulo_limpio.lower()}_{fecha_limpia.lower()}"
-            nuevo_id = hashlib.md5(base.encode("utf-8")).hexdigest()
-            
-            # ✅ COMPARAR Y ACTUALIZAR SI ES DIFERENTE
-            if viejo_id != nuevo_id:
-                inc["ID"] = nuevo_id
-                modificado = True
-                mapping_viejo_nuevo[viejo_id] = nuevo_id
-                logger.info(f"✅ {idx+1}/{monnet_count} | {titulo[:40]}... | {viejo_id[:8]} → {nuevo_id[:8]}")
-            else:
-                logger.info(f"ℹ️ {idx+1}/{monnet_count} | {titulo[:40]}... | ID ya es correcto ({nuevo_id[:8]})")
+        # Extraer fecha de inicio del período_raw
+        periodo_raw = inc.get("Periodo_Raw", inc.get("Periodo", ""))
+        fecha_key = extraer_fecha_inicio_desde_periodo(periodo_raw)
         
-        except Exception as e:
-            logger.error(f"❌ Error procesando {titulo[:40]}: {e}")
-            fallos.append(("error", inc, str(e)))
-            continue
-    
-    # 3. GUARDAR CAMBIOS EN HISTÓRICO
-    if modificado:
-        try:
-            guardar_json(RESULTADOS_FILE, historico)
-            logger.info(f"✅ Histórico guardado: {len(mapping_viejo_nuevo)} IDs migrados")
-        except Exception as e:
-            logger.error(f"❌ Error guardando histórico: {e}")
-            return
-    else:
-        logger.info("ℹ️ Todos los IDs de Monnet ya están en el nuevo formato")
-    
-    # 4. MIGRAR PENDIENTES
-    try:
-        pendientes = cargar_json(PENDIENTES_FILE, [])
-        pendientes_migrados = 0
-        pendientes_sin_cambio = 0
-        
-        for pend in pendientes:
-            if pend.get("Proveedor") != "Monnet":
-                continue
-            
-            viejo_pend_id = pend.get("ID", "")
-            
-            # Si el viejo ID está en el mapping, actualizar
-            if viejo_pend_id in mapping_viejo_nuevo:
-                nuevo_pend_id = mapping_viejo_nuevo[viejo_pend_id]
-                pend["ID"] = nuevo_pend_id
-                pendientes_migrados += 1
-                logger.info(f"📌 Pendiente migrado: {viejo_pend_id[:8]} → {nuevo_pend_id[:8]}")
-            else:
-                # Si NO está en el mapping, probablemente ya tiene el nuevo ID
-                pendientes_sin_cambio += 1
-        
-        if pendientes:
-            guardar_json(PENDIENTES_FILE, pendientes)
-            logger.info(f"✅ Pendientes: {pendientes_migrados} migrados, {pendientes_sin_cambio} ya actualizados")
+        if fecha_key and fecha_key in mapping_fecha:
+            nuevo_id = mapping_fecha[fecha_key]["id"]
+            inc["ID"] = nuevo_id
+            historico_migrados += 1
+            logger.info(f"✅ Histórico | {fecha_key} | {viejo_id[:8]} → {nuevo_id} | {inc.get('Titulo', '')[:40]}")
         else:
-            logger.info("ℹ️ No hay pendientes para migrar")
+            historico_no_encontrados.append({
+                "titulo": inc.get("Titulo", ""),
+                "fecha": fecha_key,
+                "periodo_raw": periodo_raw
+            })
     
-    except Exception as e:
-        logger.error(f"❌ Error migrando pendientes: {e}")
+    # Migrar pendientes
+    pendientes_migrados = 0
+    pendientes_ya_nativos = 0
+    pendientes_no_encontrados = []
+    
+    for pend in pendientes:
+        if pend.get("Proveedor") != "Monnet":
+            continue
+        
+        viejo_id = pend.get("ID", "")
+        
+        if viejo_id.isdigit():
+            pendientes_ya_nativos += 1
+            continue
+        
+        periodo_raw = pend.get("Periodo_Raw", pend.get("Periodo", ""))
+        fecha_key = extraer_fecha_inicio_desde_periodo(periodo_raw)
+        
+        if fecha_key and fecha_key in mapping_fecha:
+            nuevo_id = mapping_fecha[fecha_key]["id"]
+            pend["ID"] = nuevo_id
+            pendientes_migrados += 1
+            logger.info(f"📌 Pendiente | {fecha_key} | {viejo_id[:8]} → {nuevo_id} | {pend.get('Titulo', '')[:40]}")
+        else:
+            pendientes_no_encontrados.append({
+                "titulo": pend.get("Titulo", ""),
+                "fecha": fecha_key,
+                "periodo_raw": periodo_raw
+            })
+    
+    # Guardar cambios
+    if historico_migrados > 0:
+        guardar_json(RESULTADOS_FILE, historico)
+        logger.info(f"💾 Histórico guardado: {historico_migrados} IDs migrados")
+    
+    if pendientes_migrados > 0:
+        guardar_json(PENDIENTES_FILE, pendientes)
+        logger.info(f"💾 Pendientes guardados: {pendientes_migrados} IDs migrados")
+    
+    # Reporte de no encontrados
+    if historico_no_encontrados:
+        logger.warning(f"⚠️ {len(historico_no_encontrados)} incidentes NO encontrados en API:")
+        for item in historico_no_encontrados[:5]:  # Mostrar solo primeros 5
+            logger.warning(f"   - {item['titulo'][:50]} | fecha: '{item['fecha']}'")
+    
+    if pendientes_no_encontrados:
+        logger.warning(f"⚠️ {len(pendientes_no_encontrados)} pendientes NO encontrados en API:")
+        for item in pendientes_no_encontrados[:5]:
+            logger.warning(f"   - {item['titulo'][:50]} | fecha: '{item['fecha']}'")
+    
+    # Resumen final
+    logger.info("=" * 60)
+    logger.info(f"📊 MIGRACIÓN MONNET POR FECHA COMPLETADA:")
+    logger.info(f"   📜 Histórico: {historico_migrados} migrados | {historico_ya_nativos} ya nativos | {len(historico_no_encontrados)} no encontrados")
+    logger.info(f"   ⚠️ Pendientes: {pendientes_migrados} migrados | {pendientes_ya_nativos} ya nativos | {len(pendientes_no_encontrados)} no encontrados")
+    logger.info("=" * 60)
+
+
+def migrar_ids_monnet_por_fecha():
+    """
+    MIGRACIÓN POR FECHA DE INICIO NORMALIZADA A UTC
+    """
+    from monnet_api import MonnetAPI
+    from datetime import datetime, timedelta
+    from zoneinfo import ZoneInfo
+    from config import PENDIENTES_FILE, RESULTADOS_FILE
+    import re
+    from typing import Optional
+    
+    logger.info("🔄 INICIANDO MIGRACIÓN DE MONNET POR FECHA (normalizada a UTC)...")
+    
+    # ==================== FUNCIONES AUXILIARES ====================
+    
+    def normalizar_fecha_utc(fecha_str: str) -> Optional[datetime]:
+        """Convierte string ISO a datetime UTC"""
+        if not fecha_str:
+            return None
+        try:
+            if fecha_str.endswith('Z'):
+                fecha_str = fecha_str.replace('Z', '+00:00')
+            dt = datetime.fromisoformat(fecha_str)
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+            return dt.astimezone(ZoneInfo("UTC"))
+        except Exception as e:
+            logger.debug(f"Error parseando fecha: {fecha_str} - {e}")
+            return None
+    
+    def extraer_fecha_utc_desde_periodo(periodo_raw: str) -> Optional[datetime]:
+        """Extrae fecha de inicio de periodo_raw y la convierte a UTC"""
+        if not periodo_raw:
+            return None
+        
+        # Detectar zona horaria
+        tiene_offset_vet = '-04' in periodo_raw or '-04:00' in periodo_raw
+        tiene_gmt = 'GMT' in periodo_raw.upper() or 'UTC' in periodo_raw.upper()
+        
+        # Limpiar y extraer inicio
+        limpio = re.sub(r'\s*[-+]\d{2}:?\d{2}\s*$', '', periodo_raw)
+        limpio = re.sub(r'\s*(GMT|UTC)[-+]\d{2}:?\d{2}\s*$', '', limpio, flags=re.IGNORECASE)
+        
+        if " - " in limpio:
+            inicio_str = limpio.split(" - ")[0].strip()
+        else:
+            inicio_str = limpio.strip()
+        
+        # Parsear fecha/hora local
+        match = re.match(r'([A-Za-z]{3})\s+(\d{1,2}),?\s+(\d{1,2}):(\d{2})\s*(am|pm)', inicio_str, re.IGNORECASE)
+        if not match:
+            # Intentar sin AM/PM
+            match = re.match(r'([A-Za-z]{3})\s+(\d{1,2}),?\s+(\d{1,2}):(\d{2})', inicio_str, re.IGNORECASE)
+            if not match:
+                return None
+        
+        mes_str, dia, hora, minuto = match.groups()[:4]
+        ampm = match.groups()[4] if len(match.groups()) > 4 else None
+        
+        # Convertir hora a 24h
+        hora = int(hora)
+        if ampm:
+            if ampm.lower() == 'pm' and hora < 12:
+                hora += 12
+            if ampm.lower() == 'am' and hora == 12:
+                hora = 0
+        
+        # Obtener año actual
+        año = datetime.now().year
+        meses = {"jan":1, "feb":2, "mar":3, "apr":4, "may":5, "jun":6,
+                 "jul":7, "aug":8, "sep":9, "oct":10, "nov":11, "dec":12}
+        mes = meses.get(mes_str.lower(), 1)
+        
+        # Ajustar año si es diciembre y estamos en enero
+        if mes == 12 and datetime.now().month == 1:
+            año -= 1
+        
+        # Crear datetime local
+        dt_local = datetime(año, mes, int(dia), hora, int(minuto))
+        
+        # Determinar zona horaria
+        if tiene_offset_vet:
+            dt_local = dt_local.replace(tzinfo=ZoneInfo("America/Caracas"))
+        elif tiene_gmt:
+            dt_local = dt_local.replace(tzinfo=ZoneInfo("UTC"))
+        else:
+            dt_local = dt_local.replace(tzinfo=ZoneInfo("America/Caracas"))
+        
+        # Convertir a UTC
+        return dt_local.astimezone(ZoneInfo("UTC"))
+    
+    # ==================== FIN FUNCIONES AUXILIARES ====================
+    
+    # Cargar datos existentes
+    historico = cargar_json(RESULTADOS_FILE, [])
+    pendientes = cargar_json(PENDIENTES_FILE, [])
+    
+    if not historico and not pendientes:
+        logger.info("📭 No hay datos para migrar")
         return
     
-    # 5. REPORTE FINAL
-    logger.info("=" * 60)
-    if fallos:
-        logger.warning(f"⚠️ MIGRACIONES CON FALLOS:")
-        for tipo_fallo, *datos in fallos:
-            if tipo_fallo == "sin_datos":
-                logger.warning(f"   - Sin datos básicos: {datos[0]}")
-            elif tipo_fallo == "sin_fecha":
-                logger.warning(f"   - Sin fecha extraída: {datos[0].get('Titulo', 'N/A')[:40]}")
-            elif tipo_fallo == "error":
-                logger.warning(f"   - Error: {datos[1]}")
+    # Obtener datos de API
+    api = MonnetAPI()
+    hoy = datetime.now(ZoneInfo("UTC"))
+    fecha_inicio = hoy - timedelta(days=90)
     
-    logger.info(f"📊 RESUMEN FINAL:")
-    logger.info(f"   ✅ IDs migrados: {len(mapping_viejo_nuevo)}")
-    logger.info(f"   ⚠️ Fallos/omisiones: {len(fallos)}")
-    logger.info(f"   📌 Pendientes migrados: {pendientes_migrados}")
+    logger.info(f"📡 Obteniendo datos de API desde {fecha_inicio.date()}...")
+    
+    try:
+        incidentes_api = api.obtener_historicos(fecha_inicio, hoy)
+        pendientes_api = api.obtener_pendientes()
+        todos_api = incidentes_api + pendientes_api
+        logger.info(f"📊 API devolvió {len(todos_api)} incidentes")
+    except Exception as e:
+        logger.error(f"❌ Error obteniendo datos de API: {e}")
+        return
+    
+    # Crear mapping con fecha UTC normalizada
+    mapping_fecha_utc = {}
+    
+    for inc_api in todos_api:
+        start_time = inc_api.get("start_time", "")
+        if not start_time:
+            continue
+        
+        fecha_utc = normalizar_fecha_utc(start_time)
+        
+        if fecha_utc:
+            fecha_key = fecha_utc.strftime("%Y-%m-%d %H:%M:%S")
+            mapping_fecha_utc[fecha_key] = {
+                "id": str(inc_api["id"]),
+                "titulo": inc_api.get("title", ""),
+                "fecha_utc": fecha_utc
+            }
+    
+    logger.info(f"📋 Mapping creado con {len(mapping_fecha_utc)} fechas UTC")
+    
+    # Migrar histórico
+    historico_migrados = 0
+    historico_ya_nativos = 0
+    historico_no_encontrados = []
+    
+    for inc in historico:
+        if inc.get("Proveedor") != "Monnet":
+            continue
+        
+        viejo_id = inc.get("ID", "")
+        
+        if viejo_id.isdigit():
+            historico_ya_nativos += 1
+            continue
+        
+        periodo_raw = inc.get("Periodo_Raw", inc.get("Periodo", ""))
+        fecha_utc = extraer_fecha_utc_desde_periodo(periodo_raw)
+        
+        if fecha_utc:
+            fecha_key = fecha_utc.strftime("%Y-%m-%d %H:%M:%S")
+            
+            if fecha_key in mapping_fecha_utc:
+                nuevo_id = mapping_fecha_utc[fecha_key]["id"]
+                inc["ID"] = nuevo_id
+                historico_migrados += 1
+                logger.info(f"✅ Histórico | {fecha_utc.strftime('%b %d, %H:%M UTC')} | {viejo_id[:8]} → {nuevo_id}")
+            else:
+                # Buscar por margen de ±2 minutos
+                encontrado = False
+                for api_key, api_data in mapping_fecha_utc.items():
+                    api_dt = api_data["fecha_utc"]
+                    diff = abs((fecha_utc - api_dt).total_seconds())
+                    if diff <= 120:
+                        inc["ID"] = api_data["id"]
+                        historico_migrados += 1
+                        encontrado = True
+                        logger.info(f"✅ Histórico (tolerancia) | {fecha_utc.strftime('%H:%M UTC')} ~ {api_dt.strftime('%H:%M UTC')} | {viejo_id[:8]} → {api_data['id']}")
+                        break
+                
+                if not encontrado:
+                    historico_no_encontrados.append({
+                        "titulo": inc.get("Titulo", ""),
+                        "fecha_local": periodo_raw,
+                        "fecha_utc": fecha_utc.strftime("%Y-%m-%d %H:%M:%S")
+                    })
+        else:
+            historico_no_encontrados.append({
+                "titulo": inc.get("Titulo", ""),
+                "fecha_local": periodo_raw,
+                "fecha_utc": "No se pudo parsear"
+            })
+    
+    # Migrar pendientes
+    pendientes_migrados = 0
+    pendientes_ya_nativos = 0
+    pendientes_no_encontrados = []
+    
+    for pend in pendientes:
+        if pend.get("Proveedor") != "Monnet":
+            continue
+        
+        viejo_id = pend.get("ID", "")
+        
+        if viejo_id.isdigit():
+            pendientes_ya_nativos += 1
+            continue
+        
+        periodo_raw = pend.get("Periodo_Raw", pend.get("Periodo", ""))
+        fecha_utc = extraer_fecha_utc_desde_periodo(periodo_raw)
+        
+        if fecha_utc:
+            fecha_key = fecha_utc.strftime("%Y-%m-%d %H:%M:%S")
+            
+            if fecha_key in mapping_fecha_utc:
+                nuevo_id = mapping_fecha_utc[fecha_key]["id"]
+                pend["ID"] = nuevo_id
+                pendientes_migrados += 1
+                logger.info(f"📌 Pendiente | {fecha_utc.strftime('%b %d, %H:%M UTC')} | {viejo_id[:8]} → {nuevo_id}")
+            else:
+                # Buscar por tolerancia
+                encontrado = False
+                for api_key, api_data in mapping_fecha_utc.items():
+                    api_dt = api_data["fecha_utc"]
+                    diff = abs((fecha_utc - api_dt).total_seconds())
+                    if diff <= 120:
+                        pend["ID"] = api_data["id"]
+                        pendientes_migrados += 1
+                        encontrado = True
+                        logger.info(f"📌 Pendiente (tolerancia) | {viejo_id[:8]} → {api_data['id']}")
+                        break
+                
+                if not encontrado:
+                    pendientes_no_encontrados.append({
+                        "titulo": pend.get("Titulo", ""),
+                        "fecha_local": periodo_raw,
+                        "fecha_utc": fecha_utc.strftime("%Y-%m-%d %H:%M:%S")
+                    })
+        else:
+            pendientes_no_encontrados.append({
+                "titulo": pend.get("Titulo", ""),
+                "fecha_local": periodo_raw,
+                "fecha_utc": "No se pudo parsear"
+            })
+    
+    # Guardar cambios
+    if historico_migrados > 0:
+        guardar_json(RESULTADOS_FILE, historico)
+        logger.info(f"💾 Histórico guardado: {historico_migrados} IDs migrados")
+    
+    if pendientes_migrados > 0:
+        guardar_json(PENDIENTES_FILE, pendientes)
+        logger.info(f"💾 Pendientes guardados: {pendientes_migrados} IDs migrados")
+    
+    # Reporte de no encontrados
+    if historico_no_encontrados:
+        logger.warning(f"⚠️ {len(historico_no_encontrados)} incidentes NO encontrados en API:")
+        for item in historico_no_encontrados[:10]:
+            logger.warning(f"   - {item['titulo'][:50]} | fecha: '{item['fecha_local']}' -> UTC: {item['fecha_utc']}")
+    
+    if pendientes_no_encontrados:
+        logger.warning(f"⚠️ {len(pendientes_no_encontrados)} pendientes NO encontrados en API:")
+        for item in pendientes_no_encontrados[:5]:
+            logger.warning(f"   - {item['titulo'][:50]} | fecha: '{item['fecha_local']}'")
+    
+    # Resumen
     logger.info("=" * 60)
-    logger.info("✨ MIGRACIÓN COMPLETADA")
+    logger.info(f"📊 MIGRACIÓN MONNET POR FECHA COMPLETADA:")
+    logger.info(f"   📜 Histórico: {historico_migrados} migrados | {historico_ya_nativos} ya nativos | {len(historico_no_encontrados)} no encontrados")
+    logger.info(f"   ⚠️ Pendientes: {pendientes_migrados} migrados | {pendientes_ya_nativos} ya nativos | {len(pendientes_no_encontrados)} no encontrados")
+    logger.info("=" * 60)

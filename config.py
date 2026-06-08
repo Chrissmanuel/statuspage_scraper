@@ -55,7 +55,7 @@ FILTROS_POR_PROVEEDOR: Dict[str, Dict[str, Any]] = {
     },
     "Directa24": {
         "incluye": ["Peru", "Mexico", "Guatemala","Ecuador", "Chile", "Honduras","API", "Cashin", "Cashout","Maintenance"],
-        "excluye": ["Brasil","Colombia","Argentina", "Conversion Rates"],
+        "excluye": ["Brasil","Colombia","Argentina", "Conversion Rates", "PIX","Brazil"],
         "monedas": [],
         "duracion_minima": 30,
     },
