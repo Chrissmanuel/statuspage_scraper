@@ -124,125 +124,158 @@ class IncidentScraper(AbstractContextManager):
             except Exception:
                 pass
     
-    def _extraer_id_freshstatus_real(self, elemento) -> Optional[str]:
-        """Intenta obtener el ID numérico real del incidente desde la URL en página activa."""
-        try:
-            enlace = elemento.find_element(By.CSS_SELECTOR, "a.incident-title, a.PO")
-            href = enlace.get_attribute("href")
-            match = re.search(r'/incident/(\d+)', href)
-            if match:
-                return f"fs_{match.group(1)}"
-        except:
-            pass
-        return None
-    
-    def _scrapear_activos_freshstatus(self, config: ProveedorConfig) -> List[Dict[str, Any]]:
+    def procesar_respuesta_api_monnet(self, incidentes_raw: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        Scrapea la página activa (raíz) de un proveedor freshstatus para obtener
-        incidentes en curso (pendientes).
+        Transforma los datos crudos de la API de Monnet al formato estándar.
+        
+        Estructura esperada de API:
+        {
+            "id": 123,
+            "title": "...",
+            "description": "...",
+            "status": "investigating|identified|monitoring|resolved",
+            "start_time": "2026-06-08T12:00:00Z",
+            "end_time": null o "2026-06-08T13:00:00Z",
+            "components": [{"name": "...", "status": "..."}],
+            "impact": "major|minor|critical",
+            "duration_in_minutes": 60
+        }
         """
-        if not config.active_url:
-            return []
-        
-        logger.info(f"🔍 {config.nombre} | Scrapeando activos (pendientes) desde {config.active_url}")
-        self.driver.get(config.active_url)
-        time.sleep(PAGE_LOAD_SLEEP)
-        
-        try:
-            self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, config.container)))
-            elementos = self.driver.find_elements(By.CSS_SELECTOR, f"{config.container}.liveincident")
-        except (TimeoutException, WebDriverException):
-            logger.warning(f"⚠️ {config.nombre} | No se encontraron incidentes activos")
-            return []
-        
         resultados = []
-        for el in elementos:
+        
+        for inc_api in incidentes_raw:
             try:
-                # 🔥 RESTRUCTURACIÓN DE BÚSQUEDA DEL TÍTULO:
-                titulo = "N/A"
-                try:
-                    # Buscamos primero la clase nativa y exacta de Freshstatus para el título aislado
-                    elemento_titulo_limpio = el.find_element(By.CSS_SELECTOR, "div.incidentTitle")
-                    titulo = elemento_titulo_limpio.text.strip()
-                except:
-                    # Fallback si cambia la estructura de la página
-                    titulo_sucio = self._safe_text(el, config.selectores.titulo)
-                    if titulo_sucio and titulo_sucio != "N/A":
-                        titulo = titulo_sucio.split("\n")[0].strip()
-
-                if not titulo or titulo == "N/A" or titulo == "":
+                inc_id = str(inc_api.get("id", ""))
+                titulo = inc_api.get("title", "N/A").strip()
+                descripcion = inc_api.get("description", "N/A").strip()
+                status = inc_api.get("status", "").lower()
+                start_time = inc_api.get("start_time", "")
+                end_time = inc_api.get("end_time")
+                components = inc_api.get("components", [])
+                duracion = inc_api.get("duration_in_minutes", 0)
+                
+                # Validación básica
+                if not titulo or titulo == "N/A":
+                    logger.warning("⚠️ Monnet API | Incidente sin título, descartando")
                     continue
-
-                # Extraer período (raw)
-                periodo_raw = self._safe_text(el, config.selectores.periodo)
-                if not periodo_raw or periodo_raw == "N/A":
-                    try:
-                        started = el.find_element(By.CSS_SELECTOR, "span.style__LabelInfo-sc-19bjpya-14 .title + span")
-                        periodo_raw = started.text
-                    except:
-                        periodo_raw = ""
                 
-                # Extraer fecha de inicio limpia
-                fecha_inicio = self.extraer_fecha_inicio(periodo_raw)
-                if not fecha_inicio:
-                    fecha_inicio = periodo_raw  # fallback
+                # Convertir timestamps a VET
+                periodo_vet = self._convertir_timestamps_api_a_vet(start_time, end_time)
                 
-                # Convertir período a VET para mostrar bonito en la celda
-                periodo_vet = ParseadorTiempo.convertir_periodo_a_vet(periodo_raw)
+                # Determinar si está pendiente
+                pendiente = "SI" if not end_time else "NO"
                 
-                # Intentar capturar el resumen de forma limpia mediante su contenedor de estilo
-                resumen = "N/A"
-                try:
-                    elemento_resumen = el.find_element(By.CSS_SELECTOR, "div[class*='DescriptionContainer']")
-                    resumen = elemento_resumen.text.strip()
-                except:
-                    resumen = self._safe_text(el, config.selectores.resumen)
-
-                estado = self._safe_text(el, config.selectores.estado) if config.selectores.estado else "Active"
+                # Componentes afectados
+                componentes_str = ", ".join([c.get("name", "N/A") for c in components]) if components else "N/A"
                 
-                # Crear IncidentData
+                # Estado legible
+                estado_legible = {
+                    "investigating": "Investigando",
+                    "identified": "Identificado",
+                    "monitoring": "Monitoreando",
+                    "resolved": "Resuelto",
+                }.get(status, status.upper())
+                
+                # Crear objeto IncidentData
                 datos = IncidentData(
-                    Proveedor=config.nombre,
+                    Proveedor="Monnet",
                     Titulo=titulo,
                     Periodo=periodo_vet,
-                    Resumen=resumen,
-                    Estado=estado,
-                    Pendiente="SI",
+                    Resumen=descripcion,
+                    Estado=estado_legible,
+                    Componentes=componentes_str,
+                    Duracion_Minutos=int(duracion) if duracion else 0,
+                    Pendiente=pendiente,
+                    ID=inc_id,
+                    Asignado="",
                 )
                 
-                # Extraer duración real desde el span.duration de la página
-                dur_txt = "N/A"
-                try:
-                    elemento_duracion = el.find_element(By.CSS_SELECTOR, "span.duration")
-                    dur_txt = elemento_duracion.get_attribute("title") or elemento_duracion.text
-                except:
-                    dur_txt = self._safe_text(el, config.selectores.duracion_raw)
-
-                if dur_txt and dur_txt != "N/A" and dur_txt.strip() != "":
-                    datos.Duracion_Minutos = ParseadorTiempo.calcular_duracion(dur_txt)
-                else:
-                    datos.Duracion_Minutos = 0
-                
-                # Generar el ID mediante el Hash basado en el nuevo título extraído quirúrgicamente
-                datos.ID = self.generar_id_unico(titulo, fecha_inicio)
-                
-                try:
-                    componentes = el.find_element(By.CSS_SELECTOR, "div.components-affected").text
-                    datos.Componentes = normalizar_texto(
-                        componentes.replace("Affected services", "").replace("This incident affected:", "").strip()
-                    ) or "N/A"
-                except:
-                    datos.Componentes = "N/A"
-                
                 row = datos.to_dict()
-                row['Periodo_Raw'] = periodo_raw 
+                row['Periodo_Raw'] = f"{start_time} - {end_time}" if end_time else start_time
                 
-                if clasificar_incidente(row, config):
+                # Aplicar filtros
+                if clasificar_incidente(row, ProveedorConfig("Monnet", "", "", None, "api")):
                     resultados.append(row)
-                    logger.info(f"⚠️ PENDIENTE (activo) {config.nombre} | {row['Titulo'][:60]}... | ID: {datos.ID} ({datos.Duracion_Minutos} min)")
+                    estado_log = "⚠️ PENDIENTE" if pendiente == "SI" else "✅"
+                    logger.info(f"{estado_log} Monnet | {titulo[:60]}... (ID: {inc_id}) | {duracion}min")
+                
             except Exception as e:
-                logger.warning(f"❌ Error procesando incidente activo: {e}")
+                logger.warning(f"❌ Error procesando incidente de Monnet API: {e}")
                 continue
+        
+        return resultados
+    
+    def _convertir_timestamps_api_a_vet(self, start_iso: str, end_iso: Optional[str] = None) -> str:
+        """
+        Convierte timestamps ISO 8601 a formato VET legible.
+        Ejemplo: "2026-06-08T12:00:00Z" → "Jun 08, 08:00 AM - 09:00 AM -04"
+        """
+        try:
+            from datetime import datetime, timedelta
+            
+            if not start_iso:
+                return "N/A"
+            
+            # Parsear fecha de inicio
+            start = datetime.fromisoformat(start_iso.replace('Z', '+00:00'))
+            # Convertir a VET (UTC-4)
+            start_vet = start + timedelta(hours=-4)
+            
+            fecha_str = start_vet.strftime("%b %d, %I:%M %p").lower()
+            
+            if end_iso:
+                end = datetime.fromisoformat(end_iso.replace('Z', '+00:00'))
+                end_vet = end + timedelta(hours=-4)
+                hora_fin = end_vet.strftime("%I:%M %p").lower()
+                return f"{fecha_str} - {hora_fin} -04"
+            else:
+                return f"{fecha_str} -04"
+        except Exception as e:
+            logger.warning(f"⚠️ Error convirtiendo timestamp: {e}")
+            return start_iso
+
+    def verificar_pendientes_api_monnet(self, pendientes: List[Dict[str, Any]], 
+                                        incidentes_actuales_api: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Verifica estado de pendientes consultando directamente la API.
+        """
+        resultados = []
+        
+        # Crear mapa de IDs actuales
+        mapa_actuales = {str(inc.get("id")): inc for inc in incidentes_actuales_api}
+        
+        for inc in pendientes:
+            try:
+                inc_id = inc.get("ID", "")
+                
+                if inc_id in mapa_actuales:
+                    # Todavía existe en la API, actualizar datos
+                    inc_actual = mapa_actuales[inc_id]
+                    end_time = inc_actual.get("end_time")
+                    
+                    if end_time:
+                        # Tiene fecha de finalización -> RESUELTO
+                        inc["Pendiente"] = "NO"
+                        inc["Estado"] = "Resolved"
+                        inc["Periodo"] = self._convertir_timestamps_api_a_vet(
+                            inc_actual.get("start_time"), 
+                            end_time
+                        )
+                    else:
+                        # Sigue sin fecha final -> PENDIENTE
+                        inc["Pendiente"] = "SI"
+                        inc["Estado"] = inc_actual.get("status", "investigating").capitalize()
+                        inc["Duracion_Minutos"] = inc_actual.get("duration_in_minutes", 0)
+                else:
+                    # No aparece en la API -> Probablemente RESUELTO y archivado
+                    inc["Pendiente"] = "NO"
+                    inc["Estado"] = "Resolved (archived)"
+                
+                resultados.append(inc)
+                
+            except Exception as e:
+                logger.warning(f"⚠️ Error verificando pendiente {inc.get('Titulo')} de Monnet: {e}")
+                resultados.append(inc)
         
         return resultados
 
@@ -322,13 +355,12 @@ class IncidentScraper(AbstractContextManager):
 
         logger.info(f"🔍 Iniciando proveedor: {config.nombre}")
         
+        # ===== MONNET: Ahora maneja por API en main.py =====
+        if config.tipo == "api":
+            return []
+        
         resultados: List[Dict[str, Any]] = []
         
-        # --- Scrapear incidentes activos (pendientes) si existe active_url ---
-        if config.tipo == "freshstatus" and config.active_url:
-            activos = self._scrapear_activos_freshstatus(config)
-            resultados.extend(activos)
-
         self.driver.get(config.url)
         self.main_window = self.driver.current_window_handle
         time.sleep(PAGE_LOAD_SLEEP)
@@ -354,42 +386,14 @@ class IncidentScraper(AbstractContextManager):
                 periodo_raw = self._safe_text(el, config.selectores.periodo)
                 periodo = ParseadorTiempo.convertir_periodo_a_vet(periodo_raw)
 
-                # =========================================================================
-                # 🟢 EXTRACCIÓN BLINDADA DE TÍTULO Y FECHA INICIO PARA FRESHSTATUS (MONNET)
-                # =========================================================================
-                if config.tipo == "freshstatus":
-                    try:
-                        # Buscamos primero la clase nativa y exacta de Freshstatus para el título aislado
-                        elemento_titulo_limpio = el.find_element(By.CSS_SELECTOR, "div.incidentTitle")
-                        titulo = elemento_titulo_limpio.text.strip()
-                    except:
-                        # Fallback si cambia la estructura de la página
-                        titulo_sucio = self._safe_text(el, config.selectores.titulo)
-                        if titulo_sucio and titulo_sucio != "N/A":
-                            titulo = titulo_sucio.split("\n")[0].strip()
-                        else:
-                            titulo = "N/A - No Title"  # ✅ Marca explícitamente cuando no hay título
-                    
-                    # ✅ Skip si el título sigue siendo N/A
-                    if titulo == "N/A - No Title":
-                        continue
-                        
-                    fecha_inicio = self.extraer_fecha_inicio(periodo_raw)
-                    if not fecha_inicio:
-                        fecha_inicio = periodo_raw.split("-")[0].strip()
-                else:
-                    titulo = self._safe_text(el, config.selectores.titulo)
-                    # ✅ Skip si no hay título en Atlassian también
-                    if not titulo or titulo == "N/A":
-                        continue
-                    fecha_inicio = periodo_raw.split("-")[0].strip()
-                # =========================================================================
+                titulo = self._safe_text(el, config.selectores.titulo)
+                # ✅ Skip si no hay título en Atlassian
+                if not titulo or titulo == "N/A":
+                    continue
+                fecha_inicio = periodo_raw.split("-")[0].strip()
 
-                # ✅ Verificar si el ID ya existe en el histórico (usamos el ID que se generará)
-                if config.tipo == "freshstatus":
-                    id_temp = self.generar_id_unico(titulo, fecha_inicio)
-                else:  # atlassian
-                    id_temp = self._obtener_id_temporal(el, config, titulo, periodo)
+                # ✅ Verificar si el ID ya existe en el histórico
+                id_temp = self._obtener_id_temporal(el, config, titulo, periodo)
 
                 if id_temp and _existe_id_en_historico(id_temp, config.nombre):
                     logger.info(f"⏪ {config.nombre} | Ya en histórico: {titulo[:60]}")
@@ -429,9 +433,6 @@ class IncidentScraper(AbstractContextManager):
                         datos.ID = self.extraer_id_incidente(link)
                     except Exception:
                         datos.ID = id_temp
-                elif config.tipo == "freshstatus":
-                    # Usamos exactamente el mismo ID calculado arriba
-                    datos.ID = id_temp
 
                 # ✅ SOLO ABRIR DETALLES si es atlassian
                 if config.tipo == "atlassian" and link:
@@ -485,16 +486,6 @@ class IncidentScraper(AbstractContextManager):
                     except Exception:
                         logger.warning(f"⚠️ No se pudo extraer detalle de {config.nombre}")
 
-                # Extraer componentes en freshstatus
-                if config.tipo == "freshstatus":
-                    try:
-                        componentes = el.find_element(By.CSS_SELECTOR, "div.components-affected").text
-                        datos.Componentes = normalizar_texto(
-                            componentes.replace("Affected services", "").replace("This incident affected:", "").strip()
-                        ) or "N/A"
-                    except Exception:
-                        pass
-
                 row = datos.to_dict()
                 row['Periodo_Raw'] = periodo_raw
 
@@ -522,8 +513,6 @@ class IncidentScraper(AbstractContextManager):
                 return self.extraer_id_incidente(link)
             except Exception:
                 return self.generar_id_unico(titulo, periodo)
-        elif config.tipo == "freshstatus":
-            return self.generar_id_unico(titulo, periodo)
         return ""
 
     def verificar_pendientes(self, pendientes: List[Dict[str, Any]], config: ProveedorConfig) -> List[Dict[str, Any]]:
@@ -571,28 +560,6 @@ class IncidentScraper(AbstractContextManager):
                             inc["Pendiente"] = "SI" if not tiene_fecha_fin else "NO"
                     except Exception:
                         inc["Pendiente"] = "SI"
-
-                elif config.tipo == "freshstatus":
-                    actuales = self.ejecutar(config, None)  # None porque no usamos fecha_corte
-                    match = next((a for a in actuales if a["ID"] == inc["ID"]), None)
-                    if match:
-                        periodo = match["Periodo"]
-                        # Detectamos si de verdad tiene una fecha de cierre (ej. Jun 04, 08:20 AM - 01:15 PM -04)
-                        tiene_fecha_fin = " - " in periodo and len(periodo.split(" - ")) >= 2
-
-                        
-                        if not tiene_fecha_fin:
-                            inc["Pendiente"] = "SI"
-                            inc["Estado"] = match.get("Estado", "N/A")
-                        else:
-                            # 🟢 SI TIENE FECHA FIN -> ESTÁ RESUELTO, pase lo que pase con el texto del estado
-                            inc["Estado"] = match.get("Estado") if match.get("Estado") != "N/A" else "Resolved"
-                            inc["Periodo"] = match["Periodo"] 
-                            inc["Pendiente"] = "NO"  # Rompemos el bucle mandándolo a History
-                    else:
-                        # Si ya ni siquiera aparece en la web principal, asumimos que se cerró y archivó
-                        inc["Pendiente"] = "NO"
-                        inc["Estado"] = "Resolved"
 
                 resultados.append(inc)
 
