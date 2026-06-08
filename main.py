@@ -4,7 +4,6 @@ from config import RESULTADOS_FILE, WEB_APP_URL, ASIGNADOS
 from http_client import HttpClient
 from models import ProveedorConfig, SelectorMap
 from scraper import IncidentScraper, clasificar_incidente
-from monnet_api_client import MonnetApiClient
 from utils import configurar_logging, cargar_json, guardar_json, clave_incidente_dict, distribuir_asignados, logger
 from utils import migrar_ids_monnet
 import os
@@ -25,9 +24,9 @@ PROVEEDORES_LIST = [
             "div[class*='DescriptionContainer']",
             'div[class*="LableTag"] span',
     ),
-    "api",  # ← CAMBIO: Ahora es "api" en lugar de "freshstatus"
+    "freshstatus",
     False,
-    active_url=None,  # ← No necesitamos active_url para API
+    active_url="https://monnetpayments.freshstatus.io/",  # <-- NUEVO
 ),
     ProveedorConfig(
         "Alps",
@@ -104,32 +103,12 @@ def main() -> None:
 
     try:
         with IncidentScraper() as bot:
-            # 1. PRIMERO: Procesar Monnet por API
+            # 1. PRIMERO: Hacer scraping de todos los proveedores
             logger.info("🆕 Iniciando scraping...")
             todos_los_incidentes: List[Dict[str, Any]] = []
             nuevos_pendientes: List[Dict[str, Any]] = []
 
-            # ===== MONNET VÍA API =====
-            logger.info("📌 Procesando: Monnet (API)")
-            with MonnetApiClient() as monnet_client:
-                # Obtener histórico
-                incidentes_historico_api = monnet_client.obtener_historico()
-                # Obtener pendientes
-                incidentes_pendientes_api = monnet_client.obtener_pendientes()
-                
-                # Combinar y procesar con el scraper para normalización
-                incidentes_monnet_raw = incidentes_historico_api + incidentes_pendientes_api
-                
-                # Procesar a través del transformador de la API
-                incidentes_monnet = bot.procesar_respuesta_api_monnet(incidentes_monnet_raw)
-                
-                todos_los_incidentes.extend(incidentes_monnet)
-                nuevos_pendientes.extend([x for x in incidentes_monnet if x.get("Pendiente") == "SI"])
-            
-            # ===== ATLASSIAN (Alps y Directa24) - SIN CAMBIOS =====
             for prov in PROVEEDORES_LIST:
-                if prov.nombre == "Monnet":
-                    continue  # Ya fue procesado
                 logger.info(f"📌 Procesando: {prov.nombre}")
                 incidentes = bot.ejecutar(prov)
                 todos_los_incidentes.extend(incidentes)
@@ -144,17 +123,7 @@ def main() -> None:
                 
                 for prov in PROVEEDORES_LIST:
                     pendientes_prov = [p for p in pendientes_guardados if p.get("Proveedor") == prov.nombre]
-                    if not pendientes_prov:
-                        continue
-                    
-                    # ===== MONNET: Verificar con API =====
-                    if prov.nombre == "Monnet":
-                        with MonnetApiClient() as monnet_client:
-                            incidentes_actuales_api = monnet_client.obtener_pendientes()
-                            verificados = bot.verificar_pendientes_api_monnet(pendientes_prov, incidentes_actuales_api)
-                            pendientes_actualizados.extend(verificados)
-                    else:
-                        # ===== ATLASSIAN: Verificar con Selenium (sin cambios) =====
+                    if pendientes_prov:
                         verificados = bot.verificar_pendientes(pendientes_prov, prov)
                         pendientes_actualizados.extend(verificados)
                 
