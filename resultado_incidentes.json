@@ -985,5 +985,31 @@
     "ID": "incidents/hmqzt2q4429x",
     "Asignado": "Airam S",
     "Periodo_Raw": "Jun 7, 06:00 - 11:00 UTC"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence Banco Internacional- ECU- PAYOUTS",
+    "Periodo": "Jun 07, 02:10 PM - Jun 08, 09:56 AM VET",
+    "Resumen": "Dear team, Please be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com We sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Ecuador",
+    "Duracion_Minutos": "1186",
+    "Pendiente": "NO",
+    "ID": "cf46b63846962eedd26ed71714acbbe7",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Jun 07, 02:10 pm - Jun 08, 09:56 am -04"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Banco Internacional- ECU- PAYOUTS",
+    "Periodo": "Jun 07, 02:10 PM -04",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved",
+    "Componentes": "PAYOUT/ COUNTRIES/ Ecuador",
+    "Duracion_Minutos": "1191",
+    "Pendiente": "NO",
+    "ID": "43e5f1e79fb40ba93dfa01345e9a8372",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Jun 07, 02:10 PM -04"
   }
 ]
