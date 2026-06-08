@@ -277,10 +277,10 @@ class IncidentScraper(AbstractContextManager):
         if not periodo_raw:
             return ""
         
-        # Detectar y convertir zona horaria a UTC
+        # Detectar y convertir zona horaria a UTC si es necesario
         es_utc = "UTC" in periodo_raw.upper() or "GMT" in periodo_raw.upper()
         
-        # Limpiar y extraer inicio
+        # Limpiar y extraer inicio eliminando los sufijos de zona horaria como -04 o -04:00
         limpio = re.sub(r'\s*[-+]\d{2}:?\d{2}\s*$', '', periodo_raw)
         limpio = re.sub(r'\s*(GMT|UTC)[-+]\d{2}:?\d{2}\s*$', '', limpio, flags=re.IGNORECASE)
         limpio = re.sub(r'\s*UTC\s*$', '', limpio, flags=re.IGNORECASE)
@@ -290,9 +290,7 @@ class IncidentScraper(AbstractContextManager):
         else:
             inicio = limpio.strip()
         
-        # Si es UTC, convertir la hora restando 4 horas (UTC-4 = VET)
         if es_utc:
-            # Extraer hora y convertir
             match = re.match(r'([A-Za-z]{3})\s+(\d{1,2}),?\s+(\d{1,2}):(\d{2})\s+(am|pm)', inicio, re.IGNORECASE)
             if match:
                 mes_str, dia, hora, minuto, ampm = match.groups()
@@ -301,16 +299,15 @@ class IncidentScraper(AbstractContextManager):
                     hora += 12
                 if ampm.lower() == "am" and hora == 12:
                     hora = 0
-                # Restar 4 horas (UTC-4 a VET es lo mismo, pero si es UTC, ajustamos)
+                
                 hora = (hora - 4) % 24
-                # Convertir de vuelta a 12h
                 nuevo_ampm = "am" if hora < 12 else "pm"
                 hora_12 = hora % 12
                 if hora_12 == 0:
                     hora_12 = 12
                 inicio = f"{mes_str} {dia}, {hora_12}:{minuto} {nuevo_ampm}"
         
-        # Normalización final
+        # Normalización final para garantizar paridad de IDs
         inicio = inicio.lower()
         inicio = inicio.replace('.', '')
         inicio = re.sub(r'\b0(\d):', r'\1:', inicio)

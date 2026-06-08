@@ -201,10 +201,18 @@ def main() -> None:
                 
                 # 📤 ENVIAR SOLO LOS INCIDENTES NUEVOS REALES A GOOGLE SHEETS
                 if nuevos_incidentes:
-                    datos_history = [
-                        {k: v for k, v in inc.items() if k not in ["ID", "Periodo_Raw", "Pendiente"]}
-                        for inc in nuevos_incidentes
-                    ]
+                    from time_parser import ParseadorTiempo  # Importación local de seguridad
+                    
+                    datos_history = []
+                    for inc in nuevos_incidentes:
+                        fila = {k: v for k, v in inc.items() if k not in ["ID", "Periodo_Raw", "Pendiente"]}
+                        
+                        # 🛡️ FILTRO DE FECHA: Si el periodo tiene residuos de zona horaria (-04), lo convertimos a VET limpio
+                        if "-04" in str(fila.get("Periodo", "")):
+                            fila["Periodo"] = ParseadorTiempo.convertir_periodo_a_vet(str(fila["Periodo"]))
+                            
+                        datos_history.append(fila)
+                        
                     logger.info(f"📤 Enviando {len(datos_history)} nuevos incidentes reales a History")
                     enviar_a_google_sheets(http, datos_history, "History")
                 else:
@@ -213,14 +221,21 @@ def main() -> None:
                 logger.info("📭 No hay resueltos nuevos para guardar en histórico")
             
             # 5. QUINTO: Enviar pendientes a Pending
-            datos_pending = [
-                {k: v for k, v in inc.items() if k not in ["Periodo_Raw", "Pendiente"]}
-                for inc in todos_pendientes
-            ]
+            from time_parser import ParseadorTiempo  # Aseguramos disponibilidad
+            datos_pending = []
+            for inc in todos_pendientes:
+                fila = {k: v for k, v in inc.items() if k not in ["Periodo_Raw", "Pendiente"]}
+                
+                # 🛡️ FILTRO DE FECHA: Evitamos también que en Pending se vea con el "-04"
+                if "-04" in str(fila.get("Periodo", "")):
+                    fila["Periodo"] = ParseadorTiempo.convertir_periodo_a_vet(str(fila["Periodo"]))
+                    
+                datos_pending.append(fila)
             
             # ✅ CORRECCIÓN: Quitamos el 'distribuir_asignados' de aquí para no pisar el orden del punto 3
             logger.info(f"⚠️ Enviando {len(datos_pending)} incidentes a Pending")
             enviar_a_google_sheets(http, datos_pending, "Pending")
+
 
             # 6. SEXTO: Resumen final
             total_pendientes = len(todos_pendientes)
