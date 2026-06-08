@@ -5,6 +5,42 @@ from zoneinfo import ZoneInfo
 from config import VET, HTTP_TIMEOUT, HTTP_RETRIES
 from utils import logger
 
+
+
+
+# Al inicio del archivo, definir el mapeo completo
+COMPONENT_NAMES = {
+    # PAYIN Components
+    "157231": "API BACK OFFICE PAYIN",
+    "157233": "PAYIN API",
+    "157235": "PAYIN Chile",
+    "157237": "PAYIN Argentina",
+    "157238": "PAYIN Ecuador",
+    "157240": "PAYIN Peru",
+    "177836": "PAYIN Colombia",
+    "177837": "PAYIN Mexico",
+    "246498": "PAYIN Guatemala",
+    
+    # PAYOUT Components
+    "187968": "PAYOUT API",
+    "187969": "PAYOUT API BACK OFFICE",
+    "187970": "PAYOUT Argentina",
+    "187971": "PAYOUT Mexico",
+    "192853": "PAYOUT Chile",
+    "193601": "PAYOUT Ecuador",
+    "193602": "PAYOUT Peru",
+    "193603": "PAYOUT Guatemala",
+    "193604": "PAYOUT Honduras",
+    "193605": "PAYOUT Colombia",
+}
+
+
+def get_component_name(component_id: str) -> str:
+    """Retorna el nombre legible de un componente o el ID si no está mapeado"""
+    return COMPONENT_NAMES.get(component_id, f"Componente {component_id}")
+
+
+
 class MonnetAPI:
     """Cliente para la API pública de Freshstatus de Monnet"""
     
@@ -87,20 +123,22 @@ class MonnetAPI:
             return []
     
     def convertir_a_dict(self, incidente_api: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Convierte un incidente de la API al formato interno del scraper.
-        
-        Args:
-            incidente_api: Incidente crudo de la API
-            
-        Returns:
-            Diccionario en formato compatible con el resto del sistema
-        """
-        # Extraer componentes afectados
-        componentes = []
+        # Extraer y mapear componentes afectados
+        componentes_ids = []
         for comp in incidente_api.get("affected_components", []):
             if "component" in comp:
-                componentes.append(comp["component"])
+                componentes_ids.append(str(comp["component"]))
+        
+        # Convertir IDs a nombres legibles
+        componentes_nombres = []
+        for comp_id in componentes_ids:
+            if comp_id in COMPONENT_NAMES:
+                componentes_nombres.append(COMPONENT_NAMES[comp_id])
+            else:
+                componentes_nombres.append(f"ID:{comp_id}")
+                logger.warning(f"⚠️ Componente no mapeado: {comp_id}")
+        
+        componentes_str = ", ".join(componentes_nombres) if componentes_nombres else "N/A"
         
         # Determinar si es mantenimiento programado
         es_planned = incidente_api.get("is_planned", False)
@@ -111,7 +149,7 @@ class MonnetAPI:
         start_time = scheduled_start if scheduled_start else incidente_api.get("start_time")
         end_time = scheduled_end if scheduled_end else incidente_api.get("end_time")
         
-        # Convertir fechas a VET para mostrar
+        # 🔥 CORRECCIÓN: Definir periodo_vet AQUÍ (no está en tu código actual)
         periodo_vet = self._formatear_periodo(start_time, end_time)
         
         # Calcular duración
@@ -126,15 +164,15 @@ class MonnetAPI:
         return {
             "Proveedor": "Monnet",
             "Titulo": incidente_api.get("title", "N/A"),
-            "Periodo": periodo_vet,
+            "Periodo": periodo_vet,  # ✅ Ahora sí está definido
             "Resumen": incidente_api.get("description", "N/A"),
             "Estado": estado,
-            "Componentes": ", ".join(componentes) if componentes else "N/A",
+            "Componentes": componentes_str,
             "Duracion_Minutos": str(duracion),
             "Pendiente": pendiente,
-            "ID": str(incidente_api.get("id", "")),  # ID nativo de la API
-            "Periodo_Raw": periodo_vet,  # Para compatibilidad
-            "start_time": start_time,  # Guardamos original para debugging
+            "ID": str(incidente_api.get("id", "")),
+            "Periodo_Raw": periodo_vet,
+            "start_time": start_time,
             "end_time": end_time,
         }
     
@@ -181,3 +219,5 @@ class MonnetAPI:
         except Exception as e:
             logger.debug(f"Error calculando duración: {e}")
             return 0
+
+    
