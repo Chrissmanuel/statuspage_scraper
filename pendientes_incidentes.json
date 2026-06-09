@@ -6,7 +6,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Mexico",
-    "Duracion_Minutos": "4990",
+    "Duracion_Minutos": "5005",
     "Pendiente": "SI",
     "ID": "1607864",
     "Periodo_Raw": "Jun 05, 10:20 AM VET",
@@ -34,10 +34,23 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Investigating: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "122",
+    "Duracion_Minutos": "137",
     "Pendiente": "SI",
     "ID": "incidents/47sbdb59m2dz",
     "Asignado": "Greider G",
     "Periodo_Raw": "Jun 8, 19:28 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Estado Intermittences - FINTOC",
+    "Periodo": "Jun 8, 21:03 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "42",
+    "Pendiente": "SI",
+    "ID": "incidents/53ldlmxspmyt",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Jun 8, 21:03 GMT-04:00"
   }
 ]
