@@ -2134,5 +2134,18 @@
     "ID": "incidents/ppkmrv4tb7mj",
     "Asignado": "Greider G",
     "Periodo_Raw": "Jun 8, 16:16 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BCI Intermittences - FINTOC",
+    "Periodo": "Jun 8, 19:28 - Jun 9, 13:41 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nInvestigating: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "1093",
+    "Pendiente": "NO",
+    "ID": "incidents/47sbdb59m2dz",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Jun 8, 19:28 - Jun 9, 13:41 GMT-04:00"
   }
 ]
