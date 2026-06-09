@@ -6,7 +6,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Mexico",
-    "Duracion_Minutos": "5935",
+    "Duracion_Minutos": "5950",
     "Pendiente": "SI",
     "ID": "1607864",
     "Periodo_Raw": "Jun 05, 10:20 AM VET",
@@ -26,5 +26,18 @@
     "ID": "incidents/47sbdb59m2dz",
     "Asignado": "Greider G",
     "Periodo_Raw": "Jun 8, 19:28 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BCI Intermittences - ETPAY",
+    "Periodo": "Jun 9, 12:59 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "31",
+    "Pendiente": "SI",
+    "ID": "incidents/db8v0dqjx8w3",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Jun 9, 12:59 GMT-04:00"
   }
 ]
