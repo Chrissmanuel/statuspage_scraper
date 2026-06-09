@@ -521,6 +521,7 @@ class IncidentScraper(AbstractContextManager):
         for inc in pendientes:
             try:
                 if config.tipo == "atlassian":
+                    logger.info(f"🔍 Verificando pendiente Atlassian: {inc.get('Titulo', '')[:50]}...")
                     inc = self._verificar_pendiente_atlassian(inc, config)
                 resultados.append(inc)
             except Exception as e:
@@ -549,31 +550,74 @@ class IncidentScraper(AbstractContextManager):
                 else:
                     url = f"{base}/incidents/{id_clean}"
             
+            logger.info(f"🔍 Verificando {config.nombre}: {url}")
             self.driver.get(url)
             time.sleep(DETAIL_LOAD_SLEEP)
             
-            # Verificar si tiene fecha de fin
-            periodo = ""
-            try:
-                periodo = self.driver.find_element(By.CSS_SELECTOR, "div.incident-data div.secondary").text
-            except Exception:
-                pass
+            # 🔥 VALIDACIÓN SIMPLE: Buscar el ID del incidente en la URL actual y en el HTML
+            current_url = self.driver.current_url
             
-            tiene_fecha_fin = "-" in (periodo or "")
+            # Extraer el ID de la URL actual para comparar
+            import re
+            url_match = re.search(r'/incidents/([a-z0-9]+)', current_url)
+            current_id = url_match.group(1) if url_match else None
             
-            # Obtener último update
+            # Si el ID no está en la URL, fue redirigido a página principal
+            if current_id != id_val and id_val not in current_url:
+                logger.warning(f"⚠️ {config.nombre} | Incidente redirigido (ID no encontrado en URL): {inc.get('Titulo', '')[:50]}")
+                inc["Pendiente"] = "NO"
+                inc["Estado"] = "Resolved (Incidente no disponible)"
+                return inc
+            
+            # Verificar que la página contiene un contenedor de incidente válido
             try:
-                latest_title = self.driver.find_element(By.CSS_SELECTOR, "div.update-row h2.update-title").text
-                latest_body = self.driver.find_element(By.CSS_SELECTOR, "div.update-row div.update-body").text
-                inc["Estado"] = f"{normalizar_texto(latest_title)}: {normalizar_texto(latest_body)}"
+                # Buscar cualquier elemento que indique que es una página de incidente válida
+                incident_container = self.driver.find_element(By.CSS_SELECTOR, 
+                    "div.incident-updates-container, div.components-affected, h1.incident-name")
                 
-                if any(w in latest_title.lower() for w in ("resolved", "completed")):
-                    inc["Pendiente"] = "NO"
+                # Si llegamos aquí, el incidente existe y tiene contenido
+                logger.info(f"✅ {config.nombre} | Incidente válido encontrado: {inc.get('Titulo', '')[:50]}")
+                
+            except NoSuchElementException:
+                logger.warning(f"⚠️ {config.nombre} | Incidente sin contenedor válido: {inc.get('Titulo', '')[:50]}")
+                inc["Pendiente"] = "NO"
+                inc["Estado"] = "Resolved (Sin datos del incidente)"
+                return inc
+            
+            # Obtener el estado del incidente
+            try:
+                updates = self.driver.find_elements(By.CSS_SELECTOR, "div.update-row")
+                if updates:
+                    latest = updates[0]
+                    estado = normalizar_texto(latest.find_element(By.CSS_SELECTOR, "h2.update-title").text)
+                    cuerpo = normalizar_texto(latest.find_element(By.CSS_SELECTOR, "div.update-body").text)
+                    inc["Estado"] = f"{estado}: {cuerpo}"
+                    
+                    if any(w in estado.lower() for w in ("resolved", "completed")):
+                        inc["Pendiente"] = "NO"
+                        logger.info(f"✅ {config.nombre} | Resuelto: {inc.get('Titulo', '')[:50]}...")
+                    else:
+                        inc["Pendiente"] = "SI"
+                        logger.info(f"🟡 {config.nombre} | Sigue pendiente: {inc.get('Titulo', '')[:50]}...")
                 else:
-                    inc["Pendiente"] = "SI" if not tiene_fecha_fin else inc.get("Pendiente", "SI")
-            except Exception:
-                inc["Pendiente"] = "SI" if not tiene_fecha_fin else "NO"
+                    # No hay updates pero el incidente existe
+                    inc["Pendiente"] = "SI"
+                    logger.info(f"🟡 {config.nombre} | Sin updates, asumiendo pendiente: {inc.get('Titulo', '')[:50]}...")
                 
+                # Extraer componentes
+                try:
+                    componentes = self.driver.find_element(By.CSS_SELECTOR, "div.components-affected").text
+                    inc["Componentes"] = normalizar_texto(componentes)
+                except:
+                    pass
+                    
+            except Exception as e:
+                logger.warning(f"⚠️ Error extrayendo estado: {e}")
+                inc["Pendiente"] = "SI"
+            
+        except WebDriverException as e:
+            logger.warning(f"⚠️ Error de conexión verificando {inc.get('Titulo', '')[:50]}: {e}")
+            inc["Pendiente"] = "SI"
         except Exception as e:
             logger.warning(f"⚠️ Error verificando {inc.get('Titulo', '')[:50]}: {e}")
             inc["Pendiente"] = "SI"
