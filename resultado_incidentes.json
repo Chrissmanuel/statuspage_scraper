@@ -2147,5 +2147,18 @@
     "ID": "incidents/47sbdb59m2dz",
     "Asignado": "Greider G",
     "Periodo_Raw": "Jun 8, 19:28 - Jun 9, 13:41 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BCI Intermittences - ETPAY",
+    "Periodo": "Jun 9, 12:59 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved (Sin datos del incidente)",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "46",
+    "Pendiente": "NO",
+    "ID": "incidents/db8v0dqjx8w3",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Jun 9, 12:59 GMT-04:00"
   }
 ]
