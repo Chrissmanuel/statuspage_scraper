@@ -589,7 +589,7 @@ class IncidentScraper(AbstractContextManager):
             except NoSuchElementException:
                 logger.warning(f"⚠️ {config.nombre} | Incidente sin contenedor válido: {inc.get('Titulo', '')[:50]}")
                 inc["Pendiente"] = "NO"
-                inc["Estado"] = "Resolved (Sin datos del incidente)"
+                inc["Estado"] = "Resolved"
                 return inc
             
             # Obtener el estado del incidente
