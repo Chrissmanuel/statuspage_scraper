@@ -60,17 +60,26 @@ PROVEEDORES_LIST = [
 
 
 def fusionar_historico(nuevos: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
-    """
-    Fusiona nuevos incidentes con el histórico usando ID como clave primaria.
-    Esto evita duplicados correctamente.
-    """
     historico = cargar_json(RESULTADOS_FILE, [])
-    # 🟢 CORRECCIÓN: Usar ID + Proveedor como clave primaria (más fiable que Periodo)
     mapa = {
         (h.get("Proveedor"), h.get("ID")): h 
         for h in historico 
-        if h.get("ID")  # Solo si tiene ID válido
+        if h.get("ID")
     }
+
+    nuevos_unicos = []
+    for inc in nuevos:
+        if not inc.get("ID"):
+            logger.error(f"❌ Incidente sin ID: {inc.get('Titulo', 'Unknown')[:50]} - Saltando")
+            continue
+        clave = (inc.get("Proveedor"), inc.get("ID"))
+        if clave not in mapa:
+            mapa[clave] = inc
+            nuevos_unicos.append(inc)
+
+    resultado_final = list(mapa.values())
+    guardar_json(RESULTADOS_FILE, resultado_final)
+    return resultado_final, nuevos_unicos
 
     nuevos_unicos = []
     for inc in nuevos:
@@ -135,16 +144,39 @@ def main() -> None:
                     if not pendientes_prov:
                         continue
                     
-                    # 🔥 SKIP COMPLETO para Monnet - ya se manejan en la primera pasada
+                     # 🔥 Monnet ahora se verifica con API en lugar de Selenium
                     if prov.nombre == "Monnet":
-                        logger.info(f"⏭️ Saltando verificación de Monnet (ya se procesaron en scraping)")
-                        # Los pendientes de Monnet se mantienen como estaban
-                        pendientes_actualizados.extend(pendientes_prov)
-                        continue
-                    
-                    # Para otros proveedores, usar Selenium
-                    verificados = bot.verificar_pendientes(pendientes_prov, prov)
-                    pendientes_actualizados.extend(verificados)
+                        logger.info(f"🔄 Verificando {len(pendientes_prov)} pendientes de Monnet contra API...")
+                        from monnet_api import MonnetAPI
+                        api = MonnetAPI()
+                        
+                        # Obtener IDs activos actuales
+                        pendientes_api = api.obtener_pendientes()
+                        ids_activos = {str(inc["id"]) for inc in pendientes_api}
+                        
+                        for pend in pendientes_prov:
+                            pend_id = str(pend.get("ID", ""))
+                            
+                            if pend_id in ids_activos:
+                                # Sigue activo
+                                logger.info(f"🟡 Monnet | Sigue pendiente: {pend.get('Titulo', '')[:50]}")
+                                pend["Pendiente"] = "SI"
+                                # Actualizar datos del incidente activo
+                                inc_actual = next((inc for inc in pendientes_api if str(inc["id"]) == pend_id), None)
+                                if inc_actual:
+                                    inc_dict = api.convertir_a_dict(inc_actual)
+                                    pend["Periodo"] = inc_dict["Periodo"]
+                                    pend["Duracion_Minutos"] = inc_dict["Duracion_Minutos"]
+                            else:
+                                # Ya no está activo - se resolvió
+                                logger.info(f"✅ Monnet | Resuelto (ya no en API): {pend.get('Titulo', '')[:50]}")
+                                pend["Pendiente"] = "NO"
+                            
+                            pendientes_actualizados.append(pend)
+                    else:
+                        # Para otros proveedores, usar Selenium
+                        verificados = bot.verificar_pendientes(pendientes_prov, prov)
+                        pendientes_actualizados.extend(verificados)
                 
                 siguen_pendientes = [p for p in pendientes_actualizados if p.get("Pendiente") == "SI"]
                 resueltos_verificacion = [p for p in pendientes_actualizados if p.get("Pendiente") != "SI"]

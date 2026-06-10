@@ -502,13 +502,21 @@ class IncidentScraper(AbstractContextManager):
                 for pend in pendientes:
                     pend_id = str(pend.get("ID", ""))
                     
+                    if not pend_id:
+                        logger.warning(f"⚠️ Pendiente sin ID: {pend.get('Titulo', '')[:50]}")
+                        pend["Pendiente"] = "REVISAR"
+                        resultados.append(pend)
+                        continue
+                    
                     if pend_id in ids_activos:
+                        # Sigue activo
                         pend["Pendiente"] = "SI"
                         logger.info(f"🟡 Monnet | Sigue pendiente: {pend.get('Titulo', '')[:60]}...")
                     else:
+                        # El incidente ya no está en API (resuelto o eliminado)
+                        logger.warning(f"⚠️ Incidente {pend_id} no encontrado en API (resuelto o eliminado): {pend.get('Titulo', '')[:50]}")
                         pend["Pendiente"] = "NO"
-                        pend["Estado"] = "Resolved"
-                        logger.info(f"✅ Monnet | Resuelto: {pend.get('Titulo', '')[:60]}...")
+                        pend["Estado"] = "Resolved (not found in API)"
                     
                     resultados.append(pend)
                 
