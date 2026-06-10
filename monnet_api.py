@@ -220,4 +220,32 @@ class MonnetAPI:
             logger.debug(f"Error calculando duración: {e}")
             return 0
 
-    
+    def obtener_incidente_por_id(self, incident_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Obtiene un incidente específico por su ID.
+        
+        Args:
+            incident_id: ID del incidente (ej: "1607864")
+        
+        Returns:
+            Diccionario con los datos del incidente o None si no existe (404)
+        """
+        try:
+            url = f"{self.BASE_URL}{incident_id}/"
+            params = {"account_id": self.ACCOUNT_ID}
+            
+            response = self.session.get(url, params=params, timeout=HTTP_TIMEOUT)
+            
+            if response.status_code == 200:
+                return response.json()
+            elif response.status_code == 404:
+                # El incidente no existe - fue eliminado o expiró
+                logger.debug(f"📭 Incidente {incident_id} no encontrado (404)")
+                return None
+            else:
+                logger.warning(f"⚠️ Error {response.status_code} consultando incidente {incident_id}")
+                return None
+                
+        except requests.RequestException as e:
+            logger.error(f"❌ Error consultando incidente {incident_id}: {e}")
+            return None

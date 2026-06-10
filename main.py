@@ -5,6 +5,7 @@ from http_client import HttpClient
 from models import ProveedorConfig, SelectorMap
 from scraper import IncidentScraper, clasificar_incidente
 from utils import configurar_logging, cargar_json, guardar_json, clave_incidente_dict, distribuir_asignados, logger
+from monnet_api import MonnetAPI
 
 import os
 os.environ['TZ'] = 'America/Caracas'
@@ -146,31 +147,42 @@ def main() -> None:
                     
                      # 🔥 Monnet ahora se verifica con API en lugar de Selenium
                     if prov.nombre == "Monnet":
-                        logger.info(f"🔄 Verificando {len(pendientes_prov)} pendientes de Monnet contra API...")
-                        from monnet_api import MonnetAPI
+                        logger.info(f"🔄 Verificando {len(pendientes_prov)} pendientes de Monnet por ID...")
                         api = MonnetAPI()
-                        
-                        # Obtener IDs activos actuales
-                        pendientes_api = api.obtener_pendientes()
-                        ids_activos = {str(inc["id"]) for inc in pendientes_api}
                         
                         for pend in pendientes_prov:
                             pend_id = str(pend.get("ID", ""))
                             
-                            if pend_id in ids_activos:
-                                # Sigue activo
+                            if not pend_id:
+                                logger.warning(f"⚠️ Pendiente sin ID: {pend.get('Titulo', '')[:50]}")
+                                pend["Pendiente"] = "REVISAR"
+                                pendientes_actualizados.append(pend)
+                                continue
+                            
+                            inc_data = api.obtener_incidente_por_id(pend_id)
+                            
+                            if inc_data is None:
+                                # 404 - No existe (eliminado/desaparecido)
+                                logger.info(f"✅ Monnet | Incidente {pend_id} no encontrado (404) - marcando como resuelto: {pend.get('Titulo', '')[:50]}")
+                                pend["Pendiente"] = "NO"
+                                pend["Estado"] = "Resolved (incidente no encontrado en API)"
+                            elif inc_data.get("end_time") is not None:
+                                # Tiene fecha de fin - se resolvió
+                                logger.info(f"✅ Monnet | Resuelto: {pend.get('Titulo', '')[:50]}")
+                                pend["Pendiente"] = "NO"
+                                # Actualizar con datos finales
+                                inc_dict = api.convertir_a_dict(inc_data)
+                                pend["Periodo"] = inc_dict["Periodo"]
+                                pend["Duracion_Minutos"] = inc_dict["Duracion_Minutos"]
+                                pend["Estado"] = inc_dict["Estado"]
+                            else:
+                                # Sigue activo (end_time es null)
                                 logger.info(f"🟡 Monnet | Sigue pendiente: {pend.get('Titulo', '')[:50]}")
                                 pend["Pendiente"] = "SI"
-                                # Actualizar datos del incidente activo
-                                inc_actual = next((inc for inc in pendientes_api if str(inc["id"]) == pend_id), None)
-                                if inc_actual:
-                                    inc_dict = api.convertir_a_dict(inc_actual)
-                                    pend["Periodo"] = inc_dict["Periodo"]
-                                    pend["Duracion_Minutos"] = inc_dict["Duracion_Minutos"]
-                            else:
-                                # Ya no está activo - se resolvió
-                                logger.info(f"✅ Monnet | Resuelto (ya no en API): {pend.get('Titulo', '')[:50]}")
-                                pend["Pendiente"] = "NO"
+                                # Actualizar duración (va aumentando)
+                                inc_dict = api.convertir_a_dict(inc_data)
+                                pend["Duracion_Minutos"] = inc_dict["Duracion_Minutos"]
+                                pend["Estado"] = inc_dict["Estado"]
                             
                             pendientes_actualizados.append(pend)
                     else:
