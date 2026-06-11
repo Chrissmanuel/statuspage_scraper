@@ -1,17 +1,1 @@
-[
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence – BT MEXICO - PAYIN",
-    "Periodo": "Jun 05, 10:20 AM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYIN Mexico",
-    "Duracion_Minutos": "7870",
-    "Pendiente": "SI",
-    "ID": "1607864",
-    "Periodo_Raw": "Jun 05, 10:20 AM VET",
-    "start_time": "2026-06-05T14:20:00Z",
-    "end_time": null,
-    "Asignado": "Greider G"
-  }
-]
+[]
