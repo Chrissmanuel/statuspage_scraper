@@ -2188,5 +2188,20 @@
     "ID": "incidents/ytkvglmw565r",
     "Asignado": "Luis G",
     "Periodo_Raw": "Jun 10, 09:15 - 10:15 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Scheduled Maintenance – QR - PE -PayIn/PayOut",
+    "Periodo": "Jun 11, 01:00 AM - 05:00 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that our partner will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Planned",
+    "Componentes": "PAYIN Peru, PAYOUT Peru",
+    "Duracion_Minutos": "240",
+    "Pendiente": "NO",
+    "ID": "1607982",
+    "Periodo_Raw": "Jun 11, 01:00 AM - 05:00 AM VET",
+    "start_time": "2026-06-11T05:00:00Z",
+    "end_time": "2026-06-11T09:00:00Z",
+    "Asignado": "Merlis M"
   }
 ]
