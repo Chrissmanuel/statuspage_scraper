@@ -2302,5 +2302,20 @@
     "ID": "incidents/ms2kw7fcm27m",
     "Asignado": "Luis G",
     "Periodo_Raw": "Jun 15, 15:09 - 17:30 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence  – Western Union - Ecuador - Payins",
+    "Periodo": "Jun 12, 04:00 PM - Jun 15, 05:40 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Ecuador",
+    "Duracion_Minutos": "4420",
+    "Pendiente": "NO",
+    "ID": "1608056",
+    "Periodo_Raw": "Jun 12, 04:00 PM VET",
+    "start_time": "2026-06-12T20:00:00Z",
+    "end_time": null,
+    "Asignado": "Greider G"
   }
 ]
