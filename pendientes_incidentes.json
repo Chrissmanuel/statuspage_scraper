@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BICE Intermittences - FINTOC",
+    "Periodo": "Jun 16, 11:16 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "44",
+    "Pendiente": "SI",
+    "ID": "incidents/8zkcmj0cz5jz",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Jun 16, 11:16 GMT-04:00"
+  }
+]
