@@ -6,12 +6,38 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "105",
+    "Duracion_Minutos": "120",
     "Pendiente": "SI",
     "ID": "1608194",
     "Periodo_Raw": "Jun 17, 10:00 PM VET",
     "start_time": "2026-06-18T02:00:00Z",
     "end_time": null,
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Falabella Intermittences - FINTOC",
+    "Periodo": "Jun 17, 23:29 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "31",
+    "Pendiente": "SI",
+    "ID": "incidents/2qtmp03xhb41",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Jun 17, 23:29 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco de Chile Intermittences - FINTOC",
+    "Periodo": "Jun 17, 23:28 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "32",
+    "Pendiente": "SI",
+    "ID": "incidents/sbvhldrsstvp",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Jun 17, 23:28 GMT-04:00"
   }
 ]
