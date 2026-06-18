@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence  – Banco de Credito/YAPE - PAYINS - QR - Perú",
+    "Periodo": "Jun 17, 10:00 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Peru",
+    "Duracion_Minutos": "30",
+    "Pendiente": "SI",
+    "ID": "1608194",
+    "Periodo_Raw": "Jun 17, 10:00 PM VET",
+    "start_time": "2026-06-18T02:00:00Z",
+    "end_time": null,
+    "Asignado": "Merlis M"
+  }
+]
