@@ -2453,5 +2453,20 @@
     "start_time": "2026-06-18T17:13:00Z",
     "end_time": null,
     "Asignado": "Greider G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Scheduled Maintenance: STP SPEI - Mexico - Payouts",
+    "Periodo": "Jun 20, 10:00 AM - 11:00 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that our partner will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Planned",
+    "Componentes": "N/A",
+    "Duracion_Minutos": "60",
+    "Pendiente": "NO",
+    "ID": "1608195",
+    "Periodo_Raw": "Jun 20, 10:00 AM - 11:00 AM VET",
+    "start_time": "2026-06-20T14:00:00Z",
+    "end_time": "2026-06-20T15:00:00Z",
+    "Asignado": "Airam S"
   }
 ]
