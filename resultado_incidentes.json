@@ -2511,5 +2511,18 @@
     "ID": "incidents/d07w5fdphmr7",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jun 21, 00:00 - 06:00 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Banco Security Scheduled Maintenance Notice - CHILE",
+    "Periodo": "Jun 21, 00:00 - 06:01 GMT-04:00",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Banco Security has informed us that its web and app services will undergo scheduled maintenance on , between 00:00 and 06:00 (UTC-4). As these services will be unavailable during this period [ETPAY] will temporarily deactivate transactions with the bank until maintenance is completed.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Payout (Chile) and Payin (Chile).",
+    "Duracion_Minutos": "361",
+    "Pendiente": "NO",
+    "ID": "incidents/dy2htr67nmgh",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Jun 21, 00:00 - 06:01 GMT-04:00"
   }
 ]
