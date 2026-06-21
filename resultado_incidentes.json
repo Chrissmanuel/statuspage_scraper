@@ -2498,5 +2498,18 @@
     "start_time": "2026-06-21T08:00:00Z",
     "end_time": "2026-06-21T08:30:00Z",
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Maintenance: Scheduled - Etpay Chile",
+    "Periodo": "Jun 21, 00:00 - 06:00 GMT-04:00",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Banco Security Maintenance Hello, We would like to inform you that Banco Security has announced a scheduled maintenance window from June 21, 2026, at 00:00 (-04) until June 21, 2026, at 06:00 (-04). During this period, bank transfer services may be affected. Duration: 21 Jun 2026 00:00 -04 to 21 Jun 2026 06:00 -04.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "N/A",
+    "Duracion_Minutos": "360",
+    "Pendiente": "NO",
+    "ID": "incidents/d07w5fdphmr7",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Jun 21, 00:00 - 06:00 GMT-04:00"
   }
 ]
