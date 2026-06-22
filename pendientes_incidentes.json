@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence  – Banco Guayaquil - Ecuador",
+    "Periodo": "Jun 22, 11:30 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Ecuador, PAYOUT Ecuador",
+    "Duracion_Minutos": "45",
+    "Pendiente": "SI",
+    "ID": "1608322",
+    "Periodo_Raw": "Jun 22, 11:30 AM VET",
+    "start_time": "2026-06-22T15:30:00Z",
+    "end_time": null,
+    "Asignado": "Airam S"
+  }
+]
