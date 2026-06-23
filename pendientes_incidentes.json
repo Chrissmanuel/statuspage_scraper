@@ -6,7 +6,7 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "98",
+    "Duracion_Minutos": "114",
     "Pendiente": "SI",
     "ID": "incidents/rclbjrrn7vdx",
     "Asignado": "Luis G",
@@ -19,10 +19,25 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "102",
+    "Duracion_Minutos": "118",
     "Pendiente": "SI",
     "ID": "incidents/r5kwrdx3ch34",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jun 23, 10:03 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Banco Guayaquil - Ecuador",
+    "Periodo": "Jun 23, 11:20 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Ecuador, PAYOUT Ecuador",
+    "Duracion_Minutos": "40",
+    "Pendiente": "SI",
+    "ID": "1608354",
+    "Periodo_Raw": "Jun 23, 11:20 AM VET",
+    "start_time": "2026-06-23T15:20:00Z",
+    "end_time": null,
+    "Asignado": "Luis G"
   }
 ]
