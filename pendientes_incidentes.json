@@ -1,17 +1,1 @@
-[
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence - Payins- PERU - QR",
-    "Periodo": "Jun 23, 03:11 AM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "154",
-    "Pendiente": "SI",
-    "ID": "1608341",
-    "Periodo_Raw": "Jun 23, 03:11 AM VET",
-    "start_time": "2026-06-23T07:11:00Z",
-    "end_time": null,
-    "Asignado": "Airam S"
-  }
-]
+[]
