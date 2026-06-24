@@ -2758,5 +2758,20 @@
     "start_time": "2026-06-24T16:59:00Z",
     "end_time": "2026-06-25T11:00:00Z",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – INTERBANK / PLIN - QR / WALLET - Payin + Payout",
+    "Periodo": "Jun 24, 01:36 PM - 04:30 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Peru, PAYOUT Peru",
+    "Duracion_Minutos": "174",
+    "Pendiente": "NO",
+    "ID": "1608394",
+    "Periodo_Raw": "Jun 24, 01:36 PM VET",
+    "start_time": "2026-06-24T17:36:00Z",
+    "end_time": null,
+    "Asignado": "Luis G"
   }
 ]
