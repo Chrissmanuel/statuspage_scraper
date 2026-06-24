@@ -1,27 +1,12 @@
 [
   {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence – BBVA / PLIN - QR / WALLET - Payin + Payout",
-    "Periodo": "Jun 24, 05:01 PM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYIN API, PAYIN Peru, PAYOUT Peru",
-    "Duracion_Minutos": "59",
-    "Pendiente": "SI",
-    "ID": "1608397",
-    "Periodo_Raw": "Jun 24, 05:01 PM VET",
-    "start_time": "2026-06-24T21:01:00Z",
-    "end_time": null,
-    "Asignado": "Merlis M"
-  },
-  {
     "Proveedor": "Alps",
     "Titulo": "Banco ESTADO Intermittences - ETPAY",
     "Periodo": "Jun 24, 10:53 GMT-04:00",
     "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "427",
+    "Duracion_Minutos": "443",
     "Pendiente": "SI",
     "ID": "incidents/4t5tntgk60hf",
     "Asignado": "Airam S",
