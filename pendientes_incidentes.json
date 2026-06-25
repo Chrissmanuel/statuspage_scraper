@@ -6,7 +6,7 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "652",
+    "Duracion_Minutos": "667",
     "Pendiente": "SI",
     "ID": "incidents/4t5tntgk60hf",
     "Asignado": "Airam S",
