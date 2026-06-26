@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Banco Continental BBVA Perú - Payouts",
+    "Periodo": "Jun 26, 05:57 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Peru",
+    "Duracion_Minutos": "33",
+    "Pendiente": "SI",
+    "ID": "1608438",
+    "Periodo_Raw": "Jun 26, 05:57 PM VET",
+    "start_time": "2026-06-26T21:57:00Z",
+    "end_time": null,
+    "Asignado": "Merlis M"
+  }
+]
