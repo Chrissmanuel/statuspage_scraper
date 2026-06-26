@@ -2801,5 +2801,20 @@
     "ID": "incidents/4t5tntgk60hf",
     "Asignado": "Airam S",
     "Periodo_Raw": "Jun 24, 10:53 - Jun 25, 08:38 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Schedule Maintenance - Cámara de Compensación Electrónica CCE - QR- Perú - Payins & Payouts",
+    "Periodo": "Jun 26, 01:00 AM - 07:00 AM VET",
+    "Resumen": "Dear Team,\n\nWe want to inform you that one of our partners will be conducting scheduled maintenance, which may cause temporary instability in processing both Payins and Payout transactions.\n\nDuring this period, our team will closely monitor the service and provide updates as needed.\n\nPotential impacts:\n\nPayins: Possible delays or instability affecting the QR Code payment channel.\nPayouts: Possible extensions in payment processing times.\n\nPlease note that transactions will continue to be processed, and service levels are expected to gradually return to normal once the maintenance activities have been completed.\n\nIf you have any questions or require assistance, please contact us at support@monnetpayments.com.\n\nWe apologize for any inconvenience this may cause and appreciate your patience, understanding, and continued trust.\n\nKind regards,",
+    "Estado": "Planned",
+    "Componentes": "PAYIN Peru, PAYOUT Peru",
+    "Duracion_Minutos": "360",
+    "Pendiente": "NO",
+    "ID": "1608389",
+    "Periodo_Raw": "Jun 26, 01:00 AM - 07:00 AM VET",
+    "start_time": "2026-06-26T05:00:00Z",
+    "end_time": "2026-06-26T11:00:00Z",
+    "Asignado": "Luis G"
   }
 ]
