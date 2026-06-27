@@ -2831,5 +2831,20 @@
     "start_time": "2026-06-26T21:57:00Z",
     "end_time": null,
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Schedule Maintenance - Electronic Clearing House (CCE – Cámara de Compensación Electrónica) - Perú - Payins & Payouts",
+    "Periodo": "Jun 27, 01:00 AM - 07:00 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that our partner will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Planned",
+    "Componentes": "PAYIN Peru, PAYOUT Peru",
+    "Duracion_Minutos": "360",
+    "Pendiente": "NO",
+    "ID": "1608413",
+    "Periodo_Raw": "Jun 27, 01:00 AM - 07:00 AM VET",
+    "start_time": "2026-06-27T05:00:00Z",
+    "end_time": "2026-06-27T11:00:00Z",
+    "Asignado": "Greider G"
   }
 ]
