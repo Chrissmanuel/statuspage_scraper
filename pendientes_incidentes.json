@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence  – Banco de Credito BCP & Yape - QR Code - Perú - Payins",
+    "Periodo": "Jun 27, 01:50 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Peru",
+    "Duracion_Minutos": "40",
+    "Pendiente": "SI",
+    "ID": "1608462",
+    "Periodo_Raw": "Jun 27, 01:50 PM VET",
+    "start_time": "2026-06-27T17:50:00Z",
+    "end_time": null,
+    "Asignado": "Airam S"
+  }
+]
