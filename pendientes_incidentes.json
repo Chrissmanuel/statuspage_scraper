@@ -6,12 +6,25 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYOUT Peru",
-    "Duracion_Minutos": "299",
+    "Duracion_Minutos": "314",
     "Pendiente": "SI",
     "ID": "1608494",
     "Periodo_Raw": "Jun 30, 10:46 AM VET",
     "start_time": "2026-06-30T14:46:00Z",
     "end_time": null,
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BICE Intermittences - ETPAY",
+    "Periodo": "Jun 30, 15:18 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Investigating: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "42",
+    "Pendiente": "SI",
+    "ID": "incidents/8znq2sbjnkh9",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Jun 30, 15:18 GMT-04:00"
   }
 ]
