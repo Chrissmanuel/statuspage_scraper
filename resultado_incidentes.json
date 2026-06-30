@@ -2964,5 +2964,20 @@
     "ID": "incidents/026yt6hs7sg9",
     "Asignado": "Airam S",
     "Periodo_Raw": "Jun 30, 12:48 - 13:53 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Banco Continental BBVA Perú - Payouts",
+    "Periodo": "Jun 30, 10:46 AM - 04:05 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Peru",
+    "Duracion_Minutos": "319",
+    "Pendiente": "NO",
+    "ID": "1608494",
+    "Periodo_Raw": "Jun 30, 10:46 AM VET",
+    "start_time": "2026-06-30T14:46:00Z",
+    "end_time": null,
+    "Asignado": "Airam S"
   }
 ]
