@@ -3069,5 +3069,18 @@
     "start_time": "2026-07-01T05:14:00Z",
     "end_time": null,
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BICE Intermittences - ETPAY",
+    "Periodo": "Jun 30, 15:18 - Jul 1, 09:14 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nInvestigating: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "1076",
+    "Pendiente": "NO",
+    "ID": "incidents/8znq2sbjnkh9",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Jun 30, 15:18 - Jul 1, 09:14 GMT-04:00"
   }
 ]

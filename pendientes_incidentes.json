@@ -1,15 +1,1 @@
-[
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Banco BICE Intermittences - ETPAY",
-    "Periodo": "Jun 30, 15:18 GMT-04:00",
-    "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Investigating: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "267",
-    "Pendiente": "SI",
-    "ID": "incidents/8znq2sbjnkh9",
-    "Asignado": "Luis G",
-    "Periodo_Raw": "Jun 30, 15:18 GMT-04:00"
-  }
-]
+[]
