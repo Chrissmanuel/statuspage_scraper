@@ -2994,5 +2994,50 @@
     "start_time": "2026-07-01T01:00:00Z",
     "end_time": null,
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Cámara de Compensación Electrónica (CCE) de Perú - Payins QR",
+    "Periodo": "Jun 30, 11:00 PM - 11:45 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Peru",
+    "Duracion_Minutos": "45",
+    "Pendiente": "NO",
+    "ID": "1608505",
+    "Periodo_Raw": "Jun 30, 11:00 PM - 11:45 PM VET",
+    "start_time": "2026-07-01T03:00:00Z",
+    "end_time": "2026-07-01T03:45:07.756072Z",
+    "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence  – BBVA Plin - Payouts",
+    "Periodo": "Jun 30, 11:04 PM - 11:35 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Peru, PAYOUT Peru",
+    "Duracion_Minutos": "31",
+    "Pendiente": "NO",
+    "ID": "1608503",
+    "Periodo_Raw": "Jun 30, 11:04 PM - 11:35 PM VET",
+    "start_time": "2026-07-01T03:04:00Z",
+    "end_time": "2026-07-01T03:35:25.609254Z",
+    "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – BCP Yape - Payouts",
+    "Periodo": "Jun 30, 11:03 PM - 11:34 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Peru",
+    "Duracion_Minutos": "31",
+    "Pendiente": "NO",
+    "ID": "1608504",
+    "Periodo_Raw": "Jun 30, 11:03 PM - 11:34 PM VET",
+    "start_time": "2026-07-01T03:03:00Z",
+    "end_time": "2026-07-01T03:34:53.012859Z",
+    "Asignado": "Greider G"
   }
 ]
