@@ -1,20 +1,5 @@
 [
   {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence  – Cámara de Compensación Electrónica (CCE) de Perú - Payins QR",
-    "Periodo": "Jun 30, 09:00 PM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "75",
-    "Pendiente": "SI",
-    "ID": "1608502",
-    "Periodo_Raw": "Jun 30, 09:00 PM VET",
-    "start_time": "2026-07-01T01:00:00Z",
-    "end_time": null,
-    "Asignado": "Luis G"
-  },
-  {
     "Proveedor": "Alps",
     "Titulo": "Banco BICE Intermittences - ETPAY",
     "Periodo": "Jun 30, 15:18 GMT-04:00",
