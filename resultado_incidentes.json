@@ -3039,5 +3039,20 @@
     "start_time": "2026-07-01T03:03:00Z",
     "end_time": "2026-07-01T03:34:53.012859Z",
     "Asignado": "Greider G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Scheduled Maintenance – QR in PI- Wallets in PO - PERU",
+    "Periodo": "Jul 01, 02:00 AM - 04:00 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that our partner will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Planned",
+    "Componentes": "PAYIN Peru, PAYOUT Peru",
+    "Duracion_Minutos": "120",
+    "Pendiente": "NO",
+    "ID": "1608215",
+    "Periodo_Raw": "Jul 01, 02:00 AM - 04:00 AM VET",
+    "start_time": "2026-07-01T06:00:00Z",
+    "end_time": "2026-07-01T08:00:00Z",
+    "Asignado": "Airam S"
   }
 ]
