@@ -3095,5 +3095,20 @@
     "ID": "incidents/5sqj8bbgjx96",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jul 1, 10:11 - 11:18 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Scotiabank - Perú - PAYOUTS",
+    "Periodo": "Jul 01, 01:25 PM - 01:25 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Peru",
+    "Duracion_Minutos": "0",
+    "Pendiente": "NO",
+    "ID": "1608520",
+    "Periodo_Raw": "Jul 01, 01:25 PM VET",
+    "start_time": "2026-07-01T17:25:00Z",
+    "end_time": null,
+    "Asignado": "Greider G"
   }
 ]
