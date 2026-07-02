@@ -1,17 +1,1 @@
-[
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence – INTERBANK - PLIN - Perú - PAYOUTS",
-    "Periodo": "Jul 02, 01:27 AM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYOUT Peru",
-    "Duracion_Minutos": "33",
-    "Pendiente": "SI",
-    "ID": "1608528",
-    "Periodo_Raw": "Jul 02, 01:27 AM VET",
-    "start_time": "2026-07-02T05:27:00Z",
-    "end_time": null,
-    "Asignado": "Merlis M"
-  }
-]
+[]
