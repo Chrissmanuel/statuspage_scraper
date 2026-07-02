@@ -3140,5 +3140,35 @@
     "start_time": "2026-07-02T00:38:00Z",
     "end_time": null,
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – BCP Yape - Payouts",
+    "Periodo": "Jul 01, 07:00 PM - 09:48 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Peru",
+    "Duracion_Minutos": "168",
+    "Pendiente": "NO",
+    "ID": "1608523",
+    "Periodo_Raw": "Jul 01, 07:00 PM VET",
+    "start_time": "2026-07-01T23:00:00Z",
+    "end_time": null,
+    "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – INTERBANK - PLIN - Perú - PAYOUTS",
+    "Periodo": "Jul 01, 06:10 PM - 09:48 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Peru",
+    "Duracion_Minutos": "218",
+    "Pendiente": "NO",
+    "ID": "1608524",
+    "Periodo_Raw": "Jul 01, 06:10 PM VET",
+    "start_time": "2026-07-01T22:10:00Z",
+    "end_time": null,
+    "Asignado": "Luis G"
   }
 ]
