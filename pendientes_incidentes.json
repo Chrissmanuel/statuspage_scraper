@@ -1,27 +1,12 @@
 [
   {
     "Proveedor": "Monnet",
-    "Titulo": "Intermittence  – BCP Yape - Payouts Perú",
-    "Periodo": "Jul 03, 01:00 AM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYOUT Peru",
-    "Duracion_Minutos": "570",
-    "Pendiente": "SI",
-    "ID": "1608549",
-    "Periodo_Raw": "Jul 03, 01:00 AM VET",
-    "start_time": "2026-07-03T05:00:00Z",
-    "end_time": null,
-    "Asignado": "Luis G"
-  },
-  {
-    "Proveedor": "Monnet",
     "Titulo": "Intermittence – Banco Continental BBVA Perú - Payouts",
     "Periodo": "Jul 03, 01:02 AM VET",
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYOUT Peru",
-    "Duracion_Minutos": "568",
+    "Duracion_Minutos": "583",
     "Pendiente": "SI",
     "ID": "1608551",
     "Periodo_Raw": "Jul 03, 01:02 AM VET",

@@ -3228,5 +3228,20 @@
     "start_time": "2026-07-03T12:00:00Z",
     "end_time": null,
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence  – BCP Yape - Payouts Perú",
+    "Periodo": "Jul 03, 01:00 AM - 10:44 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Peru",
+    "Duracion_Minutos": "584",
+    "Pendiente": "NO",
+    "ID": "1608549",
+    "Periodo_Raw": "Jul 03, 01:00 AM VET",
+    "start_time": "2026-07-03T05:00:00Z",
+    "end_time": null,
+    "Asignado": "Luis G"
   }
 ]
