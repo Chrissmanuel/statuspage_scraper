@@ -1,15 +1,1 @@
-[
-  {
-    "Proveedor": "Alps",
-    "Titulo": "FINTOC MX Intermittences - FINTOC",
-    "Periodo": "Jul 2, 20:34 GMT-04:00",
-    "Resumen": "Intermittent service disruptions have been detected. There is a slow processing time for transfers through Fintoc. The service is available, but there may be a delay in SPEI transfer notifications.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. There is a slow processing time for transfers through Fintoc. The service is available, but there may be a delay in SPEI transfer notifications.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "41",
-    "Pendiente": "SI",
-    "ID": "incidents/xn86psxtn42x",
-    "Asignado": "Greider G",
-    "Periodo_Raw": "Jul 2, 20:34 GMT-04:00"
-  }
-]
+[]
