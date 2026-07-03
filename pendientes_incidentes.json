@@ -6,12 +6,42 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYOUT Peru",
-    "Duracion_Minutos": "613",
+    "Duracion_Minutos": "628",
     "Pendiente": "SI",
     "ID": "1608551",
     "Periodo_Raw": "Jul 03, 01:02 AM VET",
     "start_time": "2026-07-03T05:02:00Z",
     "end_time": null,
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence - WALLET - Peru - Payouts  - Payin",
+    "Periodo": "Jul 03, 10:50 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Peru, PAYOUT Peru",
+    "Duracion_Minutos": "40",
+    "Pendiente": "SI",
+    "ID": "1608573",
+    "Periodo_Raw": "Jul 03, 10:50 AM VET",
+    "start_time": "2026-07-03T14:50:00Z",
+    "end_time": null,
+    "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Banco Guayaquil - Ecuador- Payouts",
+    "Periodo": "Jul 03, 10:54 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Ecuador",
+    "Duracion_Minutos": "36",
+    "Pendiente": "SI",
+    "ID": "1608572",
+    "Periodo_Raw": "Jul 03, 10:54 AM VET",
+    "start_time": "2026-07-03T14:54:00Z",
+    "end_time": null,
+    "Asignado": "Greider G"
   }
 ]
