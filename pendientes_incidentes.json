@@ -6,7 +6,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting one service of our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYOUT Peru",
-    "Duracion_Minutos": "1258",
+    "Duracion_Minutos": "1273",
     "Pendiente": "SI",
     "ID": "1608699",
     "Periodo_Raw": "Jul 09, 06:47 PM VET",
@@ -21,7 +21,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Ecuador",
-    "Duracion_Minutos": "1292",
+    "Duracion_Minutos": "1307",
     "Pendiente": "SI",
     "ID": "1608697",
     "Periodo_Raw": "Jul 09, 06:13 PM VET",
@@ -36,7 +36,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "1385",
+    "Duracion_Minutos": "1400",
     "Pendiente": "SI",
     "ID": "1608693",
     "Periodo_Raw": "Jul 09, 04:40 PM VET",
@@ -69,5 +69,18 @@
     "ID": "incidents/bfk8ssqf212z",
     "Asignado": "Greider G",
     "Periodo_Raw": "Jul 7, 15:36 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Falabella Intermittences - FINTOC",
+    "Periodo": "Jul 10, 15:18 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "42",
+    "Pendiente": "SI",
+    "ID": "incidents/rdc9wxrfb22s",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Jul 10, 15:18 GMT-04:00"
   }
 ]
