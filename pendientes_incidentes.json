@@ -11,18 +11,5 @@
     "ID": "incidents/5ykzn08dhfpm",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jul 7, 16:04 GMT-04:00"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Banco Estado Intermittences - FINTOC",
-    "Periodo": "Jul 7, 15:36 GMT-04:00",
-    "Resumen": "A degradation in communication with the bank has been detected, resulting in intermittent service disruptions. As a precautionary measure, FINTOC has temporarily disabled the affected bank transactions until the issue is resolved and normal operations are restored. We are actively monitoring the situation and working with the involved parties to restore the service as quickly as possible. Further updates will be provided as new information becomes available.",
-    "Estado": "Identified: A degradation in communication with the bank has been detected, resulting in intermittent service disruptions. As a precautionary measure, FINTOC has temporarily disabled the affected bank transactions until the issue is resolved and normal operations are restored. We are actively monitoring the situation and working with the involved parties to restore the service as quickly as possible. Further updates will be provided as new information becomes available.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "4176",
-    "Pendiente": "SI",
-    "ID": "incidents/bfk8ssqf212z",
-    "Asignado": "Greider G",
-    "Periodo_Raw": "Jul 7, 15:36 GMT-04:00"
   }
 ]
