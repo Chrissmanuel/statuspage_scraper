@@ -3517,5 +3517,18 @@
     "ID": "incidents/bfk8ssqf212z",
     "Asignado": "Greider G",
     "Periodo_Raw": "Jul 7, 15:36 - Jul 11, 10:16 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Itau Intermittences - FINTOC",
+    "Periodo": "Jul 11, 11:03 - 12:34 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "91",
+    "Pendiente": "NO",
+    "ID": "incidents/jtm9bt2jl5sn",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Jul 11, 11:03 - 12:34 GMT-04:00"
   }
 ]
