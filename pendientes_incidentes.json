@@ -1,27 +1,12 @@
 [
   {
     "Proveedor": "Monnet",
-    "Titulo": "Intermittence – QR PERÚ - PAYIN",
-    "Periodo": "Jul 12, 02:42 PM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "138",
-    "Pendiente": "SI",
-    "ID": "1608758",
-    "Periodo_Raw": "Jul 12, 02:42 PM VET",
-    "start_time": "2026-07-12T18:42:00Z",
-    "end_time": null,
-    "Asignado": "Greider G"
-  },
-  {
-    "Proveedor": "Monnet",
     "Titulo": "Intermittence – Perú Payins QR",
     "Periodo": "Jul 09, 04:40 PM VET",
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "4340",
+    "Duracion_Minutos": "4355",
     "Pendiente": "SI",
     "ID": "1608760",
     "Periodo_Raw": "Jul 09, 04:40 PM VET",
