@@ -6,7 +6,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "5525",
+    "Duracion_Minutos": "5540",
     "Pendiente": "SI",
     "ID": "1608760",
     "Periodo_Raw": "Jul 09, 04:40 PM VET",
@@ -26,5 +26,18 @@
     "ID": "incidents/5ykzn08dhfpm",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jul 7, 16:04 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Banco BCI 360 Intermittences - FINTOC",
+    "Periodo": "Jul 13, 12:16 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "45",
+    "Pendiente": "SI",
+    "ID": "incidents/wgkzkzdzd8f0",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Jul 13, 12:16 GMT-04:00"
   }
 ]
