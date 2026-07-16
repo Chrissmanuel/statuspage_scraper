@@ -6,7 +6,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "9830",
+    "Duracion_Minutos": "9845",
     "Pendiente": "SI",
     "ID": "1608760",
     "Periodo_Raw": "Jul 09, 04:40 PM VET",
@@ -26,5 +26,20 @@
     "ID": "incidents/5ykzn08dhfpm",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jul 7, 16:04 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Internal Intermittence Monnet - [PAYIN]",
+    "Periodo": "Jul 16, 12:04 PM VET",
+    "Resumen": "Dear team,\nWe are currently experiencing an intermittent issue on our side. Our teams are monitoring the situation and working to ensure service stability.\nFor any assistance, please contact support@monnetpayments.com\nKind regards,",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Ecuador",
+    "Duracion_Minutos": "41",
+    "Pendiente": "SI",
+    "ID": "1608866",
+    "Periodo_Raw": "Jul 16, 12:04 PM VET",
+    "start_time": "2026-07-16T16:04:00Z",
+    "end_time": null,
+    "Asignado": "Greider G"
   }
 ]
