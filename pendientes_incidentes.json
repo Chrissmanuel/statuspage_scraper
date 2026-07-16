@@ -6,13 +6,28 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "10235",
+    "Duracion_Minutos": "10250",
     "Pendiente": "SI",
     "ID": "1608760",
     "Periodo_Raw": "Jul 09, 04:40 PM VET",
     "start_time": "2026-07-09T20:40:00Z",
     "end_time": null,
     "Asignado": "Greider G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – BAC - HONDURAS - PAYOUTS",
+    "Periodo": "Jul 16, 06:30 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Honduras",
+    "Duracion_Minutos": "60",
+    "Pendiente": "SI",
+    "ID": "1608869",
+    "Periodo_Raw": "Jul 16, 06:30 PM VET",
+    "start_time": "2026-07-16T22:30:00Z",
+    "end_time": null,
+    "Asignado": "Airam S"
   },
   {
     "Proveedor": "Alps",
@@ -26,20 +41,5 @@
     "ID": "incidents/5ykzn08dhfpm",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jul 7, 16:04 GMT-04:00"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence – BAC - HONDURAS - PAYOUTS",
-    "Periodo": "Jul 16, 06:30 PM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYOUT Honduras",
-    "Duracion_Minutos": "45",
-    "Pendiente": "SI",
-    "ID": "1608869",
-    "Periodo_Raw": "Jul 16, 06:30 PM VET",
-    "start_time": "2026-07-16T22:30:00Z",
-    "end_time": null,
-    "Asignado": "Airam S"
   }
 ]
