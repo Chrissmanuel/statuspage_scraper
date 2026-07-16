@@ -3614,5 +3614,20 @@
     "ID": "incidents/q1x9ngngcvgz",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jul 13, 15:02 - 15:59 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Internal Intermittence Monnet - [PAYIN]",
+    "Periodo": "Jul 16, 12:04 PM - 12:32 PM VET",
+    "Resumen": "Dear team,\nWe are currently experiencing an intermittent issue on our side. Our teams are monitoring the situation and working to ensure service stability.\nFor any assistance, please contact support@monnetpayments.com\nKind regards,",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Ecuador",
+    "Duracion_Minutos": "28",
+    "Pendiente": "NO",
+    "ID": "1608866",
+    "Periodo_Raw": "Jul 16, 12:04 PM VET",
+    "start_time": "2026-07-16T16:04:00Z",
+    "end_time": null,
+    "Asignado": "Greider G"
   }
 ]
