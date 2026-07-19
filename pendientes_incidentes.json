@@ -1,20 +1,5 @@
 [
   {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence – LIGO - PERÚ - PAYIN",
-    "Periodo": "Jul 19, 03:01 PM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "269",
-    "Pendiente": "SI",
-    "ID": "1608917",
-    "Periodo_Raw": "Jul 19, 03:01 PM VET",
-    "start_time": "2026-07-19T19:01:00Z",
-    "end_time": null,
-    "Asignado": "Airam S"
-  },
-  {
     "Proveedor": "Alps",
     "Titulo": "YAPE INCIDENT - WITHDRAWALS PERU",
     "Periodo": "Jul 7, 16:04 GMT-04:00",

@@ -3732,5 +3732,20 @@
     "start_time": "2026-07-19T19:20:00Z",
     "end_time": null,
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – LIGO - PERÚ - PAYIN",
+    "Periodo": "Jul 19, 03:01 PM - 06:35 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Peru",
+    "Duracion_Minutos": "214",
+    "Pendiente": "NO",
+    "ID": "1608917",
+    "Periodo_Raw": "Jul 19, 03:01 PM VET",
+    "start_time": "2026-07-19T19:01:00Z",
+    "end_time": null,
+    "Asignado": "Airam S"
   }
 ]
