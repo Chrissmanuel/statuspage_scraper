@@ -3659,5 +3659,20 @@
     "start_time": "2026-07-18T15:24:00Z",
     "end_time": null,
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Scheduled Maintenance – Payins QR & Payouts - Cámara de Compensación Electrónica (CCE) - Perú",
+    "Periodo": "Jul 19, 01:00 AM - 06:00 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that one of our partners will be performing scheduled maintenance. During this period, we will be monitoring the service and providing updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Planned",
+    "Componentes": "PAYIN Peru, PAYOUT Peru",
+    "Duracion_Minutos": "300",
+    "Pendiente": "NO",
+    "ID": "1608901",
+    "Periodo_Raw": "Jul 19, 01:00 AM - 06:00 AM VET",
+    "start_time": "2026-07-19T05:00:00Z",
+    "end_time": "2026-07-19T10:00:00Z",
+    "Asignado": "Merlis M"
   }
 ]
