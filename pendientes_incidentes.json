@@ -6,7 +6,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "14360",
+    "Duracion_Minutos": "14375",
     "Pendiente": "SI",
     "ID": "1608760",
     "Periodo_Raw": "Jul 09, 04:40 PM VET",
@@ -21,11 +21,26 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "59",
+    "Duracion_Minutos": "74",
     "Pendiente": "SI",
     "ID": "1608917",
     "Periodo_Raw": "Jul 19, 03:01 PM VET",
     "start_time": "2026-07-19T19:01:00Z",
+    "end_time": null,
+    "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Perú Payins Interbank",
+    "Periodo": "Jul 19, 03:20 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Peru",
+    "Duracion_Minutos": "55",
+    "Pendiente": "SI",
+    "ID": "1608918",
+    "Periodo_Raw": "Jul 19, 03:20 PM VET",
+    "start_time": "2026-07-19T19:20:00Z",
     "end_time": null,
     "Asignado": "Airam S"
   },
@@ -41,20 +56,5 @@
     "ID": "incidents/5ykzn08dhfpm",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jul 7, 16:04 GMT-04:00"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence – Perú Payins Interbank",
-    "Periodo": "Jul 19, 03:20 PM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "40",
-    "Pendiente": "SI",
-    "ID": "1608918",
-    "Periodo_Raw": "Jul 19, 03:20 PM VET",
-    "start_time": "2026-07-19T19:20:00Z",
-    "end_time": null,
-    "Asignado": "Airam S"
   }
 ]
