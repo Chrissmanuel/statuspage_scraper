@@ -3788,5 +3788,20 @@
     "ID": "incidents/yw7wyr5r084t",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jul 20, 23:00 - Jul 21, 06:00 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Perú Payins QR",
+    "Periodo": "Jul 21, 01:46 AM - 09:55 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Peru",
+    "Duracion_Minutos": "489",
+    "Pendiente": "NO",
+    "ID": "1608955",
+    "Periodo_Raw": "Jul 21, 01:46 AM VET",
+    "start_time": "2026-07-21T05:46:00Z",
+    "end_time": null,
+    "Asignado": "Greider G"
   }
 ]
