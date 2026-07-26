@@ -1,5 +1,20 @@
 [
   {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – Banco Internacional - Ecuador - PAYOUTS",
+    "Periodo": "Jul 26, 08:00 AM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Ecuador",
+    "Duracion_Minutos": "60",
+    "Pendiente": "SI",
+    "ID": "1609066",
+    "Periodo_Raw": "Jul 26, 08:00 AM VET",
+    "start_time": "2026-07-26T12:00:00Z",
+    "end_time": null,
+    "Asignado": "Airam S"
+  },
+  {
     "Proveedor": "Alps",
     "Titulo": "YAPE INCIDENT - WITHDRAWALS PERU",
     "Periodo": "Jul 7, 16:04 GMT-04:00",
@@ -11,20 +26,5 @@
     "ID": "incidents/5ykzn08dhfpm",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jul 7, 16:04 GMT-04:00"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence – Banco Internacional - Ecuador - PAYOUTS",
-    "Periodo": "Jul 26, 08:00 AM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYOUT Ecuador",
-    "Duracion_Minutos": "45",
-    "Pendiente": "SI",
-    "ID": "1609066",
-    "Periodo_Raw": "Jul 26, 08:00 AM VET",
-    "start_time": "2026-07-26T12:00:00Z",
-    "end_time": null,
-    "Asignado": "Airam S"
   }
 ]
