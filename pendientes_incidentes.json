@@ -19,7 +19,7 @@
     "Resumen": "Scheduled maintenance is currently in progress. We will provide updates as necessary.\n\nHistorial:\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: The processor for pay-ins, , will undergo scheduled maintenance on July 28, between 23:00 and 06:00 (UTC-4). During this period, transactions through this channel (3) will not be processed. We recommend planning your operations accordingly.",
     "Estado": "In progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.",
     "Componentes": "This scheduled maintenance affects: Payin (Chile).",
-    "Duracion_Minutos": "255",
+    "Duracion_Minutos": "270",
     "Pendiente": "SI",
     "ID": "incidents/5319mr9f3rz9",
     "Asignado": "Greider G",
