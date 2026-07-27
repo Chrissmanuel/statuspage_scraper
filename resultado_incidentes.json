@@ -3939,5 +3939,31 @@
     "start_time": "2026-07-26T13:30:00Z",
     "end_time": null,
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Scheduled Maintenance Notice - Banco BBVA - WITHDRAWALS PERU",
+    "Periodo": "Jul 27, 03:00 - 04:00 GMT-04:00",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Dear Customer, We would like to inform you that BBVA Peru will be performing scheduled maintenance on its channels. Date: Monday, July 27, 2026 Time: 3:00 AM to 4:00 AM (UTC-4) During this period, withdrawals sent to BBVA will not be available. We recommend taking the necessary precautions and planning your transactions in advance to avoid any inconvenience. Thank you for your understanding. ,",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Payin (Chile).",
+    "Duracion_Minutos": "60",
+    "Pendiente": "NO",
+    "ID": "incidents/rmq5v8pr13pg",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Jul 27, 03:00 - 04:00 GMT-04:00"
+  },
+  {
+    "Proveedor": "Directa24",
+    "Titulo": "[Scheduled] D24 - Scheduled Maintenance Window",
+    "Periodo": "Jul 27, 07:00 - 08:00 UTC",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: We would like to inform you that we are scheduling a maintenance window on Monday, July 27th, between 07:00 and 08:00 AM UTC. We will be using this window to perform routine maintenance activities on our infrastructure. Within this period, our Cashin and Cashout APIs, as well as our back office, may experience intermittent issues.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Cashin APIs, Cashout APIs, and Merchants Portal.",
+    "Duracion_Minutos": "60",
+    "Pendiente": "NO",
+    "ID": "incidents/ft61l8ttn7bw",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Jul 27, 07:00 - 08:00 UTC"
   }
 ]
