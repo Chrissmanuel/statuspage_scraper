@@ -19,7 +19,7 @@
     "Resumen": "Scheduled maintenance is currently in progress. We will provide updates as necessary.\n\nHistorial:\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Dear Customer, We would like to inform you that BBVA Peru will be performing scheduled maintenance on its channels. Date: Monday, July 27, 2026 Time: 3:00 AM to 4:00 AM (UTC-4) During this period, withdrawals sent to BBVA will not be available. We recommend taking the necessary precautions and planning your transactions in advance to avoid any inconvenience. Thank you for your understanding. ,",
     "Estado": "In progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.",
     "Componentes": "This scheduled maintenance affects: Payin (Chile).",
-    "Duracion_Minutos": "30",
+    "Duracion_Minutos": "45",
     "Pendiente": "SI",
     "ID": "incidents/rmq5v8pr13pg",
     "Asignado": "Merlis M",
