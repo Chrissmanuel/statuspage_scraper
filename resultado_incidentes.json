@@ -3965,5 +3965,18 @@
     "ID": "incidents/ft61l8ttn7bw",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Jul 27, 07:00 - 08:00 UTC"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "YAPE INCIDENT - WITHDRAWALS PERU",
+    "Periodo": "Jul 7, 16:04 GMT-04:00",
+    "Resumen": "We would like to inform you that the YAPE Peru withdrawal method is temporarily unavailable and is currently under review by our Technology team. We are working to restore the service as quickly as possible. We will provide updates through this channel regarding the progress of the investigation and will notify you as soon as the service is available again. Thank you for your understanding.",
+    "Estado": "Resolved",
+    "Componentes": "This incident affects: Payout (Peru).",
+    "Duracion_Minutos": "4148",
+    "Pendiente": "NO",
+    "ID": "incidents/5ykzn08dhfpm",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Jul 7, 16:04 GMT-04:00"
   }
 ]
