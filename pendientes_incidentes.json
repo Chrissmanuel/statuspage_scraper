@@ -6,7 +6,7 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "560",
+    "Duracion_Minutos": "575",
     "Pendiente": "SI",
     "ID": "incidents/hz1600yc1jpn",
     "Asignado": "Luis G",
