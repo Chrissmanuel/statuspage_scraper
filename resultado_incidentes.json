@@ -4060,5 +4060,31 @@
     "ID": "incidents/n2dzkp5141b5",
     "Asignado": "Greider G",
     "Periodo_Raw": "Jul 28, 16:55 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BCI Intermittences - ETPAY",
+    "Periodo": "Jul 29, 09:16 - 10:57 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nMonitoring: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "101",
+    "Pendiente": "NO",
+    "ID": "incidents/rqbwghcwm4nw",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Jul 29, 09:16 - 10:57 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco ESTADO Intermittences - FINTOC",
+    "Periodo": "Jul 29, 09:54 - 10:52 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "58",
+    "Pendiente": "NO",
+    "ID": "incidents/m73rvxkj2r73",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Jul 29, 09:54 - 10:52 GMT-04:00"
   }
 ]
