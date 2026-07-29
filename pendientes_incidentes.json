@@ -1,17 +1,1 @@
-[
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence - BAC Honduras - Payout",
-    "Periodo": "Jul 29, 04:00 PM VET",
-    "Resumen": "Dear team,\n\nWe have detected an intermittent issue affecting our partner services. Our team is monitoring the situation closely and will provide updates accordingly. For any assistance, please contact support@monnetpayments.com.\nWe apologize for any inconvenience and appreciate your patience and understanding",
-    "Estado": "Investigating",
-    "Componentes": "PAYOUT Honduras",
-    "Duracion_Minutos": "120",
-    "Pendiente": "SI",
-    "ID": "1609139",
-    "Periodo_Raw": "Jul 29, 04:00 PM VET",
-    "start_time": "2026-07-29T20:00:00Z",
-    "end_time": null,
-    "Asignado": "Merlis M"
-  }
-]
+[]
