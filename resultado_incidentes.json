@@ -4129,5 +4129,18 @@
     "start_time": "2026-07-29T23:00:00Z",
     "end_time": null,
     "Asignado": "Greider G"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "BCP BANK INCIDENT - WITHDRAWALS PERU",
+    "Periodo": "Jul 30, 11:06 - 12:42 GMT-04:00",
+    "Resumen": "The processing delays affecting withdrawals to Banco BCP (Peru) have been resolved. The pending withdrawals affected by this incident have now been processed, and new withdrawals are being processed normally. We will continue to monitor the service.\n\nHistorial:\nResolved: The processing delays affecting withdrawals to Banco BCP (Peru) have been resolved. The pending withdrawals affected by this incident have now been processed, and new withdrawals are being processed normally. We will continue to monitor the service.\nMonitoring: We are currently experiencing delays in the processing of withdrawals to Banco BCP (Peru). Our team is actively investigating the issue. The affected withdrawals are expected to be processed within the next few hours. We will provide further updates as they become available.",
+    "Estado": "Resolved: The processing delays affecting withdrawals to Banco BCP (Peru) have been resolved. The pending withdrawals affected by this incident have now been processed, and new withdrawals are being processed normally. We will continue to monitor the service.",
+    "Componentes": "This incident affected: Payout (Peru).",
+    "Duracion_Minutos": "96",
+    "Pendiente": "NO",
+    "ID": "incidents/f2h34g320pmv",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Jul 30, 11:06 - 12:42 GMT-04:00"
   }
 ]
