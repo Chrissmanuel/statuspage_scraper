@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – INTERBANK- PERU - PAYOUT",
+    "Periodo": "Jul 30, 06:11 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Peru",
+    "Duracion_Minutos": "34",
+    "Pendiente": "SI",
+    "ID": "1609169",
+    "Periodo_Raw": "Jul 30, 06:11 PM VET",
+    "start_time": "2026-07-30T22:11:00Z",
+    "end_time": null,
+    "Asignado": "Luis G"
+  }
+]
