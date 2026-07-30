@@ -6,7 +6,7 @@
     "Resumen": "We are currently experiencing delays in the processing of withdrawals to Banco BCP (Peru). Our team is actively investigating the issue. The affected withdrawals are expected to be processed within the next few hours. We will provide further updates as they become available.",
     "Estado": "Monitoring: We are currently experiencing delays in the processing of withdrawals to Banco BCP (Peru). Our team is actively investigating the issue. The affected withdrawals are expected to be processed within the next few hours. We will provide further updates as they become available.",
     "Componentes": "This incident affects: Payout (Peru).",
-    "Duracion_Minutos": "69",
+    "Duracion_Minutos": "84",
     "Pendiente": "SI",
     "ID": "incidents/f2h34g320pmv",
     "Asignado": "Airam S",
