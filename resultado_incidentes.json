@@ -4187,5 +4187,18 @@
     "start_time": "2026-07-30T22:11:00Z",
     "end_time": null,
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Scotiabank Intermittences - FINTOC",
+    "Periodo": "Jul 31, 08:45 - 12:44 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "239",
+    "Pendiente": "NO",
+    "ID": "incidents/1rqdg25w1hy2",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Jul 31, 08:45 - 12:44 GMT-04:00"
   }
 ]
