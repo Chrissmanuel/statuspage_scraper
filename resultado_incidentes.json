@@ -4275,5 +4275,18 @@
     "start_time": "2026-07-31T21:20:00Z",
     "end_time": null,
     "Asignado": "Greider G"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco de ChileIntermittences - ETPAY",
+    "Periodo": "Aug 1, 14:46 - 15:17 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "31",
+    "Pendiente": "NO",
+    "ID": "incidents/192fh5qvyl1q",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Aug 1, 14:46 - 15:17 GMT-04:00"
   }
 ]
