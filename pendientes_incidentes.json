@@ -6,23 +6,10 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "496",
+    "Duracion_Minutos": "511",
     "Pendiente": "SI",
     "ID": "incidents/ls6pvcx01p5c",
     "Asignado": "Airam S",
     "Periodo_Raw": "Aug 3, 12:14 GMT-04:00"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Banco Estado Intermittences - FINTOC",
-    "Periodo": "Aug 3, 18:59 GMT-04:00",
-    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "91",
-    "Pendiente": "SI",
-    "ID": "incidents/qzbgnmjn3pfy",
-    "Asignado": "Merlis M",
-    "Periodo_Raw": "Aug 3, 18:59 GMT-04:00"
   }
 ]
