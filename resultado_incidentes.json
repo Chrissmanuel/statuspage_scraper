@@ -4504,5 +4504,20 @@
     "ID": "incidents/0xj0slzmy0qz",
     "Asignado": "Luis G",
     "Periodo_Raw": "Aug 5, 16:19 - Aug 6, 11:12 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – BAC - HONDURAS - PAYOUT",
+    "Periodo": "Aug 06, 06:20 PM - 07:26 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYOUT Honduras",
+    "Duracion_Minutos": "66",
+    "Pendiente": "NO",
+    "ID": "1609350",
+    "Periodo_Raw": "Aug 06, 06:20 PM VET",
+    "start_time": "2026-08-06T22:20:00Z",
+    "end_time": null,
+    "Asignado": "Merlis M"
   }
 ]
