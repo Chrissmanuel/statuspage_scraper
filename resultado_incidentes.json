@@ -4562,5 +4562,20 @@
     "ID": "incidents/8z0cp53048pj",
     "Asignado": "Greider G",
     "Periodo_Raw": "Aug 7, 16:46 - 17:16 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Internal Intermittence Monnet - PI - PER",
+    "Periodo": "Aug 08, 12:31 PM - 02:39 PM VET",
+    "Resumen": "Dear team,\nWe are currently experiencing an intermittent issue on our side. Our teams are monitoring the situation and working to ensure service stability.\nFor any assistance, please contact support@monnetpayments.com\nKind regards,",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Peru",
+    "Duracion_Minutos": "128",
+    "Pendiente": "NO",
+    "ID": "1609376",
+    "Periodo_Raw": "Aug 08, 12:31 PM VET",
+    "start_time": "2026-08-08T16:31:00Z",
+    "end_time": null,
+    "Asignado": "Airam S"
   }
 ]
