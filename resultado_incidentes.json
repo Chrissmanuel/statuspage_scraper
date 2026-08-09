@@ -4590,5 +4590,20 @@
     "ID": "incidents/hxlp0k68lr03",
     "Asignado": "Luis G",
     "Periodo_Raw": "Aug 8, 23:00 - Aug 9, 06:01 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence –QR ECUADOR - PAYIN",
+    "Periodo": "Aug 09, 07:55 AM - 12:01 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Investigating",
+    "Componentes": "PAYIN Ecuador",
+    "Duracion_Minutos": "246",
+    "Pendiente": "NO",
+    "ID": "1609385",
+    "Periodo_Raw": "Aug 09, 07:55 AM VET",
+    "start_time": "2026-08-09T11:55:00Z",
+    "end_time": null,
+    "Asignado": "Merlis M"
   }
 ]
