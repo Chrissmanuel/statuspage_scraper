@@ -6,27 +6,12 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "2580",
+    "Duracion_Minutos": "2595",
     "Pendiente": "SI",
     "ID": "1609366",
     "Periodo_Raw": "Aug 07, 10:15 PM VET",
     "start_time": "2026-08-08T02:15:00Z",
     "end_time": null,
     "Asignado": "Airam S"
-  },
-  {
-    "Proveedor": "Monnet",
-    "Titulo": "Intermittence – Banco Guayaquil - Ecuador",
-    "Periodo": "Aug 09, 08:18 AM VET",
-    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
-    "Estado": "Investigating",
-    "Componentes": "PAYIN Ecuador, PAYOUT Ecuador",
-    "Duracion_Minutos": "537",
-    "Pendiente": "SI",
-    "ID": "1609388",
-    "Periodo_Raw": "Aug 09, 08:18 AM VET",
-    "start_time": "2026-08-09T12:18:00Z",
-    "end_time": null,
-    "Asignado": "Merlis M"
   }
 ]
