@@ -4661,5 +4661,31 @@
     "ID": "incidents/vcnryp5mmf63",
     "Asignado": "Luis G",
     "Periodo_Raw": "Aug 10, 09:20 - 10:07 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Scotiabank Intermittences - FINTOC",
+    "Periodo": "Aug 10, 08:52 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "84",
+    "Pendiente": "NO",
+    "ID": "incidents/c559vt5p2vk6",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Aug 10, 08:52 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BCI 360 Intermittences - FINTOC",
+    "Periodo": "Aug 10, 15:35 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "70",
+    "Pendiente": "NO",
+    "ID": "incidents/0yv1g3z67sm6",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Aug 10, 15:35 GMT-04:00"
   }
 ]
