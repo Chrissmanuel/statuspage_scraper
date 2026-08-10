@@ -4633,5 +4633,20 @@
     "ID": "incidents/48ypb12qwylm",
     "Asignado": "Greider G",
     "Periodo_Raw": "Aug 9, 20:59 - 21:34 GMT-04:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Intermittence – QR - PAY IN",
+    "Periodo": "Aug 07, 10:15 PM VET",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
+    "Estado": "Resolved (incidente no encontrado en API)",
+    "Componentes": "PAYIN Peru",
+    "Duracion_Minutos": "2985",
+    "Pendiente": "NO",
+    "ID": "1609366",
+    "Periodo_Raw": "Aug 07, 10:15 PM VET",
+    "start_time": "2026-08-08T02:15:00Z",
+    "end_time": null,
+    "Asignado": "Airam S"
   }
 ]
