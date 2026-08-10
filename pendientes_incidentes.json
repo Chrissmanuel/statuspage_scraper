@@ -6,25 +6,12 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting our partner service. We are monitoring the situation closely and will provide updates accordingly.\n\nFor any assistance, please contact support@monnetpayments.com\n\nWe sincerely apologize for any inconvenience this may cause and appreciate your patience and understanding.",
     "Estado": "Investigating",
     "Componentes": "PAYIN Peru",
-    "Duracion_Minutos": "2835",
+    "Duracion_Minutos": "2850",
     "Pendiente": "SI",
     "ID": "1609366",
     "Periodo_Raw": "Aug 07, 10:15 PM VET",
     "start_time": "2026-08-08T02:15:00Z",
     "end_time": null,
     "Asignado": "Airam S"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Banco Estado Intermittences - FINTOC",
-    "Periodo": "Aug 9, 20:59 GMT-04:00",
-    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "31",
-    "Pendiente": "SI",
-    "ID": "incidents/48ypb12qwylm",
-    "Asignado": "Greider G",
-    "Periodo_Raw": "Aug 9, 20:59 GMT-04:00"
   }
 ]
