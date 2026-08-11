@@ -6,7 +6,7 @@
     "Resumen": "Intermittent service disruptions have been identified in SafetyPay. As a result, some payments processed through SafetyPay are experiencing delays, leading to longer-than-usual response times.",
     "Estado": "Identified: Intermittent service disruptions have been identified in SafetyPay. As a result, some payments processed through SafetyPay are experiencing delays, leading to longer-than-usual response times.",
     "Componentes": "This incident affects: Payin (Chile, Ecuador).",
-    "Duracion_Minutos": "91",
+    "Duracion_Minutos": "106",
     "Pendiente": "SI",
     "ID": "incidents/dmpd8mfw1w2l",
     "Asignado": "Airam S",
