@@ -4687,5 +4687,18 @@
     "ID": "incidents/0yv1g3z67sm6",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Aug 10, 15:35 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "TRANSBANK - Scheduled Maintenance Notice Chile",
+    "Periodo": "Aug 10, 23:00 - 22:09 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: The processor for pay-ins, , will undergo scheduled maintenance on August 10, between 11:00 PM- 4 and ending Aug 11, 06:00 AM (UTC-4). During this period, transactions through this channel (3) will not be processed. We recommend planning your operations accordingly.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "1389",
+    "Pendiente": "NO",
+    "ID": "incidents/ny0mz80dmw9f",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Aug 10, 23:00 - 22:09 GMT-04:00"
   }
 ]
