@@ -4752,5 +4752,31 @@
     "ID": "incidents/tpkbf5ty7wr3",
     "Asignado": "Airam S",
     "Periodo_Raw": "Aug 11, 14:22 - Aug 12, 13:35 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Scotiabank Intermittences - FINTOC",
+    "Periodo": "Aug 12, 10:39 - 14:37 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "238",
+    "Pendiente": "NO",
+    "ID": "incidents/nkg50j93c40c",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Aug 12, 10:39 - 14:37 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Scotiabank Intermittences - ETPAY",
+    "Periodo": "Aug 12, 11:08 - 14:37 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "209",
+    "Pendiente": "NO",
+    "ID": "incidents/5jm1jzlrkmtl",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Aug 12, 11:08 - 14:37 GMT-04:00"
   }
 ]
