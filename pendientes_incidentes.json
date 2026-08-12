@@ -1,19 +1,6 @@
 [
   {
     "Proveedor": "Alps",
-    "Titulo": "SafetyPay Intermittences",
-    "Periodo": "Aug 11, 09:14 GMT-04:00",
-    "Resumen": "Intermittent service disruptions have been identified in SafetyPay. As a result, some payments processed through SafetyPay are experiencing delays, leading to longer-than-usual response times.",
-    "Estado": "Identified: Intermittent service disruptions have been identified in SafetyPay. As a result, some payments processed through SafetyPay are experiencing delays, leading to longer-than-usual response times.",
-    "Componentes": "This incident affects: Payin (Chile, Ecuador).",
-    "Duracion_Minutos": "631",
-    "Pendiente": "SI",
-    "ID": "incidents/dmpd8mfw1w2l",
-    "Asignado": "Airam S",
-    "Periodo_Raw": "Aug 11, 09:14 GMT-04:00"
-  },
-  {
-    "Proveedor": "Alps",
     "Titulo": "Banco BCI Intermittences - FINTOC",
     "Periodo": "Aug 11, 14:22 GMT-04:00",
     "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",

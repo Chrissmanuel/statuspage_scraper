@@ -4726,5 +4726,18 @@
     "ID": "incidents/ntw2pqp8b0ld",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Aug 11, 23:00 - Aug 12, 06:00 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "SafetyPay Intermittences",
+    "Periodo": "Aug 11, 09:14 - Aug 12, 10:51 GMT-04:00",
+    "Resumen": "The intermittent service disruptions affecting SafetyPay were resolved earlier this morning. Payments through SafetyPay are now being processed normally, and response times have returned to normal. We will continue to monitor the service.\n\nHistorial:\nResolved: The intermittent service disruptions affecting SafetyPay were resolved earlier this morning. Payments through SafetyPay are now being processed normally, and response times have returned to normal. We will continue to monitor the service.\nIdentified: Intermittent service disruptions have been identified in SafetyPay. As a result, some payments processed through SafetyPay are experiencing delays, leading to longer-than-usual response times.",
+    "Estado": "Resolved: The intermittent service disruptions affecting SafetyPay were resolved earlier this morning. Payments through SafetyPay are now being processed normally, and response times have returned to normal. We will continue to monitor the service.",
+    "Componentes": "This incident affected: Payin (Chile, Ecuador).",
+    "Duracion_Minutos": "1537",
+    "Pendiente": "NO",
+    "ID": "incidents/dmpd8mfw1w2l",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Aug 11, 09:14 - Aug 12, 10:51 GMT-04:00"
   }
 ]
