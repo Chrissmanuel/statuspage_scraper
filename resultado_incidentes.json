@@ -4778,5 +4778,18 @@
     "ID": "incidents/5jm1jzlrkmtl",
     "Asignado": "Luis G",
     "Periodo_Raw": "Aug 12, 11:08 - 14:37 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] TRANSBANK - Scheduled Maintenance Notice Chile",
+    "Periodo": "Aug 12, 23:00 - Aug 13, 05:00 GMT-04:00",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nUpdate: We will be undergoing scheduled maintenance during this time.\nScheduled: The processor for pay-ins, , will undergo scheduled maintenance on August 12, between 23:00 and Aug 13 06:00 (UTC-4). The Transbank pay-in service will undergo scheduled maintenance on August 12, between 23:00 and Aug 13 06:00 (UTC-4). During this maintenance window, pay-in transactions processed through Transbank may experience intermittent disruptions. We recommend planning your operations accordingly. We will continue to monitor the service throughout the maintenance window.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Payin (Chile).",
+    "Duracion_Minutos": "360",
+    "Pendiente": "NO",
+    "ID": "incidents/zkl43m45p6l2",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Aug 12, 23:00 - Aug 13, 05:00 GMT-04:00"
   }
 ]
