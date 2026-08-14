@@ -6,7 +6,7 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "55",
+    "Duracion_Minutos": "70",
     "Pendiente": "SI",
     "ID": "incidents/x4mldp16fc7h",
     "Asignado": "Greider G",
@@ -19,23 +19,10 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, Transbank has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, Transbank has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "55",
+    "Duracion_Minutos": "70",
     "Pendiente": "SI",
     "ID": "incidents/br5zm383svxn",
     "Asignado": "Airam S",
     "Periodo_Raw": "Aug 14, 17:05 GMT-04:00"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Banco Falabella Intermittences - ETPAY",
-    "Periodo": "Aug 14, 17:03 GMT-04:00",
-    "Resumen": "Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "57",
-    "Pendiente": "SI",
-    "ID": "incidents/qdtl4j3vtn6h",
-    "Asignado": "Luis G",
-    "Periodo_Raw": "Aug 14, 17:03 GMT-04:00"
   }
 ]
