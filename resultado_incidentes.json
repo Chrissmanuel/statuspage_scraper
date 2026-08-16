@@ -4856,5 +4856,18 @@
     "ID": "incidents/vt164pr7gf4g",
     "Asignado": "Airam S",
     "Periodo_Raw": "Aug 14, 17:58 - 19:47 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Transbank Intermittences",
+    "Periodo": "Aug 14, 17:05 - Aug 16, 18:49 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, Transbank has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "2984",
+    "Pendiente": "NO",
+    "ID": "incidents/br5zm383svxn",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Aug 14, 17:05 - Aug 16, 18:49 GMT-04:00"
   }
 ]
