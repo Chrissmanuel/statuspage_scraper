@@ -4934,5 +4934,18 @@
     "ID": "incidents/bvqj2dpqgvws",
     "Asignado": "Airam S",
     "Periodo_Raw": "Aug 18, 13:07 - 13:44 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "TRANSBANK Intermittences",
+    "Periodo": "Aug 18, 23:11 - Aug 19, 00:28 GMT-04:00",
+    "Resumen": "Transaction processing through Transbank is currently operating normally, with no significant service disruptions being observed. Please note that Transbank continues to perform scheduled maintenance during overnight hours. During these maintenance windows, intermittent processing may occur and temporarily impact conversion rates.\n\nHistorial:\nResolved: Transaction processing through Transbank is currently operating normally, with no significant service disruptions being observed. Please note that Transbank continues to perform scheduled maintenance during overnight hours. During these maintenance windows, intermittent processing may occur and temporarily impact conversion rates.\nUpdate: Transbank is currently undergoing scheduled maintenance. We are investigating whether the reported service disruptions may be related to this maintenance window and will provide further updates as more information becomes available.\nInvestigating: Intermittent service disruptions have been detected. We are currently monitoring the situation and will provide further updates as more information becomes available.",
+    "Estado": "Resolved: Transaction processing through Transbank is currently operating normally, with no significant service disruptions being observed. Please note that Transbank continues to perform scheduled maintenance during overnight hours. During these maintenance windows, intermittent processing may occur and temporarily impact conversion rates.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "77",
+    "Pendiente": "NO",
+    "ID": "incidents/lts2n9866bny",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Aug 18, 23:11 - Aug 19, 00:28 GMT-04:00"
   }
 ]
