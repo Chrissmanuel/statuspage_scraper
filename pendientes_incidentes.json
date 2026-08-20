@@ -6,7 +6,7 @@
     "Resumen": "Scheduled maintenance is currently in progress. We will provide updates as necessary.\n\nHistorial:\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: The Transbank pay-in service will undergo scheduled maintenance on August 19, from 23:00 to Aug 20 06:00 (UTC-4). During this maintenance window, pay-in transactions processed through Transbank may experience intermittent disruptions. We recommend planning your operations accordingly. We will continue to monitor the service throughout the maintenance window.",
     "Estado": "In progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.",
     "Componentes": "This scheduled maintenance affects: Payin (Chile).",
-    "Duracion_Minutos": "255",
+    "Duracion_Minutos": "270",
     "Pendiente": "SI",
     "ID": "incidents/nrrq029x4gsg",
     "Asignado": "Greider G",
