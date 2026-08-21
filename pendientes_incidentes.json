@@ -1,15 +1,1 @@
-[
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Degraded conversion rate Transbank (Chile)",
-    "Periodo": "Aug 20, 23:49 GMT-04:00",
-    "Resumen": "Conversion rates for new transactions on Transbank (Chile) have improved and are trending back toward nominal levels. Approval rate remains within nominal range throughout. We are continuing to monitor to confirm the improvement holds and that previously affected transactions reach a final state. Root cause analysis remains in progress with the processor.\n\nHistorial:\nUpdate: Conversion rates for new transactions on Transbank (Chile) have improved and are trending back toward nominal levels. Approval rate remains within nominal range throughout. We are continuing to monitor to confirm the improvement holds and that previously affected transactions reach a final state. Root cause analysis remains in progress with the processor.\nUpdate: We continue to investigate degraded payment conversion on Transbank (Chile). Approval rate on completed transactions remains within nominal range. The impact continues to be driven by an elevated rate of transactions not reaching a final state within the expected processing window. Root cause analysis remains in progress with the processor. Next update to follow.\nInvestigating: We are investigating reduced payment conversion on Transbank (Chile). Approval rate on completed transactions remains within nominal range. The degradation is attributable to an elevated rate of transactions not reaching a final state within the expected processing window, not to an increase in declines. Root cause analysis is in progress with the processor. Updates to follow.",
-    "Estado": "Update: Conversion rates for new transactions on Transbank (Chile) have improved and are trending back toward nominal levels. Approval rate remains within nominal range throughout. We are continuing to monitor to confirm the improvement holds and that previously affected transactions reach a final state. Root cause analysis remains in progress with the processor.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "146",
-    "Pendiente": "SI",
-    "ID": "incidents/3yvfsz6p2b51",
-    "Asignado": "Merlis M",
-    "Periodo_Raw": "Aug 20, 23:49 GMT-04:00"
-  }
-]
+[]
