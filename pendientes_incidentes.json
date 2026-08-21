@@ -6,7 +6,7 @@
     "Resumen": "We continue to investigate degraded payment conversion on Transbank (Chile). Approval rate on completed transactions remains within nominal range. The impact continues to be driven by an elevated rate of transactions not reaching a final state within the expected processing window. Root cause analysis remains in progress with the processor. Next update to follow.\n\nHistorial:\nUpdate: We continue to investigate degraded payment conversion on Transbank (Chile). Approval rate on completed transactions remains within nominal range. The impact continues to be driven by an elevated rate of transactions not reaching a final state within the expected processing window. Root cause analysis remains in progress with the processor. Next update to follow.\nInvestigating: We are investigating reduced payment conversion on Transbank (Chile). Approval rate on completed transactions remains within nominal range. The degradation is attributable to an elevated rate of transactions not reaching a final state within the expected processing window, not to an increase in declines. Root cause analysis is in progress with the processor. Updates to follow.",
     "Estado": "Update: We continue to investigate degraded payment conversion on Transbank (Chile). Approval rate on completed transactions remains within nominal range. The impact continues to be driven by an elevated rate of transactions not reaching a final state within the expected processing window. Root cause analysis remains in progress with the processor. Next update to follow.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "86",
+    "Duracion_Minutos": "101",
     "Pendiente": "SI",
     "ID": "incidents/3yvfsz6p2b51",
     "Asignado": "Merlis M",
