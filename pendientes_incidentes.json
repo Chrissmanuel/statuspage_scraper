@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Estado Intermittences - FINTOC",
+    "Periodo": "Aug 21, 17:49 GMT-04:00",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "41",
+    "Pendiente": "SI",
+    "ID": "incidents/sxsfm0yfqflk",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Aug 21, 17:49 GMT-04:00"
+  }
+]
