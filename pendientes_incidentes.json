@@ -6,7 +6,7 @@
     "Resumen": "We are investigating reduced payment conversion on Transbank (Chile). Approval rate on completed transactions remains within nominal range. The degradation is attributable to an elevated rate of transactions not reaching a final state within the expected processing window, not to an increase in declines. Root cause analysis is in progress with the processor. Updates to follow.",
     "Estado": "Investigating: We are investigating reduced payment conversion on Transbank (Chile). Approval rate on completed transactions remains within nominal range. The degradation is attributable to an elevated rate of transactions not reaching a final state within the expected processing window, not to an increase in declines. Root cause analysis is in progress with the processor. Updates to follow.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "485",
+    "Duracion_Minutos": "500",
     "Pendiente": "SI",
     "ID": "incidents/cp3z8n5qzvlj",
     "Asignado": "Luis G",
