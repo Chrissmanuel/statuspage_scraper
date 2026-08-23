@@ -5090,5 +5090,18 @@
     "ID": "incidents/d5cdzq0cf1f1",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Aug 22, 22:00 - Aug 23, 06:00 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Withdrawals Incident Chile",
+    "Periodo": "Aug 23, 13:18 - 16:28 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: We are currently experiencing Delays in Payout processing at Chile, which has resulted in longer-than-usual processing times for some transactions Our team is actively monitoring the situation. We will provide an update through this channel once processing has returned to normal. Thank you for your understanding and patience. ALPS Team",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payout (Chile).",
+    "Duracion_Minutos": "190",
+    "Pendiente": "NO",
+    "ID": "incidents/htpxc5bk9wrk",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Aug 23, 13:18 - 16:28 GMT-04:00"
   }
 ]
