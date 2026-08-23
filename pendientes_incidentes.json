@@ -19,7 +19,7 @@
     "Resumen": "We are currently experiencing Delays in Payout processing at Chile, which has resulted in longer-than-usual processing times for some transactions Our team is actively monitoring the situation. We will provide an update through this channel once processing has returned to normal. Thank you for your understanding and patience. ALPS Team",
     "Estado": "Identified: We are currently experiencing Delays in Payout processing at Chile, which has resulted in longer-than-usual processing times for some transactions Our team is actively monitoring the situation. We will provide an update through this channel once processing has returned to normal. Thank you for your understanding and patience. ALPS Team",
     "Componentes": "This incident affects: Payout (Chile).",
-    "Duracion_Minutos": "162",
+    "Duracion_Minutos": "177",
     "Pendiente": "SI",
     "ID": "incidents/htpxc5bk9wrk",
     "Asignado": "Greider G",
