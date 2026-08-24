@@ -5103,5 +5103,18 @@
     "ID": "incidents/htpxc5bk9wrk",
     "Asignado": "Greider G",
     "Periodo_Raw": "Aug 23, 13:18 - 16:28 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Degraded conversion rate Transbank (Chile)",
+    "Periodo": "Aug 21, 23:10 - Aug 24, 09:52 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nInvestigating: We are investigating reduced payment conversion on Transbank (Chile). Approval rate on completed transactions remains within nominal range. The degradation is attributable to an elevated rate of transactions not reaching a final state within the expected processing window, not to an increase in declines. Root cause analysis is in progress with the processor. Updates to follow.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "3522",
+    "Pendiente": "NO",
+    "ID": "incidents/cp3z8n5qzvlj",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Aug 21, 23:10 - Aug 24, 09:52 GMT-04:00"
   }
 ]
