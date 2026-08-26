@@ -5155,5 +5155,18 @@
     "ID": "incidents/2zqh0wk31mcp",
     "Asignado": "Airam S",
     "Periodo_Raw": "Aug 25, 23:01 - Aug 26, 06:00 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BICE Intermittences - FINTOC",
+    "Periodo": "Aug 25, 16:37 - Aug 26, 09:59 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "1042",
+    "Pendiente": "NO",
+    "ID": "incidents/2qjvzszxm0x9",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Aug 25, 16:37 - Aug 26, 09:59 GMT-04:00"
   }
 ]
