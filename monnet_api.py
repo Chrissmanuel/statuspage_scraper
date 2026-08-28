@@ -31,23 +31,23 @@ class MonnetAPI:
         self._service_names_cache = {}
     
     def _decodificar_respuesta(self, response: requests.Response) -> dict:
-        """Decodifica la respuesta manejando compresión Brotli manualmente si es necesario"""
-        content_encoding = response.headers.get('Content-Encoding', '')
-        
-        # Si la respuesta está comprimida con Brotli
-        if 'br' in content_encoding:
-            try:
-                # Descomprimir manualmente con brotli
-                import brotli
-                data = brotli.decompress(response.content)
-                return json.loads(data.decode('utf-8'))
-            except Exception as e:
-                logger.error(f"❌ Error descomprimiendo Brotli: {e}")
-                # Fallback: intentar con response.json() normal
-                return response.json()
-        else:
-            # Respuesta sin comprimir o con otro encoding
+        """Decodifica la respuesta manejando compresión automáticamente"""
+        # requests debería manejar esto automáticamente, pero forzamos la decodificación
+        try:
             return response.json()
+        except json.JSONDecodeError:
+            # Si falla, intentar decodificar manualmente
+            content = response.content
+            if response.headers.get('Content-Encoding') == 'br':
+                # Intentar con brotli, si falla usar gzip
+                try:
+                    import brotli
+                    content = brotli.decompress(content)
+                except ImportError:
+                    # Si no hay brotli, intentar con gzip
+                    import gzip
+                    content = gzip.decompress(content)
+            return json.loads(content.decode('utf-8'))
     
     def _extraer_nombre_servicio_desde_titulo(self, title: str, service_id: str) -> str:
         """Extrae el nombre del servicio desde el título del incidente."""
