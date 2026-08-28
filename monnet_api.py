@@ -1,97 +1,109 @@
 import requests
+import json
+import re
 from datetime import datetime, timedelta
 from typing import List, Dict, Any, Optional
 from zoneinfo import ZoneInfo
-from config import VET, HTTP_TIMEOUT, HTTP_RETRIES
+from config import VET, HTTP_TIMEOUT
 from utils import logger
 
-
-
-
-# Al inicio del archivo, definir el mapeo completo
-COMPONENT_NAMES = {
-    # PAYIN Components
-    "157231": "API BACK OFFICE PAYIN",
-    "157233": "PAYIN API",
-    "157235": "PAYIN Chile",
-    "157237": "PAYIN Argentina",
-    "157238": "PAYIN Ecuador",
-    "157240": "PAYIN Peru",
-    "177836": "PAYIN Colombia",
-    "177837": "PAYIN Mexico",
-    "246498": "PAYIN Guatemala",
-    
-    # PAYOUT Components
-    "187968": "PAYOUT API",
-    "187969": "PAYOUT API BACK OFFICE",
-    "187970": "PAYOUT Argentina",
-    "187971": "PAYOUT Mexico",
-    "192853": "PAYOUT Chile",
-    "193601": "PAYOUT Ecuador",
-    "193602": "PAYOUT Peru",
-    "193603": "PAYOUT Guatemala",
-    "193604": "PAYOUT Honduras",
-    "193605": "PAYOUT Colombia",
-}
-
-
-def get_component_name(component_id: str) -> str:
-    """Retorna el nombre legible de un componente o el ID si no está mapeado"""
-    return COMPONENT_NAMES.get(component_id, f"Componente {component_id}")
-
-
-
 class MonnetAPI:
-    """Cliente para la API pública de Freshstatus de Monnet"""
+    """Cliente para la NUEVA API pública de Freshservice de Monnet"""
     
-    BASE_URL = "https://public-api.freshstatus.io/v1/public-incidents/"
-    ACCOUNT_ID = "37683"
+    BASE_URL = "https://monnetpayments.status.freshservice.com/api/public/status/disruptions"
     
     def __init__(self):
         self.session = requests.Session()
+        # ✅ Cabeceras IDÉNTICAS a las que usa el navegador
         self.session.headers.update({
-            "Accept": "application/json",
-            "Content-Type": "application/json"
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Language": "en-US,en;q=0.9,es;q=0.8",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "keep-alive",
+            "Sec-Fetch-Dest": "empty",
+            "Sec-Fetch-Mode": "cors",
+            "Sec-Fetch-Site": "same-origin",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+            "Referer": "https://monnetpayments.status.freshservice.com/",
+            "Origin": "https://monnetpayments.status.freshservice.com",
         })
+        self._service_names_cache = {}
+    
+    def _extraer_nombre_servicio_desde_titulo(self, title: str, service_id: str) -> str:
+        """
+        Extrae el nombre del servicio desde el título del incidente.
+        Ej: "Bank Intermittence – [BANK ITAU I CL I BT] - [PAYINS]" -> "BANK ITAU I CL I BT"
+        """
+        if service_id in self._service_names_cache:
+            return self._service_names_cache[service_id]
+        
+        # Buscar patrones como [NOMBRE_SERVICIO]
+        pattern = r'\[([^\]]+)\]'
+        matches = re.findall(pattern, title)
+        
+        if matches:
+            # Tomar el primer match que no sea demasiado corto
+            for match in matches:
+                if len(match.strip()) > 2:
+                    nombre = match.strip()
+                    self._service_names_cache[service_id] = nombre
+                    return nombre
+        
+        logger.warning(f"⚠️ No se pudo extraer nombre para servicio {service_id} desde título: {title}")
+        return f"Servicio {service_id}"
     
     def obtener_historicos(self, start_date: datetime, end_date: datetime) -> List[Dict[str, Any]]:
         """
         Obtiene incidentes históricos de Monnet en un rango de fechas.
-        
-        Args:
-            start_date: Fecha de inicio (timezone-aware)
-            end_date: Fecha de fin (timezone-aware)
-        
-        Returns:
-            Lista de incidentes con datos crudos de la API
         """
-        # Convertir a UTC ISO format
+        all_results = []
+        page = 1
+        per_page = 100
+        
+        # Formato ISO sin milisegundos
         start_utc = start_date.astimezone(ZoneInfo("UTC")).strftime("%Y-%m-%dT%H:%M:%SZ")
         end_utc = end_date.astimezone(ZoneInfo("UTC")).strftime("%Y-%m-%dT%H:%M:%SZ")
         
-        all_results = []
-        url = self.BASE_URL
-        params = {
-            "account_id": self.ACCOUNT_ID,
-            "start_time__gte": start_utc,
-            "start_time__lte": end_utc
-        }
+        # Construir filtro SIN espacios
+        filtros = [
+            {
+                "condition": "time_window",
+                "operator": "is_between",
+                "value": [start_utc, end_utc]
+            }
+        ]
+        filter_str = json.dumps(filtros, separators=(',', ':'))
         
-        while url:
+        while True:
             try:
-                logger.debug(f"📡 Monnet API | Consultando: {url[:100]}...")
-                response = self.session.get(url, params=params, timeout=HTTP_TIMEOUT)
+                # ✅ CONSTRUIR URL MANUALMENTE
+                import urllib.parse
+                encoded_filter = urllib.parse.quote(filter_str, safe='')
+                
+                url = f"{self.BASE_URL}?filter={encoded_filter}&order_by=started_at&order_type=desc&page={page}&per_page={per_page}"
+                
+                logger.debug(f"📡 Monnet API | Consultando página {page}...")
+                logger.debug(f"URL: {url[:150]}...")
+                
+                # ✅ Usar GET directo con la URL completa
+                response = self.session.get(url, timeout=HTTP_TIMEOUT)
                 response.raise_for_status()
                 data = response.json()
                 
-                all_results.extend(data.get("results", []))
+                disruptions = data.get("disruptions", [])
+                all_results.extend(disruptions)
                 
-                # Paginación
-                url = data.get("next")
-                params = None  # Los params ya vienen en la URL next
+                meta = data.get("meta", {})
+                if page >= meta.get("last", 1):
+                    break
+                
+                page += 1
                 
             except requests.RequestException as e:
                 logger.error(f"❌ Error consultando API de Monnet: {e}")
+                if hasattr(e, 'response') and e.response is not None:
+                    logger.error(f"Detalles: {e.response.text}")
+                    logger.error(f"URL: {e.response.url}")
                 break
         
         logger.info(f"📡 Monnet API | Obtenidos {len(all_results)} incidentes históricos")
@@ -99,57 +111,92 @@ class MonnetAPI:
     
     def obtener_pendientes(self) -> List[Dict[str, Any]]:
         """
-        Obtiene incidentes activos (sin end_time) de Monnet.
-        
-        Returns:
-            Lista de incidentes pendientes
+        Obtiene incidentes activos (pendientes) de Monnet.
         """
         try:
-            params = {
-                "account_id": self.ACCOUNT_ID,
-                "end_time__isempty": "true"
-            }
+            end_date = datetime.now(ZoneInfo("UTC"))
+            start_date = end_date - timedelta(days=90)
             
-            response = self.session.get(self.BASE_URL, params=params, timeout=HTTP_TIMEOUT)
-            response.raise_for_status()
-            data = response.json()
+            todos = self.obtener_historicos(start_date, end_date)
             
-            pendientes = data.get("results", [])
+            # Filtrar los que no tienen ended_at (pendientes)
+            pendientes = [inc for inc in todos if inc.get("ended_at") is None]
+            
             logger.info(f"📡 Monnet API | Obtenidos {len(pendientes)} incidentes pendientes")
             return pendientes
             
-        except requests.RequestException as e:
-            logger.error(f"❌ Error consultando pendientes de Monnet: {e}")
+        except Exception as e:
+            logger.error(f"❌ Error obteniendo pendientes de Monnet: {e}")
             return []
     
+    def obtener_actualizaciones(self, incident_id: int) -> List[Dict[str, Any]]:
+        """
+        Obtiene las actualizaciones de un incidente específico.
+        Endpoint: /disruptions/{id}/updates
+        """
+        try:
+            url = f"{self.BASE_URL}/{incident_id}/updates"
+            
+            response = self.session.get(url, timeout=HTTP_TIMEOUT)
+            response.raise_for_status()
+            data = response.json()
+            
+            updates = data.get("disruption_updates", [])
+            logger.debug(f"📡 Monnet API | Obtenidas {len(updates)} actualizaciones para incidente {incident_id}")
+            return updates
+            
+        except requests.RequestException as e:
+            logger.error(f"❌ Error obteniendo actualizaciones del incidente {incident_id}: {e}")
+            return []
+    
+    def obtener_incidente_por_id(self, incident_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Obtiene un incidente específico por su ID.
+        Como la API no tiene endpoint directo por ID, buscamos en el rango de 90 días.
+        """
+        try:
+            end_date = datetime.now(ZoneInfo("UTC"))
+            start_date = end_date - timedelta(days=90)
+            
+            todos = self.obtener_historicos(start_date, end_date)
+            
+            # Buscar el incidente por ID
+            for inc in todos:
+                if str(inc.get("id")) == str(incident_id):
+                    return inc
+            
+            logger.debug(f"📭 Incidente {incident_id} no encontrado en el rango de 90 días")
+            return None
+            
+        except Exception as e:
+            logger.error(f"❌ Error consultando incidente {incident_id}: {e}")
+            return None
+    
     def convertir_a_dict(self, incidente_api: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Convierte un incidente de la NUEVA API al formato estándar.
+        """
         # Extraer y mapear componentes afectados
-        componentes_ids = []
-        for comp in incidente_api.get("affected_components", []):
-            if "component" in comp:
-                componentes_ids.append(str(comp["component"]))
-        
-        # Convertir IDs a nombres legibles
         componentes_nombres = []
-        for comp_id in componentes_ids:
-            if comp_id in COMPONENT_NAMES:
-                componentes_nombres.append(COMPONENT_NAMES[comp_id])
-            else:
-                componentes_nombres.append(f"ID:{comp_id}")
-                logger.warning(f"⚠️ Componente no mapeado: {comp_id}")
+        title = incidente_api.get("title", "")
+        
+        for service in incidente_api.get("impacted_services", []):
+            service_id = str(service.get("id"))
+            if service_id:
+                nombre = self._extraer_nombre_servicio_desde_titulo(title, service_id)
+                componentes_nombres.append(nombre)
         
         componentes_str = ", ".join(componentes_nombres) if componentes_nombres else "N/A"
         
         # Determinar si es mantenimiento programado
-        es_planned = incidente_api.get("is_planned", False)
-        scheduled_start = incidente_api.get("scheduled_start_time")
-        scheduled_end = incidente_api.get("scheduled_end_time")
+        # type: 1 = Incident, 2 = Planned Maintenance
+        es_planned = incidente_api.get("type") == 2
         
-        # Usar scheduled times si existen, sino start/end
-        start_time = scheduled_start if scheduled_start else incidente_api.get("start_time")
-        end_time = scheduled_end if scheduled_end else incidente_api.get("end_time")
+        # Obtener fechas
+        start_time = incidente_api.get("started_at")
+        end_time = incidente_api.get("ended_at")
         
-        # 🔥 CORRECCIÓN: Definir periodo_vet AQUÍ (no está en tu código actual)
+        # Formatear período
         periodo_vet = self._formatear_periodo(start_time, end_time)
         
         # Calcular duración
@@ -158,22 +205,40 @@ class MonnetAPI:
         # Determinar si está pendiente
         pendiente = "SI" if end_time is None else "NO"
         
-        # Estado por defecto
-        estado = "Planned" if es_planned else "Resolved" if not pendiente else "Investigating"
+        # Mapear estado de Freshservice a nuestro formato
+        # status: 1 = Investigating, 2 = Resolved, 3 = Monitoring, 4 = Scheduled, 5 = Post-Mortem
+        status_map = {
+            1: "Investigating",
+            2: "Resolved",
+            3: "Monitoring",
+            4: "Planned",
+            5: "Post-Mortem"
+        }
+        status_code = incidente_api.get("status", 1)
+        estado = status_map.get(status_code, "Unknown")
+        
+        # Si es planificado, forzar estado "Planned"
+        if es_planned:
+            estado = "Planned"
         
         return {
             "Proveedor": "Monnet",
             "Titulo": incidente_api.get("title", "N/A"),
-            "Periodo": periodo_vet,  # ✅ Ahora sí está definido
+            "Periodo": periodo_vet,
             "Resumen": incidente_api.get("description", "N/A"),
             "Estado": estado,
             "Componentes": componentes_str,
             "Duracion_Minutos": str(duracion),
             "Pendiente": pendiente,
             "ID": str(incidente_api.get("id", "")),
+            "Human_ID": incidente_api.get("human_display_id", ""),
             "Periodo_Raw": periodo_vet,
             "start_time": start_time,
             "end_time": end_time,
+            "tipo_incidente": incidente_api.get("type"),
+            "status_code": incidente_api.get("status"),
+            "created_at": incidente_api.get("created_at"),
+            "updated_at": incidente_api.get("updated_at"),
         }
     
     def _formatear_periodo(self, start_time: Optional[str], end_time: Optional[str]) -> str:
@@ -194,7 +259,7 @@ class MonnetAPI:
                 else:
                     return f"{start_vet.strftime('%b %d, %I:%M %p')} - {end_vet.strftime('%b %d, %I:%M %p')} VET"
             else:
-                return f"{start_vet.strftime('%b %d, %I:%M %p')} VET"
+                return f"{start_vet.strftime('%b %d, %I:%M %p')} VET (Activo)"
                 
         except Exception as e:
             logger.debug(f"Error formateando período: {e}")
@@ -212,40 +277,9 @@ class MonnetAPI:
                 end_dt = datetime.fromisoformat(end_time.replace('Z', '+00:00'))
                 return int((end_dt - start_dt).total_seconds() / 60)
             else:
-                # Incidente activo: calcular desde inicio hasta ahora
                 ahora = datetime.now(VET).astimezone(ZoneInfo("UTC"))
                 return int((ahora - start_dt).total_seconds() / 60)
                 
         except Exception as e:
             logger.debug(f"Error calculando duración: {e}")
             return 0
-
-    def obtener_incidente_por_id(self, incident_id: str) -> Optional[Dict[str, Any]]:
-        """
-        Obtiene un incidente específico por su ID.
-        
-        Args:
-            incident_id: ID del incidente (ej: "1607864")
-        
-        Returns:
-            Diccionario con los datos del incidente o None si no existe (404)
-        """
-        try:
-            url = f"{self.BASE_URL}{incident_id}/"
-            params = {"account_id": self.ACCOUNT_ID}
-            
-            response = self.session.get(url, params=params, timeout=HTTP_TIMEOUT)
-            
-            if response.status_code == 200:
-                return response.json()
-            elif response.status_code == 404:
-                # El incidente no existe - fue eliminado o expiró
-                logger.debug(f"📭 Incidente {incident_id} no encontrado (404)")
-                return None
-            else:
-                logger.warning(f"⚠️ Error {response.status_code} consultando incidente {incident_id}")
-                return None
-                
-        except requests.RequestException as e:
-            logger.error(f"❌ Error consultando incidente {incident_id}: {e}")
-            return None

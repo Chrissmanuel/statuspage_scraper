@@ -7,10 +7,11 @@ from utils import cargar_json, guardar_json, clave_incidente_dict, logger
 class GestorEstado:
     @staticmethod
     def obtener_fecha_corte(proveedor: str) -> datetime:
-        """Siempre retorna hace 1 hora, sin importar el proveedor"""
+        """Siempre retorna hace 1 hora, SIN zona horaria (para luego convertir a UTC)"""
         hace_1_hora = datetime.now() - timedelta(hours=1)
+        # ✅ Retornar naive (sin tz) para que luego se convierta correctamente
         logger.info(f"📅 Usando fecha de corte: hace 1 hora ({hace_1_hora.strftime('%Y-%m-%d %H:%M:%S')}) para {proveedor}")
-        return hace_1_hora
+        return hace_1_hora.replace(tzinfo=None)
 
     @staticmethod
     def actualizar_fecha_corte(proveedor: str) -> None:

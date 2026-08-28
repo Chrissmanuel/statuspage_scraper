@@ -476,10 +476,9 @@ class IncidentScraper(AbstractContextManager):
         
         logger.info(f"🔍 Iniciando proveedor: {config.nombre}")
         
-        # Monnet usa API
-        if config.nombre == "Monnet" and config.tipo == "freshstatus":
+        # ✅ Monnet usa API - actualizado para nuevo tipo
+        if config.nombre == "Monnet" and config.tipo in ["freshstatus", "freshservice_api"]:
             nuevos_incidentes, ids_activos = self._ejecutar_monnet_api(config, fecha_corte)
-            # Almacenar los IDs activos para usarlos en verificar_pendientes
             self._monnet_ids_activos = ids_activos
             return nuevos_incidentes
         
@@ -632,44 +631,53 @@ class IncidentScraper(AbstractContextManager):
         
         return inc
     
-    def _verificar_pendientes_monnet_api(self, pendientes: List[Dict[str, Any]], config: ProveedorConfig) -> List[Dict[str, Any]]:
-        """Verifica pendientes de Monnet usando la API"""
-        if not MONNET_API_DISPONIBLE:
-            logger.error("❌ MonnetAPI no disponible")
-            return pendientes
+    def verificar_pendientes(self, pendientes: List[Dict[str, Any]], config: ProveedorConfig) -> List[Dict[str, Any]]:
+        """Verifica el estado actual de incidentes pendientes"""
+        if not pendientes:
+            return []
         
         resultados = []
         
-        try:
-            api = MonnetAPI()
-            pendientes_actuales_api = api.obtener_pendientes()
-            ids_activos = {str(inc["id"]) for inc in pendientes_actuales_api}
-            
-            for pend in pendientes:
-                pend_id = str(pend.get("ID", ""))
+        # ✅ Monnet usa API - actualizado para nuevo tipo
+        if config.nombre == "Monnet" and config.tipo in ["freshstatus", "freshservice_api"] and MONNET_API_DISPONIBLE:
+            if hasattr(self, '_monnet_ids_activos'):
+                ids_activos = self._monnet_ids_activos
+                logger.info(f"🔄 Verificando {len(pendientes)} pendientes de Monnet usando IDs almacenados")
                 
-                if pend_id in ids_activos:
-                    # Sigue pendiente - buscar datos actualizados
-                    inc_actual = next((inc for inc in pendientes_actuales_api if str(inc["id"]) == pend_id), None)
-                    if inc_actual:
-                        inc_dict = api.convertir_a_dict(inc_actual)
-                        pend["Periodo"] = inc_dict["Periodo"]
-                        pend["Duracion_Minutos"] = inc_dict["Duracion_Minutos"]
-                        pend["Estado"] = inc_dict["Estado"]
+                for pend in pendientes:
+                    pend_id = str(pend.get("ID", ""))
                     
-                    pend["Pendiente"] = "SI"
-                    logger.info(f"🟡 Monnet | Sigue pendiente: {pend.get('Titulo', '')[:60]}...")
-                else:
-                    # Se resolvió
-                    pend["Pendiente"] = "NO"
-                    pend["Estado"] = "Resolved"
-                    logger.info(f"✅ Monnet | Resuelto: {pend.get('Titulo', '')[:60]}...")
+                    if not pend_id:
+                        logger.warning(f"⚠️ Pendiente sin ID: {pend.get('Titulo', '')[:50]}")
+                        pend["Pendiente"] = "REVISAR"
+                        resultados.append(pend)
+                        continue
+                    
+                    if pend_id in ids_activos:
+                        pend["Pendiente"] = "SI"
+                        logger.info(f"🟡 Monnet | Sigue pendiente: {pend.get('Titulo', '')[:60]}...")
+                    else:
+                        logger.warning(f"⚠️ Incidente {pend_id} no encontrado en API (resuelto o eliminado): {pend.get('Titulo', '')[:50]}")
+                        pend["Pendiente"] = "NO"
+                        pend["Estado"] = "Resolved (not found in API)"
+                    
+                    resultados.append(pend)
                 
-                resultados.append(pend)
-                
-        except Exception as e:
-            logger.error(f"❌ Error verificando pendientes Monnet: {e}")
-            return pendientes
+                return resultados
+            else:
+                logger.warning("⚠️ No hay IDs activos almacenados para Monnet, usando API directamente")
+                return self._verificar_pendientes_monnet_api(pendientes, config)
+        
+        # Atlassian usa Selenium
+        for inc in pendientes:
+            try:
+                if config.tipo == "atlassian":
+                    logger.info(f"🔍 Verificando pendiente Atlassian: {inc.get('Titulo', '')[:50]}...")
+                    inc = self._verificar_pendiente_atlassian(inc, config)
+                resultados.append(inc)
+            except Exception as e:
+                logger.warning(f"⚠️ Error verificando pendiente {inc.get('Titulo', '')[:50]}: {e}")
+                resultados.append(inc)
         
         return resultados
 

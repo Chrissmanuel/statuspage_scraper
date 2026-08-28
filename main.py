@@ -11,24 +11,16 @@ import os
 os.environ['TZ'] = 'America/Caracas'
 
 
-
-
 PROVEEDORES_LIST = [
     ProveedorConfig(
         "Monnet",
-        "https://monnetpayments.freshstatus.io/incidents-history",
-        "div[class*='CardWrapper']",
-        SelectorMap(
-            "div[class*='Title']",
-            "div[class*='TimeStamp']:first-of-type",
-            "div.gYoMm .style__TimeStamp-sc-19bjpya-9",
-            "div[class*='DescriptionContainer']",
-            'div[class*="LableTag"] span',
+        "https://monnetpayments.status.freshservice.com/api/public/status/disruptions",
+        "",  # No necesita container (API)
+        SelectorMap("", "", "", "", None),  # No necesita selectores (API)
+        "freshservice_api",  # 🟢 NUEVO TIPO
+        False,  # navegacion_profunda
+        active_url="",  # No se usa
     ),
-    "freshstatus",
-    False,
-    active_url="https://monnetpayments.freshstatus.io/",  # <-- NUEVO
-),
     ProveedorConfig(
         "Alps",
         "https://status.alps.cl/history",
@@ -61,6 +53,7 @@ PROVEEDORES_LIST = [
 
 
 def fusionar_historico(nuevos: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+    """Fusiona nuevos incidentes con el histórico usando ID como clave primaria."""
     historico = cargar_json(RESULTADOS_FILE, [])
     mapa = {
         (h.get("Proveedor"), h.get("ID")): h 
@@ -82,37 +75,18 @@ def fusionar_historico(nuevos: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any
     guardar_json(RESULTADOS_FILE, resultado_final)
     return resultado_final, nuevos_unicos
 
-    nuevos_unicos = []
-    for inc in nuevos:
-        if not inc.get("ID"):  # Skip si no tiene ID
-            continue
-        clave = (inc.get("Proveedor"), inc.get("ID"))
-        if clave not in mapa:
-            mapa[clave] = inc
-            nuevos_unicos.append(inc)
-
-    resultado_final = list(mapa.values())
-    guardar_json(RESULTADOS_FILE, resultado_final)
-    return resultado_final, nuevos_unicos
-
 
 def enviar_a_google_sheets(http: HttpClient, datos: List[Dict[str, Any]], sheet: str = "History") -> bool:
     if not WEB_APP_URL:
         return False
-    # Bloquear si está vacío y es History, pero PERMITIR si es Pending para que limpie la hoja
     if not datos and sheet != "Pending":
         return False
-    
     return http.post_json(WEB_APP_URL, {"sheet": sheet, "data": datos})
+
 
 def main() -> None:
     configurar_logging()
     
-    # 🔥 EJECUTAR MIGRACIÓN POR FECHA UNA SOLA VEZ
-    #from utils import migrar_ids_monnet_por_fecha
-    #migrar_ids_monnet_por_fecha()
-    #return  # Comentar después de ejecutar
-
     http = HttpClient()
 
     try:
@@ -125,7 +99,6 @@ def main() -> None:
             for prov in PROVEEDORES_LIST:
                 logger.info(f"📌 Procesando: {prov.nombre}")
                 
-                # Obtener fecha de última ejecución para este proveedor
                 from state_manager import GestorEstado
                 fecha_corte = GestorEstado.obtener_fecha_corte(prov.nombre)
                 
@@ -145,9 +118,9 @@ def main() -> None:
                     if not pendientes_prov:
                         continue
                     
-                     # 🔥 Monnet ahora se verifica con API en lugar de Selenium
+                    # 🔥 Monnet: verificación por API (nuevo formato)
                     if prov.nombre == "Monnet":
-                        logger.info(f"🔄 Verificando {len(pendientes_prov)} pendientes de Monnet por ID...")
+                        logger.info(f"🔄 Verificando {len(pendientes_prov)} pendientes de Monnet vía API...")
                         api = MonnetAPI()
                         
                         for pend in pendientes_prov:
@@ -159,14 +132,16 @@ def main() -> None:
                                 pendientes_actualizados.append(pend)
                                 continue
                             
+                            # Consultar incidente por ID
                             inc_data = api.obtener_incidente_por_id(pend_id)
                             
                             if inc_data is None:
-                                # 404 - No existe (eliminado/desaparecido)
-                                logger.info(f"✅ Monnet | Incidente {pend_id} no encontrado (404) - marcando como resuelto: {pend.get('Titulo', '')[:50]}")
+                                # No encontrado (404 o fuera de rango)
+                                logger.info(f"✅ Monnet | Incidente {pend_id} no encontrado - marcando como resuelto: {pend.get('Titulo', '')[:50]}")
                                 pend["Pendiente"] = "NO"
-                                pend["Estado"] = "Resolved (incidente no encontrado en API)"
-                            elif inc_data.get("end_time") is not None:
+                                pend["Estado"] = "Resolved (incidente no encontrado)"
+                                pend["Duracion_Minutos"] = "0"
+                            elif inc_data.get("ended_at") is not None:
                                 # Tiene fecha de fin - se resolvió
                                 logger.info(f"✅ Monnet | Resuelto: {pend.get('Titulo', '')[:50]}")
                                 pend["Pendiente"] = "NO"
@@ -176,17 +151,18 @@ def main() -> None:
                                 pend["Duracion_Minutos"] = inc_dict["Duracion_Minutos"]
                                 pend["Estado"] = inc_dict["Estado"]
                             else:
-                                # Sigue activo (end_time es null)
+                                # Sigue activo (ended_at es null)
                                 logger.info(f"🟡 Monnet | Sigue pendiente: {pend.get('Titulo', '')[:50]}")
                                 pend["Pendiente"] = "SI"
-                                # Actualizar duración (va aumentando)
                                 inc_dict = api.convertir_a_dict(inc_data)
                                 pend["Duracion_Minutos"] = inc_dict["Duracion_Minutos"]
                                 pend["Estado"] = inc_dict["Estado"]
+                                if "(Activo)" not in pend.get("Periodo", ""):
+                                    pend["Periodo"] = inc_dict["Periodo"]
                             
                             pendientes_actualizados.append(pend)
                     else:
-                        # Para otros proveedores, usar Selenium
+                        # Para otros proveedores (Alps, Directa24), usar Selenium
                         verificados = bot.verificar_pendientes(pendientes_prov, prov)
                         pendientes_actualizados.extend(verificados)
                 
@@ -215,7 +191,7 @@ def main() -> None:
                 if not encontrado:
                     todos_pendientes.append(nuevo)
             
-            # ✅ ÚNICO PUNTO DE ASIGNACIÓN: Aquí se sella el operador de forma permanente
+            # ✅ ÚNICO PUNTO DE ASIGNACIÓN
             todos_pendientes = distribuir_asignados(todos_pendientes, ASIGNADOS)
             guardar_json(Path("pendientes_incidentes.json"), todos_pendientes)
 
@@ -234,7 +210,7 @@ def main() -> None:
                     vistos.add(clave)
                     sin_duplicados.append(inc)
             
-            # ✅ HERENCIA DE ASIGNADO: Copiamos el operador original del JSON histórico de pendientes
+            # ✅ HERENCIA DE ASIGNADO
             for inc in sin_duplicados:
                 match_origen = next((p for p in pendientes_guardados if p.get("ID") == inc.get("ID")), None)
                 if match_origen and match_origen.get("Asignado"):
@@ -242,7 +218,7 @@ def main() -> None:
                 else:
                     inc["Asignado"] = ""
 
-            # ✅ ASIGNACIÓN A HUÉRFANOS (Incidentes rápidos que van directo a History)
+            # ✅ ASIGNACIÓN A HUÉRFANOS
             sin_asignar = [inc for inc in sin_duplicados if not inc.get("Asignado")]
             if sin_asignar:
                 sin_asignar = distribuir_asignados(sin_asignar, ASIGNADOS)
@@ -255,22 +231,19 @@ def main() -> None:
                 if not inc.get("Asignado"):
                     inc["Asignado"] = "Sin Asignar"
 
-            # 💾 GUARDAR EN HISTÓRICO LOCAL PRIMERO (Filtra los reales nuevos contra el JSON)
+            # 💾 GUARDAR EN HISTÓRICO
             if sin_duplicados:
-                # 🟢 CORRECCIÓN: Mantener TODOS los campos para deduplicación correcta
                 datos_para_historico = sin_duplicados.copy()
                 resultado_final, nuevos_incidentes = fusionar_historico(datos_para_historico)
                 logger.info(f"💾 Histórico: {len(nuevos_incidentes)} nuevos | {len(resultado_final)} totales")
                 
-                # 📤 ENVIAR SOLO LOS INCIDENTES NUEVOS REALES A GOOGLE SHEETS
                 if nuevos_incidentes:
-                    from time_parser import ParseadorTiempo  # Importación local de seguridad
+                    from time_parser import ParseadorTiempo
                     
                     datos_history = []
                     for inc in nuevos_incidentes:
                         fila = {k: v for k, v in inc.items() if k not in ["ID", "Periodo_Raw", "Pendiente"]}
                         
-                        # 🛡️ FILTRO DE FECHA: Si el periodo tiene residuos de zona horaria (-04), lo convertimos a VET limpio
                         if "-04" in str(fila.get("Periodo", "")):
                             fila["Periodo"] = ParseadorTiempo.convertir_periodo_a_vet(str(fila["Periodo"]))
                             
@@ -284,23 +257,20 @@ def main() -> None:
                 logger.info("📭 No hay resueltos nuevos para guardar en histórico")
             
             # 5. QUINTO: Enviar pendientes a Pending
-            from time_parser import ParseadorTiempo  # Aseguramos disponibilidad
+            from time_parser import ParseadorTiempo
             datos_pending = []
             for inc in todos_pendientes:
                 fila = {k: v for k, v in inc.items() if k not in ["Periodo_Raw", "Pendiente"]}
                 
-                # 🛡️ FILTRO DE FECHA: Evitamos también que en Pending se vea con el "-04"
                 if "-04" in str(fila.get("Periodo", "")):
                     fila["Periodo"] = ParseadorTiempo.convertir_periodo_a_vet(str(fila["Periodo"]))
                     
                 datos_pending.append(fila)
             
-            # ✅ CORRECCIÓN: Quitamos el 'distribuir_asignados' de aquí para no pisar el orden del punto 3
             logger.info(f"⚠️ Enviando {len(datos_pending)} incidentes a Pending")
             enviar_a_google_sheets(http, datos_pending, "Pending")
 
-
-            # 6. SEXTO: Resumen final
+            # 6. RESUMEN FINAL
             total_pendientes = len(todos_pendientes)
             total_enviados = len(sin_duplicados)
             
