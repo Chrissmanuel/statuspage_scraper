@@ -1,3 +1,4 @@
+# monnet_api.py
 import requests
 import json
 import re
@@ -6,6 +7,7 @@ from typing import List, Dict, Any, Optional
 from zoneinfo import ZoneInfo
 from config import VET, HTTP_TIMEOUT
 from utils import logger
+import brotli  # ← Agregar esta importación
 
 class MonnetAPI:
     """Cliente para la NUEVA API pública de Freshservice de Monnet"""
@@ -14,33 +16,48 @@ class MonnetAPI:
     
     def __init__(self):
         self.session = requests.Session()
-        # ✅ Cabeceras IDÉNTICAS a las que usa el navegador
-        # En __init__ de MonnetAPI
         self.session.headers.update({
             "Accept": "application/json, text/plain, */*",
-            "Accept-Language": "en-US,en;q=0.9",
-            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "en-US,en;q=0.9,es;q=0.8",
+            "Accept-Encoding": "gzip, deflate, br",  # ← Aceptar Brotli
             "Connection": "keep-alive",
+            "Sec-Fetch-Dest": "empty",
+            "Sec-Fetch-Mode": "cors",
+            "Sec-Fetch-Site": "same-origin",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
             "Referer": "https://monnetpayments.status.freshservice.com/",
             "Origin": "https://monnetpayments.status.freshservice.com",
         })
         self._service_names_cache = {}
     
+    def _decodificar_respuesta(self, response: requests.Response) -> dict:
+        """Decodifica la respuesta manejando compresión Brotli manualmente si es necesario"""
+        content_encoding = response.headers.get('Content-Encoding', '')
+        
+        # Si la respuesta está comprimida con Brotli
+        if 'br' in content_encoding:
+            try:
+                # Descomprimir manualmente con brotli
+                import brotli
+                data = brotli.decompress(response.content)
+                return json.loads(data.decode('utf-8'))
+            except Exception as e:
+                logger.error(f"❌ Error descomprimiendo Brotli: {e}")
+                # Fallback: intentar con response.json() normal
+                return response.json()
+        else:
+            # Respuesta sin comprimir o con otro encoding
+            return response.json()
+    
     def _extraer_nombre_servicio_desde_titulo(self, title: str, service_id: str) -> str:
-        """
-        Extrae el nombre del servicio desde el título del incidente.
-        Ej: "Bank Intermittence – [BANK ITAU I CL I BT] - [PAYINS]" -> "BANK ITAU I CL I BT"
-        """
+        """Extrae el nombre del servicio desde el título del incidente."""
         if service_id in self._service_names_cache:
             return self._service_names_cache[service_id]
         
-        # Buscar patrones como [NOMBRE_SERVICIO]
         pattern = r'\[([^\]]+)\]'
         matches = re.findall(pattern, title)
         
         if matches:
-            # Tomar el primer match que no sea demasiado corto
             for match in matches:
                 if len(match.strip()) > 2:
                     nombre = match.strip()
@@ -59,7 +76,6 @@ class MonnetAPI:
         start_utc = start_date.astimezone(ZoneInfo("UTC")).strftime("%Y-%m-%dT%H:%M:%SZ")
         end_utc = end_date.astimezone(ZoneInfo("UTC")).strftime("%Y-%m-%dT%H:%M:%SZ")
         
-        # Construir filtro SIN espacios
         filtros = [
             {
                 "condition": "time_window",
@@ -77,64 +93,51 @@ class MonnetAPI:
                 url = f"{self.BASE_URL}?filter={encoded_filter}&order_by=started_at&order_type=desc&page={page}&per_page={per_page}"
                 
                 logger.debug(f"📡 Monnet API | Consultando página {page}...")
-                logger.debug(f"URL: {url[:150]}...")
                 
                 response = self.session.get(url, timeout=HTTP_TIMEOUT)
                 
-                # ✅ LOG DETALLADO para ver qué está pasando en Git
-                logger.info(f"📡 Monnet API | Status: {response.status_code}")
-                logger.info(f"📡 Monnet API | Headers: {dict(response.headers)}")
-                logger.info(f"📡 Monnet API | Body preview: {response.text[:500]}")
-                
-                # ✅ Si no es 200, mostrar el error real
                 if response.status_code != 200:
                     logger.error(f"❌ Error consultando API de Monnet: {response.status_code}")
-                    logger.error(f"   Respuesta: {response.text[:500]}")
                     break
                 
-                # ✅ Verificar que la respuesta no esté vacía
-                if not response.text or not response.text.strip():
+                if not response.content:
                     logger.warning("⚠️ Respuesta vacía de la API de Monnet")
                     break
                 
-                # ✅ Intentar parsear JSON
+                # ✅ Usar el decodificador personalizado
                 try:
-                    data = response.json()
-                except json.JSONDecodeError as e:
-                    logger.error(f"❌ Error decodificando JSON: {e}")
-                    logger.error(f"   Respuesta recibida: {response.text[:200]}")
+                    data = self._decodificar_respuesta(response)
+                except Exception as e:
+                    logger.error(f"❌ Error decodificando respuesta: {e}")
                     break
                 
                 disruptions = data.get("disruptions", [])
                 all_results.extend(disruptions)
                 
                 meta = data.get("meta", {})
-                if page >= meta.get("last", 1):
+                if page >= meta.get("last", 1) or not disruptions:
                     break
                 
                 page += 1
                 
             except requests.RequestException as e:
                 logger.error(f"❌ Error consultando API de Monnet: {e}")
-                if hasattr(e, 'response') and e.response is not None:
-                    logger.error(f"   Status: {e.response.status_code}")
-                    logger.error(f"   Texto: {e.response.text[:500]}")
+                break
+            except json.JSONDecodeError as e:
+                logger.error(f"❌ Error decodificando JSON de Monnet: {e}")
                 break
         
         logger.info(f"📡 Monnet API | Obtenidos {len(all_results)} incidentes históricos")
         return all_results
     
     def obtener_pendientes(self) -> List[Dict[str, Any]]:
-        """
-        Obtiene incidentes activos (pendientes) de Monnet.
-        """
+        """Obtiene incidentes activos (pendientes) de Monnet."""
         try:
             end_date = datetime.now(ZoneInfo("UTC"))
             start_date = end_date - timedelta(days=90)
             
             todos = self.obtener_historicos(start_date, end_date)
             
-            # Filtrar los que no tienen ended_at (pendientes)
             pendientes = [inc for inc in todos if inc.get("ended_at") is None]
             
             logger.info(f"📡 Monnet API | Obtenidos {len(pendientes)} incidentes pendientes")
@@ -145,16 +148,15 @@ class MonnetAPI:
             return []
     
     def obtener_actualizaciones(self, incident_id: int) -> List[Dict[str, Any]]:
-        """
-        Obtiene las actualizaciones de un incidente específico.
-        Endpoint: /disruptions/{id}/updates
-        """
+        """Obtiene las actualizaciones de un incidente específico."""
         try:
             url = f"{self.BASE_URL}/{incident_id}/updates"
             
             response = self.session.get(url, timeout=HTTP_TIMEOUT)
             response.raise_for_status()
-            data = response.json()
+            
+            # ✅ Usar el decodificador personalizado
+            data = self._decodificar_respuesta(response)
             
             updates = data.get("disruption_updates", [])
             logger.debug(f"📡 Monnet API | Obtenidas {len(updates)} actualizaciones para incidente {incident_id}")
@@ -165,17 +167,13 @@ class MonnetAPI:
             return []
     
     def obtener_incidente_por_id(self, incident_id: str) -> Optional[Dict[str, Any]]:
-        """
-        Obtiene un incidente específico por su ID.
-        Como la API no tiene endpoint directo por ID, buscamos en el rango de 90 días.
-        """
+        """Obtiene un incidente específico por su ID."""
         try:
             end_date = datetime.now(ZoneInfo("UTC"))
             start_date = end_date - timedelta(days=90)
             
             todos = self.obtener_historicos(start_date, end_date)
             
-            # Buscar el incidente por ID
             for inc in todos:
                 if str(inc.get("id")) == str(incident_id):
                     return inc
@@ -188,10 +186,7 @@ class MonnetAPI:
             return None
     
     def convertir_a_dict(self, incidente_api: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Convierte un incidente de la NUEVA API al formato estándar.
-        """
-        # Extraer y mapear componentes afectados
+        """Convierte un incidente de la NUEVA API al formato estándar."""
         componentes_nombres = []
         title = incidente_api.get("title", "")
         
@@ -203,25 +198,15 @@ class MonnetAPI:
         
         componentes_str = ", ".join(componentes_nombres) if componentes_nombres else "N/A"
         
-        # Determinar si es mantenimiento programado
-        # type: 1 = Incident, 2 = Planned Maintenance
         es_planned = incidente_api.get("type") == 2
         
-        # Obtener fechas
         start_time = incidente_api.get("started_at")
         end_time = incidente_api.get("ended_at")
         
-        # Formatear período
         periodo_vet = self._formatear_periodo(start_time, end_time)
-        
-        # Calcular duración
         duracion = self._calcular_duracion(start_time, end_time)
-        
-        # Determinar si está pendiente
         pendiente = "SI" if end_time is None else "NO"
         
-        # Mapear estado de Freshservice a nuestro formato
-        # status: 1 = Investigating, 2 = Resolved, 3 = Monitoring, 4 = Scheduled, 5 = Post-Mortem
         status_map = {
             1: "Investigating",
             2: "Resolved",
@@ -232,7 +217,6 @@ class MonnetAPI:
         status_code = incidente_api.get("status", 1)
         estado = status_map.get(status_code, "Unknown")
         
-        # Si es planificado, forzar estado "Planned"
         if es_planned:
             estado = "Planned"
         
