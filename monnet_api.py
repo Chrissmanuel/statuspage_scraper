@@ -2,12 +2,14 @@
 import requests
 import json
 import re
+import gzip
+import io
 from datetime import datetime, timedelta
 from typing import List, Dict, Any, Optional
 from zoneinfo import ZoneInfo
 from config import VET, HTTP_TIMEOUT
 from utils import logger
-import brotli  # ← Agregar esta importación
+
 
 class MonnetAPI:
     """Cliente para la NUEVA API pública de Freshservice de Monnet"""
@@ -19,7 +21,7 @@ class MonnetAPI:
         self.session.headers.update({
             "Accept": "application/json, text/plain, */*",
             "Accept-Language": "en-US,en;q=0.9,es;q=0.8",
-            "Accept-Encoding": "gzip, deflate, br",  # ← Aceptar Brotli
+            "Accept-Encoding": "gzip, deflate",  # ← Sin br, solo gzip y deflate
             "Connection": "keep-alive",
             "Sec-Fetch-Dest": "empty",
             "Sec-Fetch-Mode": "cors",
@@ -31,23 +33,32 @@ class MonnetAPI:
         self._service_names_cache = {}
     
     def _decodificar_respuesta(self, response: requests.Response) -> dict:
-        """Decodifica la respuesta manejando compresión automáticamente"""
-        # requests debería manejar esto automáticamente, pero forzamos la decodificación
-        try:
+        """
+        Decodifica la respuesta manejando compresión manualmente si es necesario.
+        Usa gzip como fallback si requests no descomprimió automáticamente.
+        """
+        content_encoding = response.headers.get('Content-Encoding', '')
+        
+        # Si la respuesta está comprimida con gzip y requests no la descomprimió
+        if 'gzip' in content_encoding or 'deflate' in content_encoding:
+            try:
+                # Intentar descomprimir con gzip
+                if 'gzip' in content_encoding:
+                    with gzip.GzipFile(fileobj=io.BytesIO(response.content)) as gz:
+                        data = gz.read()
+                    return json.loads(data.decode('utf-8'))
+                else:
+                    # deflate
+                    import zlib
+                    data = zlib.decompress(response.content, -zlib.MAX_WBITS)
+                    return json.loads(data.decode('utf-8'))
+            except Exception as e:
+                logger.debug(f"Error descomprimiendo manualmente: {e}")
+                # Fallback: intentar con response.json() normal
+                return response.json()
+        else:
+            # Respuesta sin comprimir
             return response.json()
-        except json.JSONDecodeError:
-            # Si falla, intentar decodificar manualmente
-            content = response.content
-            if response.headers.get('Content-Encoding') == 'br':
-                # Intentar con brotli, si falla usar gzip
-                try:
-                    import brotli
-                    content = brotli.decompress(content)
-                except ImportError:
-                    # Si no hay brotli, intentar con gzip
-                    import gzip
-                    content = gzip.decompress(content)
-            return json.loads(content.decode('utf-8'))
     
     def _extraer_nombre_servicio_desde_titulo(self, title: str, service_id: str) -> str:
         """Extrae el nombre del servicio desde el título del incidente."""
@@ -104,11 +115,18 @@ class MonnetAPI:
                     logger.warning("⚠️ Respuesta vacía de la API de Monnet")
                     break
                 
-                # ✅ Usar el decodificador personalizado
+                # Intentar decodificar
                 try:
                     data = self._decodificar_respuesta(response)
+                except json.JSONDecodeError as e:
+                    logger.error(f"❌ Error decodificando JSON: {e}")
+                    # Último intento: usar response.json() directamente
+                    try:
+                        data = response.json()
+                    except:
+                        break
                 except Exception as e:
-                    logger.error(f"❌ Error decodificando respuesta: {e}")
+                    logger.error(f"❌ Error procesando respuesta: {e}")
                     break
                 
                 disruptions = data.get("disruptions", [])
@@ -122,9 +140,6 @@ class MonnetAPI:
                 
             except requests.RequestException as e:
                 logger.error(f"❌ Error consultando API de Monnet: {e}")
-                break
-            except json.JSONDecodeError as e:
-                logger.error(f"❌ Error decodificando JSON de Monnet: {e}")
                 break
         
         logger.info(f"📡 Monnet API | Obtenidos {len(all_results)} incidentes históricos")
@@ -155,7 +170,6 @@ class MonnetAPI:
             response = self.session.get(url, timeout=HTTP_TIMEOUT)
             response.raise_for_status()
             
-            # ✅ Usar el decodificador personalizado
             data = self._decodificar_respuesta(response)
             
             updates = data.get("disruption_updates", [])
