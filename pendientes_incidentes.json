@@ -1,15 +1,1 @@
-[
-  {
-    "Proveedor": "Alps",
-    "Titulo": "SPEI transfer Intermittences - FINTOC -MX -",
-    "Periodo": "Aug 28, 09:36 GMT-04:00",
-    "Resumen": "Intermittent service disruptions have been detected. There is currently slowness in the processing of Transfers through Fintoc. The service is available, but there may be delays in SPEI transfer notifications. We are working on a solution, which will be communicated through this same channel.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. There is currently slowness in the processing of Transfers through Fintoc. The service is available, but there may be delays in SPEI transfer notifications. We are working on a solution, which will be communicated through this same channel.",
-    "Componentes": "This incident affects: Payin (Mexico).",
-    "Duracion_Minutos": "39",
-    "Pendiente": "SI",
-    "ID": "incidents/x29hv6b2lczz",
-    "Asignado": "Merlis M",
-    "Periodo_Raw": "Aug 28, 09:36 GMT-04:00"
-  }
-]
+[]
