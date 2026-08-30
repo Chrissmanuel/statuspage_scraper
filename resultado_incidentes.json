@@ -5259,5 +5259,18 @@
     "ID": "incidents/k3p2sjh36hpg",
     "Asignado": "Airam S",
     "Periodo_Raw": "Aug 29, 22:00 - Aug 30, 06:00 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Mach Intermittences - ETPAY",
+    "Periodo": "Aug 30, 10:43 - 11:54 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "71",
+    "Pendiente": "NO",
+    "ID": "incidents/1lb6lx9pxnlf",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Aug 30, 10:43 - 11:54 GMT-04:00"
   }
 ]
