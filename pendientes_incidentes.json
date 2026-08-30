@@ -6,7 +6,7 @@
     "Resumen": "Scheduled maintenance is currently in progress. We will provide updates as necessary.\n\nHistorial:\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Transbank Chile will be performing scheduled maintenance on its platform on August 29, between 22:00 and August 30, 06:00 (UTC-4). During this maintenance window, transactions processed through Transbank may experience intermittent disruptions. We recommend planning your operations accordingly. If you have any questions, please contact us at support@alps.cl.",
     "Estado": "In progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.",
     "Componentes": "This scheduled maintenance affects: Payin (Chile).",
-    "Duracion_Minutos": "450",
+    "Duracion_Minutos": "465",
     "Pendiente": "SI",
     "ID": "incidents/k3p2sjh36hpg",
     "Asignado": "Airam S",
