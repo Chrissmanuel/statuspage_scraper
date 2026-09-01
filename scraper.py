@@ -250,9 +250,9 @@ class IncidentScraper(AbstractContextManager):
                         continue
             else:
                 # Primera ejecución: buscar desde inicio del mes
-                inicio_busqueda = datetime(2026, 1, 1, 0, 0, 0, tzinfo=ZoneInfo("UTC"))
+                inicio_busqueda = hoy.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
-                logger.info(f"📡 Monnet API | Primera ejecución - Buscando desde {inicio_busqueda.date()} hasta hoy")
+                logger.info(f"📡 Monnet API | Buscando desde {inicio_busqueda.date()} hasta hoy")
                 
                 historicos_api = api.obtener_historicos(inicio_busqueda, hoy)
                 logger.info(f"📡 Monnet API | Obtenidos {len(historicos_api)} incidentes en el rango")
