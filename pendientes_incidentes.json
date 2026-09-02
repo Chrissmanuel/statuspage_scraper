@@ -6,10 +6,23 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, TRANSBANK has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, TRANSBANK has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "130",
+    "Duracion_Minutos": "145",
     "Pendiente": "SI",
     "ID": "incidents/6hhwyyl0bhjy",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 1, 21:05 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Scheduled Maintenance Notice Transbank Chile",
+    "Periodo": "Sep 1, 23:00 GMT-04:00",
+    "Resumen": "Scheduled maintenance is currently in progress. We will provide updates as necessary.\n\nHistorial:\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Transbank Chile will be performing scheduled maintenance on its platform on September 01, between 22:00 and September 02, 06:00 (UTC-4). During this maintenance window, transactions processed through Transbank may experience intermittent disruptions. We recommend planning your operations accordingly. If you have any questions, please contact us at support@alps.cl.",
+    "Estado": "In progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.",
+    "Componentes": "This scheduled maintenance affects: Payin (Chile).",
+    "Duracion_Minutos": "30",
+    "Pendiente": "SI",
+    "ID": "incidents/437mv5nr5bq0",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Sep 1, 23:00 GMT-04:00"
   }
 ]
