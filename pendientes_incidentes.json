@@ -6,7 +6,7 @@
     "Resumen": "We can see that payout processing times are returning to normal.\n\nHistorial:\nMonitoring: We can see that payout processing times are returning to normal.\nInvestigating: We are seeing higher-than-usual response times on transactions with Banco de Chile. Payments through this bank may take longer than normal to complete. All other payment methods are operating normally. Our team is investigating and we will post an update within [30/60] minutes, or sooner if there is news.",
     "Estado": "Monitoring: We can see that payout processing times are returning to normal.",
     "Componentes": "This incident affects: Payout (Chile).",
-    "Duracion_Minutos": "133",
+    "Duracion_Minutos": "148",
     "Pendiente": "SI",
     "ID": "incidents/9bzp64pfvxj0",
     "Asignado": "Airam S",
