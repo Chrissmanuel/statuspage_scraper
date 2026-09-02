@@ -1,15 +1,1 @@
-[
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Banco Estado Intermittences - TRANSBANK",
-    "Periodo": "Sep 1, 21:05 GMT-04:00",
-    "Resumen": "Webpay Plus (Transbank) resumed processing transactions at 23:37 CLT. New payments are being completed through this payment method again. We are keeping this incident open while we monitor the stability of the service. Transaction volumes and completion rates have not yet returned to their usual levels. Transactions that were initiated during the outage and did not receive a final result remain unresolved. Their status is being reviewed with Transbank.\n\nHistorial:\nUpdate: Webpay Plus (Transbank) resumed processing transactions at 23:37 CLT. New payments are being completed through this payment method again. We are keeping this incident open while we monitor the stability of the service. Transaction volumes and completion rates have not yet returned to their usual levels. Transactions that were initiated during the outage and did not receive a final result remain unresolved. Their status is being reviewed with Transbank.\nMonitoring: A fix has been implemented and we are monitoring the results.\nIdentified: Intermittent service disruptions have been detected. As a result, TRANSBANK has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Update: Webpay Plus (Transbank) resumed processing transactions at 23:37 CLT. New payments are being completed through this payment method again. We are keeping this incident open while we monitor the stability of the service. Transaction volumes and completion rates have not yet returned to their usual levels. Transactions that were initiated during the outage and did not receive a final result remain unresolved. Their status is being reviewed with Transbank.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "205",
-    "Pendiente": "SI",
-    "ID": "incidents/6hhwyyl0bhjy",
-    "Asignado": "Luis G",
-    "Periodo_Raw": "Sep 1, 21:05 GMT-04:00"
-  }
-]
+[]

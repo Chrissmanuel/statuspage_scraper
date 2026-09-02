@@ -2093,5 +2093,18 @@
     "ID": "incidents/437mv5nr5bq0",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 1, 23:00 - Sep 2, 06:00 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Estado Intermittences - TRANSBANK",
+    "Periodo": "Sep 1, 21:05 - Sep 2, 08:47 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nUpdate: Webpay Plus (Transbank) resumed processing transactions at 23:37 CLT. New payments are being completed through this payment method again. We are keeping this incident open while we monitor the stability of the service. Transaction volumes and completion rates have not yet returned to their usual levels. Transactions that were initiated during the outage and did not receive a final result remain unresolved. Their status is being reviewed with Transbank.\nMonitoring: A fix has been implemented and we are monitoring the results.\nIdentified: Intermittent service disruptions have been detected. As a result, TRANSBANK has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "702",
+    "Pendiente": "NO",
+    "ID": "incidents/6hhwyyl0bhjy",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Sep 1, 21:05 - Sep 2, 08:47 GMT-04:00"
   }
 ]
