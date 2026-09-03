@@ -1,15 +1,1 @@
-[
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Fintoc MX - Transfers - Intermitente",
-    "Periodo": "Sep 3, 08:53 GMT-04:00",
-    "Resumen": "The service is available, but there may be delays in transfer notifications. We are working on a solution, which will be communicated through this same channel.\" Components affected: Dashboard Transfers API Payment Initiation, Transfers",
-    "Estado": "Identified: The service is available, but there may be delays in transfer notifications. We are working on a solution, which will be communicated through this same channel.\" Components affected: Dashboard Transfers API Payment Initiation, Transfers",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "37",
-    "Pendiente": "SI",
-    "ID": "incidents/k76svwt9xd3p",
-    "Asignado": "Greider G",
-    "Periodo_Raw": "Sep 3, 08:53 GMT-04:00"
-  }
-]
+[]
