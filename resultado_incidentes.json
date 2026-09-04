@@ -2158,5 +2158,31 @@
     "ID": "incidents/4298t7qpycs4",
     "Asignado": "Airam S",
     "Periodo_Raw": "Sep 3, 23:00 - Sep 4, 06:00 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Santander Intermittences - FINTOC",
+    "Periodo": "Sep 3, 22:46 - Sep 4, 10:38 GMT-04:00",
+    "Resumen": "Payments with Banco de Chile have returned to normal operation.\n\nHistorial:\nResolved: Payments with Banco de Chile have returned to normal operation.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: Payments with Banco de Chile have returned to normal operation.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "712",
+    "Pendiente": "NO",
+    "ID": "incidents/ty4zbvxfvcz9",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Sep 3, 22:46 - Sep 4, 10:38 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco de Chile Intermittences - FINTOC",
+    "Periodo": "Sep 3, 21:14 - Sep 4, 10:37 GMT-04:00",
+    "Resumen": "Payments with Banco de Chile have returned to normal operation.\n\nHistorial:\nResolved: Payments with Banco de Chile have returned to normal operation.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: Payments with Banco de Chile have returned to normal operation.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "803",
+    "Pendiente": "NO",
+    "ID": "incidents/bpwv71bk4dgm",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Sep 3, 21:14 - Sep 4, 10:37 GMT-04:00"
   }
 ]
