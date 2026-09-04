@@ -24,5 +24,18 @@
     "ID": "incidents/ty4zbvxfvcz9",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 3, 22:46 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Fintoc MX - Transfers - Intermitente",
+    "Periodo": "Sep 4, 08:47 GMT-04:00",
+    "Resumen": "The service is available, but there may be delays in transfer notifications. We are working on a solution, which will be communicated through this same channel.\" Affected: Dashboard Transfers, API Transfers",
+    "Estado": "Identified: The service is available, but there may be delays in transfer notifications. We are working on a solution, which will be communicated through this same channel.\" Affected: Dashboard Transfers, API Transfers",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "43",
+    "Pendiente": "SI",
+    "ID": "incidents/fqmkqmdywtkm",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Sep 4, 08:47 GMT-04:00"
   }
 ]
