@@ -2184,5 +2184,18 @@
     "ID": "incidents/bpwv71bk4dgm",
     "Asignado": "Airam S",
     "Periodo_Raw": "Sep 3, 21:14 - Sep 4, 10:37 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Fintoc MX - Transfers - Intermitente",
+    "Periodo": "Sep 4, 08:47 - 15:42 GMT-04:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: The service is available, but there may be delays in transfer notifications. We are working on a solution, which will be communicated through this same channel.\" Affected: Dashboard Transfers, API Transfers",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "415",
+    "Pendiente": "NO",
+    "ID": "incidents/fqmkqmdywtkm",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Sep 4, 08:47 - 15:42 GMT-04:00"
   }
 ]
