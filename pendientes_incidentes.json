@@ -32,7 +32,7 @@
     "Resumen": "The service is available, but there may be delays in transfer notifications. We are working on a solution, which will be communicated through this same channel.\" Affected: Dashboard Transfers, API Transfers",
     "Estado": "Identified: The service is available, but there may be delays in transfer notifications. We are working on a solution, which will be communicated through this same channel.\" Affected: Dashboard Transfers, API Transfers",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "58",
+    "Duracion_Minutos": "73",
     "Pendiente": "SI",
     "ID": "incidents/fqmkqmdywtkm",
     "Asignado": "Luis G",
