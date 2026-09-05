@@ -2197,5 +2197,18 @@
     "ID": "incidents/fqmkqmdywtkm",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 4, 08:47 - 15:42 GMT-04:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Scheduled Maintenance Notice - Banco BCI, Chile",
+    "Periodo": "Sep 5, 00:30 - 03:01 GMT-04:00",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Banco BCI will be performing scheduled maintenance on its web and app services on Saturday,August 5, between 00:30 and 03:00 (UTC-4). During this maintenance window, the bank's services will be temporarily unavailable. As a result, ETPAY will temporarily disable transactions with the bank until the maintenance is completed. We recommend planning your operations accordingly. If you have any questions, please contact us at support@alps.cl.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Payin (Chile).",
+    "Duracion_Minutos": "151",
+    "Pendiente": "NO",
+    "ID": "incidents/b32qc166ww0v",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Sep 5, 00:30 - 03:01 GMT-04:00"
   }
 ]
