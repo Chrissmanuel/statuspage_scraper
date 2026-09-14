@@ -6,7 +6,7 @@
     "Resumen": "Hi team,\n\nWe are experiencing intermittent outages with our payment disbursement service for Scotiabank Bank in Peru. \n\nWe are monitoring the situation and will keep you updated.\n\nFor assistance, please contact support@monnetpayments.com.\n\nWe apologize for any inconvenience and appreciate your patience and understanding.\n\nRegards,",
     "Estado": "Investigating",
     "Componentes": "BT-PER",
-    "Duracion_Minutos": "105",
+    "Duracion_Minutos": "120",
     "Pendiente": "SI",
     "ID": "37",
     "Human_ID": "#SPI-37",
