@@ -2471,5 +2471,18 @@
     "ID": "incidents/234j6dhldfsy",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 14, 22:32 - Sep 15, 17:49 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Ripley Intermittences - FINTOC",
+    "Periodo": "Sep 15, 17:49 - 18:58 GMT-03:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "69",
+    "Pendiente": "NO",
+    "ID": "incidents/gjfg8s6jkbg3",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Sep 15, 17:49 - 18:58 GMT-03:00"
   }
 ]
