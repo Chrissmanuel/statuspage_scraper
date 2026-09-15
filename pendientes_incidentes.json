@@ -6,7 +6,7 @@
     "Resumen": "Intermittent issues affecting Transbank Chile transaction conversion have been detected. This may impact the processing of some transactions. We are monitoring the situation and will provide an update as soon as operations return to normal.",
     "Estado": "Identified: Intermittent issues affecting Transbank Chile transaction conversion have been detected. This may impact the processing of some transactions. We are monitoring the situation and will provide an update as soon as operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "208",
+    "Duracion_Minutos": "223",
     "Pendiente": "SI",
     "ID": "incidents/234j6dhldfsy",
     "Asignado": "Luis G",
