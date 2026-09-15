@@ -2458,5 +2458,18 @@
     "ID": "incidents/23f0rjytkllp",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 15, 11:05 - 11:39 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Transbank Chile Conversion Intermittencies",
+    "Periodo": "Sep 14, 22:32 - Sep 15, 17:49 GMT-03:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent issues affecting Transbank Chile transaction conversion have been detected. This may impact the processing of some transactions. We are monitoring the situation and will provide an update as soon as operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "1157",
+    "Pendiente": "NO",
+    "ID": "incidents/234j6dhldfsy",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Sep 14, 22:32 - Sep 15, 17:49 GMT-03:00"
   }
 ]
