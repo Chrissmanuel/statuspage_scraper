@@ -2517,5 +2517,18 @@
     "ID": "incidents/45c9x6pycxc1",
     "Asignado": "Airam S",
     "Periodo_Raw": "Sep 17, 10:24 - 11:56 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Transbank Intermittences",
+    "Periodo": "Sep 17, 18:29 - Sep 18, 10:29 GMT-03:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "960",
+    "Pendiente": "NO",
+    "ID": "incidents/t2ghh3nv1b2z",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Sep 17, 18:29 - Sep 18, 10:29 GMT-03:00"
   }
 ]
