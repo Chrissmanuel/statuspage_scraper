@@ -2563,5 +2563,18 @@
     "ID": "incidents/n15cwznhvhg0",
     "Asignado": "Greider G",
     "Periodo_Raw": "Sep 19, 14:23 - 17:21 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Security Intermittences - FINTOC",
+    "Periodo": "Sep 21, 12:54 - 13:59 GMT-03:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "65",
+    "Pendiente": "NO",
+    "ID": "incidents/883gn5n0wb6n",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Sep 21, 12:54 - 13:59 GMT-03:00"
   }
 ]
