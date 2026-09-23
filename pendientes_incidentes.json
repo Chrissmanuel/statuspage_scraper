@@ -1,19 +1,6 @@
 [
   {
     "Proveedor": "Alps",
-    "Titulo": "Banco SANTANDER Intermittences - FINTOC",
-    "Periodo": "Sep 23, 13:08 GMT-03:00",
-    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "307",
-    "Pendiente": "SI",
-    "ID": "incidents/9jv7sqxm8ckg",
-    "Asignado": "Luis G",
-    "Periodo_Raw": "Sep 23, 13:08 GMT-03:00"
-  },
-  {
-    "Proveedor": "Alps",
     "Titulo": "Service Status Pay-ins Ecuador | SafetyPay Temporary Unavailability",
     "Periodo": "Sep 23, 14:29 GMT-03:00",
     "Resumen": "The service disruption has been confirmed to be affecting SafetyPay payments through Banco Guayaquil exclusively. Payments through other banks are not affected. The situation remains under review, and we expect to provide further updates within the next few hours.\n\nHistorial:\nIdentified: The service disruption has been confirmed to be affecting SafetyPay payments through Banco Guayaquil exclusively. Payments through other banks are not affected. The situation remains under review, and we expect to provide further updates within the next few hours.\nInvestigating: The SafetyPay Online payment service in Ecuador is temporarily unavailable due to an incident affecting the processor. We are currently investigating the situation and will provide further updates as more information becomes available.",
