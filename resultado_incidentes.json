@@ -2817,5 +2817,18 @@
     "ID": "incidents/7cpwzxc5xnf5",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 25, 22:00 - Sep 26, 06:00 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Scheduled Maintenance Notice - Banco Coopeuch, Chile",
+    "Periodo": "Sep 26, 21:30 - 23:30 GMT-03:00",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nUpdate: We will be undergoing scheduled maintenance during this time.\nScheduled: Banco Coopeuch will be performing scheduled maintenance on its web and app services on , September 26, between 21:30 and 23:30 (UTC-4). During this maintenance window, the bank's services will be temporarily unavailable. As a result, [ETPAY] will temporarily disable transactions with the bank until the maintenance is completed. We recommend planning your operations accordingly. If you have any questions, please contact us at support@alps.cl.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Payin (Chile).",
+    "Duracion_Minutos": "120",
+    "Pendiente": "NO",
+    "ID": "incidents/d04t40rx5rmn",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Sep 26, 21:30 - 23:30 GMT-03:00"
   }
 ]
