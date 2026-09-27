@@ -19,10 +19,23 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "310",
+    "Duracion_Minutos": "325",
     "Pendiente": "SI",
     "ID": "incidents/tbw0cf8qyxmp",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Sep 26, 16:35 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Scheduled Maintenance Notice - Banco Coopeuch, Chile",
+    "Periodo": "Sep 26, 21:30 GMT-03:00",
+    "Resumen": "Scheduled maintenance is currently in progress. We will provide updates as necessary.\n\nHistorial:\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nUpdate: We will be undergoing scheduled maintenance during this time.\nScheduled: Banco Coopeuch will be performing scheduled maintenance on its web and app services on , September 26, between 21:30 and 23:30 (UTC-4). During this maintenance window, the bank's services will be temporarily unavailable. As a result, [ETPAY] will temporarily disable transactions with the bank until the maintenance is completed. We recommend planning your operations accordingly. If you have any questions, please contact us at support@alps.cl.",
+    "Estado": "In progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.",
+    "Componentes": "This scheduled maintenance affects: Payin (Chile).",
+    "Duracion_Minutos": "30",
+    "Pendiente": "SI",
+    "ID": "incidents/d04t40rx5rmn",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Sep 26, 21:30 GMT-03:00"
   }
 ]
