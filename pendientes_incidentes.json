@@ -11,18 +11,5 @@
     "ID": "incidents/wck2ltsj7cwv",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 23, 14:29 GMT-03:00"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Banco SANTANDER Intermittences - FINTOC",
-    "Periodo": "Sep 29, 15:20 GMT-03:00",
-    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "115",
-    "Pendiente": "SI",
-    "ID": "incidents/f4pxbbbjn1zq",
-    "Asignado": "Merlis M",
-    "Periodo_Raw": "Sep 29, 15:20 GMT-03:00"
   }
 ]
