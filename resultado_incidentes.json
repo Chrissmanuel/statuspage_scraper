@@ -2908,5 +2908,18 @@
     "ID": "incidents/lcqd8qh6sd61",
     "Asignado": "Airam S",
     "Periodo_Raw": "Sep 28, 11:32 - 20:51 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Santander Intermittences - ETPAY",
+    "Periodo": "Sep 28, 13:23 - Sep 29, 00:04 GMT-03:00",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nMonitoring: A fix has been implemented and we are monitoring the results.\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": "641",
+    "Pendiente": "NO",
+    "ID": "incidents/dz411w2qyrd7",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Sep 28, 13:23 - Sep 29, 00:04 GMT-03:00"
   }
 ]
