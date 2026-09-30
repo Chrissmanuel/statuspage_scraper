@@ -2947,5 +2947,18 @@
     "ID": "incidents/f4pxbbbjn1zq",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Sep 29, 15:20 - 18:19 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Scheduled Maintenance Notice Transbank Chile",
+    "Periodo": "Sep 30, 00:00 - 06:00 GMT-03:00",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Transbank Chile will be performing scheduled maintenance on its platform on September 30, between 00:00 06:00 (UTC-4). During this maintenance window, transactions processed through Transbank may experience intermittent disruptions. We recommend planning your operations accordingly. If you have any questions, please contact us at support@alps.cl.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Payin (Chile).",
+    "Duracion_Minutos": "360",
+    "Pendiente": "NO",
+    "ID": "incidents/x181zv78tw0x",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Sep 30, 00:00 - 06:00 GMT-03:00"
   }
 ]
