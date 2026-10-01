@@ -508,7 +508,9 @@ class IncidentScraper(AbstractContextManager):
             return inc
 
         try:
-            id_val = inc.get("ID", "")
+            id_val = str(inc.get("ID", "")).strip()
+            if not id_val:
+                return inc
 
             if id_val.startswith("http"):
                 url = id_val
@@ -523,7 +525,9 @@ class IncidentScraper(AbstractContextManager):
 
             logger.info(f"🔍 Verificando {config.nombre}: {url}")
             self.driver.get(url)
-            time.sleep(DETAIL_LOAD_SLEEP)
+            
+            # Pausa de seguridad para estabilizar la URL en caso de redirección
+            time.sleep(DETAIL_LOAD_SLEEP + 1)
 
             current_url = self.driver.current_url
 
@@ -531,21 +535,24 @@ class IncidentScraper(AbstractContextManager):
             url_match = re.search(r'/incidents/([a-z0-9]+)', current_url)
             current_id = url_match.group(1) if url_match else None
 
-            if current_id != id_val and id_val not in current_url:
+            # Validar si el cuerpo del incidente se renderizó en Selenium
+            tiene_contenedor = False
+            try:
+                self.driver.find_element(By.CSS_SELECTOR, "div.incident-updates-container, div.components-affected, h1.incident-name")
+                tiene_contenedor = True
+            except NoSuchElementException:
+                pass
+
+            # Si NO cargó el contenedor Y la URL cambió, recién asumimos que el incidente no existe
+            if not tiene_contenedor and current_id != id_val and id_val not in current_url:
                 logger.warning(f"⚠️ {config.nombre} | Incidente redirigido (ID no encontrado en URL): {inc.get('Titulo', '')[:50]}")
                 inc["Pendiente"] = "NO"
                 inc["Estado"] = "Resolved (Incidente no disponible)"
                 return inc
 
-            try:
-                self.driver.find_element(By.CSS_SELECTOR,
-                    "div.incident-updates-container, div.components-affected, h1.incident-name")
-                logger.info(f"✅ {config.nombre} | Incidente válido encontrado: {inc.get('Titulo', '')[:50]}")
-
-            except NoSuchElementException:
+            if not tiene_contenedor:
                 logger.warning(f"⚠️ {config.nombre} | Incidente sin contenedor válido: {inc.get('Titulo', '')[:50]}")
-                inc["Pendiente"] = "NO"
-                inc["Estado"] = "Resolved"
+                inc["Pendiente"] = "SI" # Mantenemos SI por seguridad en lugar de resolver a ciegas
                 return inc
 
             try:
@@ -556,25 +563,13 @@ class IncidentScraper(AbstractContextManager):
                     cuerpo = normalizar_texto(latest.find_element(By.CSS_SELECTOR, "div.update-body").text)
                     inc["Estado"] = f"{estado}: {cuerpo}"
 
-                    # Extraer timestamp o período actualizado si existe en el detalle
-                    try:
-                        timestamp_el = self.driver.find_element(By.CSS_SELECTOR, "div.incident-timestamps, small.secondary, div.secondary")
-                        periodo_detalle_raw = normalizar_texto(timestamp_el.text)
-                        if periodo_detalle_raw and ("-" in periodo_detalle_raw or "GMT" in periodo_detalle_raw or "UTC" in periodo_detalle_raw):
-                            inc["Periodo_Raw"] = periodo_detalle_raw
-                            inc["Periodo"] = ParseadorTiempo.convertir_periodo_a_vet(periodo_detalle_raw)
-                            inc["Duracion_Minutos"] = ParseadorTiempo.calcular_duracion(periodo_detalle_raw)
-                    except Exception:
-                        pass
-
+                    # Validación estricta original sobre la palabra clave del título de actualización
                     if any(w in estado.lower() for w in ("resolved", "completed")):
                         inc["Pendiente"] = "NO"
-                        # Recalcular duración final si no se capturó un rango con fecha fin
-                        if inc.get("Periodo_Raw"):
-                            inc["Duracion_Minutos"] = ParseadorTiempo.calcular_duracion(inc["Periodo_Raw"])
                         logger.info(f"✅ {config.nombre} | Resuelto: {inc.get('Titulo', '')[:50]}...")
                     else:
                         inc["Pendiente"] = "SI"
+                        logger.info(f"🟡 {config.nombre} | Sigue pendiente: {inc.get('Titulo', '')[:50]}...")
                 else:
                     inc["Pendiente"] = "SI"
                     logger.info(f"🟡 {config.nombre} | Sin updates, asumiendo pendiente: {inc.get('Titulo', '')[:50]}...")
@@ -582,7 +577,7 @@ class IncidentScraper(AbstractContextManager):
                 try:
                     componentes = self.driver.find_element(By.CSS_SELECTOR, "div.components-affected").text
                     inc["Componentes"] = normalizar_texto(componentes)
-                except:
+                except Exception:
                     pass
 
             except Exception as e:
