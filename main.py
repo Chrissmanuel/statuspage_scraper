@@ -255,18 +255,24 @@ def main() -> None:
 
             # Guardar en histórico
             if sin_duplicados:
+                from time_parser import ParseadorTiempo
+
+                # 🟢 Recalcular siempre Periodo VET y Duracion_Minutos con la fecha fin antes de guardar
+                for inc in sin_duplicados:
+                    periodo_str = str(inc.get("Periodo_Raw", inc.get("Periodo", "")))
+                    if periodo_str:
+                        inc["Periodo"] = ParseadorTiempo.convertir_periodo_a_vet(periodo_str)
+                        inc["Duracion_Minutos"] = ParseadorTiempo.calcular_duracion(periodo_str)
+
                 datos_para_historico = sin_duplicados.copy()
                 resultado_final, nuevos_incidentes = fusionar_historico(datos_para_historico)
                 logger.info(f"💾 Histórico: {len(nuevos_incidentes)} nuevos | {len(resultado_final)} totales")
 
                 if nuevos_incidentes:
-                    from time_parser import ParseadorTiempo
-
                     datos_history = []
                     for inc in nuevos_incidentes:
                         fila = {k: v for k, v in inc.items() if k not in ["ID", "Periodo_Raw", "Pendiente"]}
 
-                        # ✅ FIX: convertir siempre el período a VET (sin condición "-04")
                         periodo_str = str(fila.get("Periodo", ""))
                         if periodo_str:
                             fila["Periodo"] = ParseadorTiempo.convertir_periodo_a_vet(periodo_str)

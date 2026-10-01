@@ -78,36 +78,45 @@ class ParseadorTiempo:
 
         offset_min = cls._extraer_offset_minutos(periodo)
         texto = cls.limpiar_fecha(periodo)
-        # ✅ FIX: usar VET en lugar de hora local del sistema
         ahora = datetime.now(VET)
 
+        # Soporte para AM/PM en formato 12 horas y 24 horas
         patrones = [
-            r"([a-z]{3})\s+(\d{1,2}),\s*(\d{1,2}):(\d{2})",
-            r"([a-z]{3})\s+(\d{1,2})\s+(\d{1,2}):(\d{2})",
-            r"(\d{1,2})\s+([a-z]{3}),\s*(\d{1,2}):(\d{2})",
-            r"(\d{1,2})\s+([a-z]{3})\s+(\d{1,2}):(\d{2})",
+            r"([a-z]{3})\s+(\d{1,2}),?\s+(\d{1,2}):(\d{2})(?:\s*(am|pm))?",
+            r"(\d{1,2})\s+([a-z]{3}),?\s+(\d{1,2}):(\d{2})(?:\s*(am|pm))?",
         ]
 
         for pat in patrones:
-            m = re.search(pat, texto)
+            m = re.search(pat, texto, re.IGNORECASE)
             if not m:
                 continue
 
+            groups = m.groups()
             if pat.startswith(r"([a-z]{3})"):
-                mes_str, dia, hora, minuto = m.groups()
+                mes_str, dia, hora_str, minuto_str, ampm = groups
             else:
-                dia, mes_str, hora, minuto = m.groups()
+                dia, mes_str, hora_str, minuto_str, ampm = groups
 
             mes = MESES.get(mes_str[:3].lower())
             if not mes:
                 continue
 
+            hora = int(hora_str)
+            minuto = int(minuto_str)
+
+            if ampm:
+                ampm_lower = ampm.lower()
+                if ampm_lower == "pm" and hora < 12:
+                    hora += 12
+                elif ampm_lower == "am" and hora == 12:
+                    hora = 0
+
             return cls._construir_datetime_vet(
                 year=ahora.year,
                 mes=mes,
                 dia=int(dia),
-                hora=int(hora),
-                minuto=int(minuto),
+                hora=hora,
+                minuto=minuto,
                 offset_min=offset_min,
             )
 
@@ -117,11 +126,13 @@ class ParseadorTiempo:
     # DURACIÓN
     # =========================================================
 
+
     @classmethod
     def calcular_duracion(cls, texto: str) -> int:
         if not texto or texto.lower() == "n/a":
             return 0
 
+        # 1. Duración explícita en texto (ej. "15 mins", "2 hours")
         pesos = {"week": 10080, "day": 1440, "hour": 60, "minute": 1, "min": 1}
         if any(unit in texto.lower() for unit in pesos):
             total = 0
@@ -132,9 +143,9 @@ class ParseadorTiempo:
         offset_min = cls._extraer_offset_minutos(texto)
         t = cls.limpiar_fecha(texto)
 
-        # ✅ FIX: AM/PM opcional (soporta formato 24h)
+        # 2. Rango en el mismo día con soporte AM/PM (ej. "Oct 01, 03:28 PM - 05:00 PM")
         m_mismo_dia = re.match(
-            r"([a-z]{3})\s+(\d{1,2}),\s+"
+            r"([a-z]{3})\s+(\d{1,2}),?\s+"
             r"(\d{1,2}):(\d{2})(?:\s*(am|pm))?\s*-\s*"
             r"(\d{1,2}):(\d{2})(?:\s*(am|pm))?",
             t,
@@ -143,24 +154,33 @@ class ParseadorTiempo:
 
         if m_mismo_dia:
             mes, dia, h1, mi1, ampm1, h2, mi2, ampm2 = m_mismo_dia.groups()
-            h1, h2 = int(h1), int(h2)
+            
+            # 🟢 FIX: Desempaquetar las 4 variables correctamente (h1, mi1, h2, mi2)
+            h1, mi1, h2, mi2 = int(h1), int(mi1 if mi1 else 0), int(h2), int(mi2 if mi2 else 0)
 
-            if ampm1 and ampm1.lower() == "pm" and h1 < 12:
-                h1 += 12
-            if ampm2 and ampm2.lower() == "pm" and h2 < 12:
-                h2 += 12
-            if ampm1 and ampm1.lower() == "am" and h1 == 12:
-                h1 = 0
-            if ampm2 and ampm2.lower() == "am" and h2 == 12:
-                h2 = 0
+            if ampm1:
+                if ampm1.lower() == "pm" and h1 < 12:
+                    h1 += 12
+                elif ampm1.lower() == "am" and h1 == 12:
+                    h1 = 0
+
+            if ampm2:
+                if ampm2.lower() == "pm" and h2 < 12:
+                    h2 += 12
+                elif ampm2.lower() == "am" and h2 == 12:
+                    h2 = 0
 
             mes_num = MESES.get(mes[:3].lower(), 1)
-            ini = datetime(2000, mes_num, int(dia), h1, int(mi1))
-            fin = datetime(2000, mes_num, int(dia), h2, int(mi2))
+            ahora = datetime.now(VET)
+            ini = datetime(ahora.year, mes_num, int(dia), h1, mi1)
+            fin = datetime(ahora.year, mes_num, int(dia), h2, mi2)
+            
             if fin < ini:
                 fin += timedelta(days=1)
+                
             return int((fin - ini).total_seconds() // 60)
 
+        # 3. Evaluador con extraer_fecha para fechas compuestas o incidente activo
         partes = [p.strip() for p in t.split("-") if p.strip()]
         fechas = []
         for p in partes:
@@ -168,18 +188,22 @@ class ParseadorTiempo:
             if f:
                 fechas.append(f)
 
+        # Rango completado (Fecha inicio y Fecha fin)
         if len(fechas) == 2:
             if fechas[1] < fechas[0]:
                 fechas[1] = fechas[1].replace(year=fechas[1].year + 1)
             return int((fechas[1] - fechas[0]).total_seconds() // 60)
 
+        # Incidente activo (Diferencia contra el momento actual VET)
         if len(fechas) == 1:
             try:
                 ahora_local = datetime.now(VET).replace(tzinfo=None)
-                return int((ahora_local - fechas[0]).total_seconds() // 60)
+                diferencia = int((ahora_local - fechas[0]).total_seconds() // 60)
+                return max(0, diferencia)
             except Exception as e:
                 logger.error(f"Error calculando duración con zona horaria VET: {e}")
-                return int((datetime.now() - fechas[0]).total_seconds() // 60)
+                ahora_local = datetime.now().replace(tzinfo=None)
+                return max(0, int((ahora_local - fechas[0]).total_seconds() // 60))
 
         return 0
 

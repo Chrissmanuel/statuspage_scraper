@@ -307,6 +307,10 @@ class IncidentScraper(AbstractContextManager):
         for i, el in enumerate(elementos[:MAX_INCIDENTES_POR_PROVEEDOR]):
             try:
                 periodo_raw = self._safe_text(el, config.selectores.periodo)
+                
+                # 🟢 CORRECCIÓN 1: Calcular la duración directamente usando periodo_raw
+                # para mantener las zonas horarias/offsets originales antes de convertir a VET
+                duracion_calculada = ParseadorTiempo.calcular_duracion(periodo_raw)
                 periodo = ParseadorTiempo.convertir_periodo_a_vet(periodo_raw)
 
                 titulo = self._safe_text(el, config.selectores.titulo)
@@ -340,7 +344,8 @@ class IncidentScraper(AbstractContextManager):
                     Estado=self._safe_text(el, config.selectores.estado) if config.selectores.estado else "N/A",
                 )
 
-                datos.Duracion_Minutos = ParseadorTiempo.calcular_duracion(datos.Periodo)
+                # 🟢 CORRECCIÓN 2: Asignar la duración real calculada previamente
+                datos.Duracion_Minutos = duracion_calculada
 
                 link = None
                 try:
@@ -361,6 +366,18 @@ class IncidentScraper(AbstractContextManager):
                         self.driver.execute_script("window.open(arguments[0]);", link)
                         self.driver.switch_to.window(self.driver.window_handles[-1])
                         time.sleep(DETAIL_LOAD_SLEEP)
+
+                        # 🟢 CORRECCIÓN 3: Intentar capturar el período/rango actualizado desde la vista de detalle
+                        # por si el incidente ya cerró y la página muestra la fecha fin completa
+                        try:
+                            timestamp_el = self.driver.find_element(By.CSS_SELECTOR, "div.incident-timestamps, small.secondary, div.secondary")
+                            periodo_detalle_raw = normalizar_texto(timestamp_el.text)
+                            if periodo_detalle_raw and ("-" in periodo_detalle_raw or "GMT" in periodo_detalle_raw or "UTC" in periodo_detalle_raw):
+                                periodo_raw = periodo_detalle_raw
+                                datos.Periodo = ParseadorTiempo.convertir_periodo_a_vet(periodo_detalle_raw)
+                                datos.Duracion_Minutos = ParseadorTiempo.calcular_duracion(periodo_detalle_raw)
+                        except Exception:
+                            pass
 
                         updates = self.driver.find_elements(By.CSS_SELECTOR, "div.update-row")
                         if updates:
@@ -395,7 +412,7 @@ class IncidentScraper(AbstractContextManager):
                             try:
                                 self.driver.close()
                                 self.driver.switch_to.window(self.main_window)
-                            except:
+                            except Exception:
                                 pass
 
                 row = datos.to_dict()
@@ -405,7 +422,7 @@ class IncidentScraper(AbstractContextManager):
                     continue
 
                 resultados.append(row)
-                estado_icono = "⚠️ PENDIENTE" if row.get("Pendiente") == "SI" else "✅"
+                estado_icono = "⚠️️ PENDIENTE" if row.get("Pendiente") == "SI" else "✅"
                 logger.info(f"{estado_icono} {config.nombre} | {row['Titulo'][:60]}... ({row['Duracion_Minutos']} min)")
 
             except (StaleElementReferenceException, NoSuchElementException):
@@ -539,12 +556,25 @@ class IncidentScraper(AbstractContextManager):
                     cuerpo = normalizar_texto(latest.find_element(By.CSS_SELECTOR, "div.update-body").text)
                     inc["Estado"] = f"{estado}: {cuerpo}"
 
+                    # Extraer timestamp o período actualizado si existe en el detalle
+                    try:
+                        timestamp_el = self.driver.find_element(By.CSS_SELECTOR, "div.incident-timestamps, small.secondary, div.secondary")
+                        periodo_detalle_raw = normalizar_texto(timestamp_el.text)
+                        if periodo_detalle_raw and ("-" in periodo_detalle_raw or "GMT" in periodo_detalle_raw or "UTC" in periodo_detalle_raw):
+                            inc["Periodo_Raw"] = periodo_detalle_raw
+                            inc["Periodo"] = ParseadorTiempo.convertir_periodo_a_vet(periodo_detalle_raw)
+                            inc["Duracion_Minutos"] = ParseadorTiempo.calcular_duracion(periodo_detalle_raw)
+                    except Exception:
+                        pass
+
                     if any(w in estado.lower() for w in ("resolved", "completed")):
                         inc["Pendiente"] = "NO"
+                        # Recalcular duración final si no se capturó un rango con fecha fin
+                        if inc.get("Periodo_Raw"):
+                            inc["Duracion_Minutos"] = ParseadorTiempo.calcular_duracion(inc["Periodo_Raw"])
                         logger.info(f"✅ {config.nombre} | Resuelto: {inc.get('Titulo', '')[:50]}...")
                     else:
                         inc["Pendiente"] = "SI"
-                        logger.info(f"🟡 {config.nombre} | Sigue pendiente: {inc.get('Titulo', '')[:50]}...")
                 else:
                     inc["Pendiente"] = "SI"
                     logger.info(f"🟡 {config.nombre} | Sin updates, asumiendo pendiente: {inc.get('Titulo', '')[:50]}...")
