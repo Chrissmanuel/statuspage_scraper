@@ -45,6 +45,7 @@ class ParseadorTiempo:
     def limpiar_fecha(texto: str) -> str:
         if not texto:
             return ""
+
         t = normalizar_texto(texto.lower())
 
         # Quitamos 'gmt'/'utc' pero preservamos el offset numérico para _extraer_offset_minutos
@@ -139,22 +140,31 @@ class ParseadorTiempo:
         # 1. Duración explícita ("1 hour, 23 minutes")
         pesos = {"week": 10080, "day": 1440, "hour": 60, "minute": 1, "min": 1}
         if any(unit in texto.lower() for unit in pesos):
-            total = 0
-            for val, unit in re.findall(r"(\d+)\s*(week|day|hour|minute|min)", texto.lower()):
-                total += int(val) * pesos[unit]
-            return total
+            return sum(
+                int(valor) * pesos[unidad]
+                for valor, unidad in re.findall(
+                    r"(\d+)\s*(week|day|hour|minute|min)", texto.lower()
+                )
+            )
 
         # 2. Rango del mismo día ("Sep 29, 10:30 AM - 11:45 AM")
         offset_min = cls._extraer_offset_minutos(texto)
         t = cls.limpiar_fecha(texto)
-
-        m_mismo_dia = re.match(
-            r"([a-z]{3})\s+(\d{1,2}),\s+"
-            r"(\d{1,2}):(\d{2})(?:\s*(am|pm))?\s*-\s*"
-            r"(\d{1,2}):(\d{2})(?:\s*(am|pm))?",
+        match = re.match(
+            rf"^({cls._MESES_REGEX})\s+(\d{{1,2}}),?\s*"
+            r"(\d{1,2}):(\d{2})(?:\s*(am|pm))?\s*[-–—]\s*"
+            r"(\d{1,2}):(\d{2})(?:\s*(am|pm))?$",
             t,
             re.IGNORECASE,
         )
+        if match:
+            mes, dia, h1, mi1, ampm1, h2, mi2, ampm2 = match.groups()
+            inicio = cls._parse_datetime(f"{mes} {dia}, {h1}:{mi1} {ampm1 or ''}")
+            fin = cls._parse_datetime(f"{mes} {dia}, {h2}:{mi2} {ampm2 or ''}")
+            if inicio and fin:
+                if fin < inicio:
+                    fin += timedelta(days=1)
+                return max(0, int((fin - inicio).total_seconds() // 60))
 
         if m_mismo_dia:
             mes, dia, h1, mi1, ampm1, h2, mi2, ampm2 = m_mismo_dia.groups()
