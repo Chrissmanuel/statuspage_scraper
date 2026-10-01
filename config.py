@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent
 if sys.platform == "win32":
     CHROMEDRIVER_PATH = BASE_DIR / "chromedriver.exe"
 else:
-    CHROMEDRIVER_PATH = "chromedriver"  # En Linux se usa el del PATH
+    CHROMEDRIVER_PATH = "chromedriver"
 
 WEB_APP_URL = os.getenv("WEB_APP_URL", "")
 
@@ -42,20 +42,25 @@ FILTROS_GLOBALES = DEFAULT_FILTROS.copy()
 
 FILTROS_POR_PROVEEDOR: Dict[str, Dict[str, Any]] = {
     "Monnet": {
-        "incluye": ["Peru", "Mexico", "Guatemala","Ecuador", "Honduras", "HND", "PER", "MEX", "GTM", "ECU"],
-        "excluye": ["Brasil","Colombia","Argentina", "Chile"],
+        # ✅ FIX: agregar códigos ISO para que matcheen títulos como "HND", "PE", "MX"
+        "incluye": [
+            "Peru", "Mexico", "Guatemala", "Ecuador", "Honduras",
+            "HND", "PER", "MEX", "GTM", "ECU", "HN", "PE", "MX", "GT",
+        ],
+        "excluye": ["Brasil", "Colombia", "Argentina", "Chile"],
         "monedas": [],
-        "duracion_minima":30,
+        "duracion_minima": 30,
     },
     "Alps": {
-        "incluye": ["Peru", "Mexico", "Guatemala","Ecuador", "Chile", "Honduras"],
-        "excluye": ["Brasil","Colombia","Argentina","khipu", "Cobre"],
+        "incluye": ["Peru", "Mexico", "Guatemala", "Ecuador", "Chile", "Honduras"],
+        "excluye": ["Brasil", "Colombia", "Argentina", "khipu", "Cobre"],
         "monedas": [],
         "duracion_minima": 30,
     },
     "Directa24": {
-        "incluye": ["Peru", "Mexico", "Guatemala","Ecuador", "Chile", "Honduras","API", "Cashin", "Cashout","Maintenance"],
-        "excluye": ["Brasil","Colombia","Argentina", "Conversion Rates", "PIX","Brazil"],
+        "incluye": ["Peru", "Mexico", "Guatemala", "Ecuador", "Chile", "Honduras",
+                    "API", "Cashin", "Cashout", "Maintenance"],
+        "excluye": ["Brasil", "Colombia", "Argentina", "Conversion Rates", "PIX", "Brazil"],
         "monedas": [],
         "duracion_minima": 30,
     },

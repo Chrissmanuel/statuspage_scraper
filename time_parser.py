@@ -11,20 +11,15 @@ from utils import normalizar_texto, logger
 
 class ParseadorTiempo:
 
+    # ✅ FIX Bug 1: alias para compatibilidad con código legacy que usa _MESES_REGEX
+    _MESES_REGEX = "|".join(MESES.keys())
+
     # =========================================================
     # UTILIDADES INTERNAS
     # =========================================================
 
     @staticmethod
     def _extraer_offset_minutos(texto: str) -> int:
-        """
-        Extrae el offset en minutos desde textos tipo:
-          - 'GMT-03:00'
-          - 'GMT-3'
-          - 'UTC-04:00'
-          - 'UTC+2'
-        Retorna 0 si no encuentra offset (asume hora local/VET).
-        """
         if not texto:
             return 0
 
@@ -45,10 +40,8 @@ class ParseadorTiempo:
     def limpiar_fecha(texto: str) -> str:
         if not texto:
             return ""
-
         t = normalizar_texto(texto.lower())
 
-        # Quitamos 'gmt'/'utc' pero preservamos el offset numérico para _extraer_offset_minutos
         t = re.sub(r"\s*(gmt|utc)\s*$", "", t, flags=re.IGNORECASE)
         t = re.sub(r"\s*(gmt|utc)(?=[-+\d])", "", t, flags=re.IGNORECASE)
         t = re.sub(r"\s*[-+]\d{2}:?\d{2}\s*$", "", t)
@@ -66,10 +59,6 @@ class ParseadorTiempo:
         minuto: int,
         offset_min: int,
     ) -> Optional[datetime]:
-        """
-        Construye un datetime en la zona indicada por offset_min
-        y lo convierte a VET. Devuelve un datetime naive en VET.
-        """
         try:
             tz_origen = timezone(timedelta(minutes=offset_min))
             dt_origen = datetime(year, mes, dia, hora, minuto, tzinfo=tz_origen)
@@ -84,16 +73,12 @@ class ParseadorTiempo:
 
     @classmethod
     def extraer_fecha(cls, periodo: str) -> Optional[datetime]:
-        """
-        Extrae una fecha/hora de un texto y la devuelve en VET (naive).
-        Respeta el offset GMT/UTC indicado en el texto.
-        """
         if not periodo:
             return None
 
         offset_min = cls._extraer_offset_minutos(periodo)
         texto = cls.limpiar_fecha(periodo)
-        # ✅ Fix: usar VET en lugar de hora local del sistema
+        # ✅ FIX: usar VET en lugar de hora local del sistema
         ahora = datetime.now(VET)
 
         patrones = [
@@ -137,34 +122,24 @@ class ParseadorTiempo:
         if not texto or texto.lower() == "n/a":
             return 0
 
-        # 1. Duración explícita ("1 hour, 23 minutes")
         pesos = {"week": 10080, "day": 1440, "hour": 60, "minute": 1, "min": 1}
         if any(unit in texto.lower() for unit in pesos):
-            return sum(
-                int(valor) * pesos[unidad]
-                for valor, unidad in re.findall(
-                    r"(\d+)\s*(week|day|hour|minute|min)", texto.lower()
-                )
-            )
+            total = 0
+            for val, unit in re.findall(r"(\d+)\s*(week|day|hour|minute|min)", texto.lower()):
+                total += int(val) * pesos[unit]
+            return total
 
-        # 2. Rango del mismo día ("Sep 29, 10:30 AM - 11:45 AM")
         offset_min = cls._extraer_offset_minutos(texto)
         t = cls.limpiar_fecha(texto)
-        match = re.match(
-            rf"^({cls._MESES_REGEX})\s+(\d{{1,2}}),?\s*"
-            r"(\d{1,2}):(\d{2})(?:\s*(am|pm))?\s*[-–—]\s*"
-            r"(\d{1,2}):(\d{2})(?:\s*(am|pm))?$",
+
+        # ✅ FIX: AM/PM opcional (soporta formato 24h)
+        m_mismo_dia = re.match(
+            r"([a-z]{3})\s+(\d{1,2}),\s+"
+            r"(\d{1,2}):(\d{2})(?:\s*(am|pm))?\s*-\s*"
+            r"(\d{1,2}):(\d{2})(?:\s*(am|pm))?",
             t,
             re.IGNORECASE,
         )
-        if match:
-            mes, dia, h1, mi1, ampm1, h2, mi2, ampm2 = match.groups()
-            inicio = cls._parse_datetime(f"{mes} {dia}, {h1}:{mi1} {ampm1 or ''}")
-            fin = cls._parse_datetime(f"{mes} {dia}, {h2}:{mi2} {ampm2 or ''}")
-            if inicio and fin:
-                if fin < inicio:
-                    fin += timedelta(days=1)
-                return max(0, int((fin - inicio).total_seconds() // 60))
 
         if m_mismo_dia:
             mes, dia, h1, mi1, ampm1, h2, mi2, ampm2 = m_mismo_dia.groups()
@@ -186,7 +161,6 @@ class ParseadorTiempo:
                 fin += timedelta(days=1)
             return int((fin - ini).total_seconds() // 60)
 
-        # 3. Rangos con fechas completas o incidentes activos
         partes = [p.strip() for p in t.split("-") if p.strip()]
         fechas = []
         for p in partes:
@@ -200,7 +174,6 @@ class ParseadorTiempo:
             return int((fechas[1] - fechas[0]).total_seconds() // 60)
 
         if len(fechas) == 1:
-            # Incidente activo: comparar contra ahora en VET
             try:
                 ahora_local = datetime.now(VET).replace(tzinfo=None)
                 return int((ahora_local - fechas[0]).total_seconds() // 60)
@@ -217,27 +190,32 @@ class ParseadorTiempo:
     @classmethod
     def convertir_periodo_a_vet(cls, periodo: str) -> str:
         """
-        Convierte un período a VET (UTC-4).
-
         Formatos soportados:
-          A) "Sep 23, 2026 - 14:29 GMT-03:00"                    (un solo datetime con año)
-          B) "Aug 31, 16:30 - 18:32 GMT-04:00"                   (rango mismo día, sin año)
-          C) "Sep 28, 13:23 - Sep 29, 00:04 GMT-03:00"           (rango completo, sin año)
-          C) "Sep 29, 09:30 - Sep 29, 10:45 GMT-03:00"           (rango completo, sin año)
-          C) "Sep 28, 2026, 13:23 - Sep 29, 2026, 00:04 GMT-03:00" (rango completo, con año)
+          A)  "Sep 23, 2026 - 14:29 GMT-03:00"
+          A2) "Oct 1, 09:57 GMT-03:00"              (sin año, sin guion)
+          B)  "Aug 31, 16:30 - 18:32 GMT-04:00"     (rango mismo día)
+          B2) "Sep 29, 14:27 - 16:33 UTC"           (rango mismo día, UTC solo)
+          C)  "Sep 28, 13:23 - Sep 29, 00:04 GMT-03:00"
         """
         if not periodo:
             return periodo
-
+        if "VET" in periodo.upper():
+            return periodo
         try:
             texto = normalizar_texto(periodo).strip()
 
-            # 1. Extraer offset global (último GMT/UTC que aparezca)
             offset_min = cls._extraer_offset_minutos(texto)
 
-            # 2. Limpiar offsets y "GMT"/"UTC" del texto
+            # ✅ FIX Bug 3: eliminar offsets GMT/UTC con número
             texto_limpio = re.sub(
                 r"\s*(GMT|UTC)\s*[-+]\d{1,2}:?\d{2}\s*", " ", texto, flags=re.IGNORECASE
+            )
+            # ✅ FIX Bug 3: eliminar GMT/UTC sueltos (sin offset)
+            texto_limpio = re.sub(
+                r"\s*(GMT|UTC)\s*$", " ", texto_limpio, flags=re.IGNORECASE
+            )
+            texto_limpio = re.sub(
+                r"\s*(GMT|UTC)\s+", " ", texto_limpio, flags=re.IGNORECASE
             )
             texto_limpio = re.sub(r"\s*[-+]\d{2}:?\d{2}\s*", " ", texto_limpio)
             texto_limpio = re.sub(r"[\(\)]", "", texto_limpio)
@@ -247,7 +225,7 @@ class ParseadorTiempo:
             year_default = ahora_vet.year
 
             # ---------------------------------------------------------
-            # CASO A: "Sep 23, 2026 - 14:29"  (un solo datetime)
+            # CASO A: "Sep 23, 2026 - 14:29"  (un solo datetime con año)
             # ---------------------------------------------------------
             m_unico = re.match(
                 r"([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{4})\s*-\s*(\d{1,2}):(\d{2})$",
@@ -263,6 +241,31 @@ class ParseadorTiempo:
 
                 dt_vet = cls._construir_datetime_vet(
                     year=int(year), mes=mes, dia=int(dia),
+                    hora=int(hora), minuto=int(minuto),
+                    offset_min=offset_min,
+                )
+                if not dt_vet:
+                    logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
+                    return periodo
+                return dt_vet.strftime("%b %d, %I:%M %p") + " VET"
+
+            # ---------------------------------------------------------
+            # ✅ CASO A2 (NUEVO): "Oct 1, 09:57"  (un solo datetime, sin año)
+            # ---------------------------------------------------------
+            m_unico_sin_year = re.match(
+                r"([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{1,2}):(\d{2})$",
+                texto_limpio,
+                re.IGNORECASE,
+            )
+            if m_unico_sin_year:
+                mes_str, dia, hora, minuto = m_unico_sin_year.groups()
+                mes = MESES.get(mes_str[:3].lower())
+                if not mes:
+                    logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
+                    return periodo
+
+                dt_vet = cls._construir_datetime_vet(
+                    year=year_default, mes=mes, dia=int(dia),
                     hora=int(hora), minuto=int(minuto),
                     offset_min=offset_min,
                 )
@@ -317,9 +320,6 @@ class ParseadorTiempo:
 
             # ---------------------------------------------------------
             # CASO C: rango completo con fechas a ambos lados
-            #   "Sep 28, 13:23 - Sep 29, 00:04"
-            #   "Sep 28, 2026, 13:23 - Sep 29, 2026, 00:04"
-            #   "Sep 28 2026 13:23 - Sep 29 2026 00:04"
             # ---------------------------------------------------------
             m_completo = re.match(
                 r"([A-Za-z]{3})\s+(\d{1,2})(?:,\s*(\d{4}))?"
@@ -357,7 +357,6 @@ class ParseadorTiempo:
                     logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
                     return periodo
 
-                # Ajuste por cambio de año (ej: Dec 31 → Jan 01)
                 if fin_vet < ini_vet:
                     fin_vet = fin_vet.replace(year=fin_vet.year + 1)
 
@@ -371,9 +370,6 @@ class ParseadorTiempo:
                     f"{fin_vet.strftime('%b %d, %I:%M %p')} VET"
                 )
 
-            # ---------------------------------------------------------
-            # Si nada matchea, devolver original
-            # ---------------------------------------------------------
             logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
             return periodo
 
