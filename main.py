@@ -6,9 +6,11 @@ from models import ProveedorConfig, SelectorMap
 from scraper import IncidentScraper, clasificar_incidente
 from utils import configurar_logging, cargar_json, guardar_json, clave_incidente_dict, distribuir_asignados, logger
 from monnet_api import MonnetAPI
-
 import os
+import time
 os.environ['TZ'] = 'America/Caracas'
+if hasattr(time, "tzset"):
+    time.tzset()
 
 
 PROVEEDORES_LIST = [

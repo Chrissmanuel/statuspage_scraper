@@ -92,7 +92,8 @@ class ParseadorTiempo:
 
         offset_min = cls._extraer_offset_minutos(periodo)
         texto = cls.limpiar_fecha(periodo)
-        ahora = datetime.now()
+        # ✅ Fix: usar VET en lugar de hora local del sistema
+        ahora = datetime.now(VET)
 
         patrones = [
             r"([a-z]{3})\s+(\d{1,2}),\s*(\d{1,2}):(\d{2})",
@@ -206,118 +207,166 @@ class ParseadorTiempo:
     @classmethod
     def convertir_periodo_a_vet(cls, periodo: str) -> str:
         """
-        Convierte un período tipo 'Sep 29, 09:30 GMT-03:00 - Sep 29, 10:45 GMT-03:00'
-        a un string en VET listo para mostrar.
-        Respeta el offset del texto original.
+        Convierte un período a VET (UTC-4).
+
+        Formatos soportados:
+          A) "Sep 23, 2026 - 14:29 GMT-03:00"                    (un solo datetime con año)
+          B) "Aug 31, 16:30 - 18:32 GMT-04:00"                   (rango mismo día, sin año)
+          C) "Sep 28, 13:23 - Sep 29, 00:04 GMT-03:00"           (rango completo, sin año)
+          C) "Sep 29, 09:30 - Sep 29, 10:45 GMT-03:00"           (rango completo, sin año)
+          C) "Sep 28, 2026, 13:23 - Sep 29, 2026, 00:04 GMT-03:00" (rango completo, con año)
         """
         if not periodo:
             return periodo
 
         try:
-            texto = normalizar_texto(periodo)
+            texto = normalizar_texto(periodo).strip()
 
-            # Offsets por cada extremo (pueden ser distintos si cambia el sufijo)
-            partes_originales = re.split(r"\s+-\s+", texto, maxsplit=1)
+            # 1. Extraer offset global (último GMT/UTC que aparezca)
+            offset_min = cls._extraer_offset_minutos(texto)
 
-            offset_global = cls._extraer_offset_minutos(texto)
-
-            # Limpiar sufijos para parsear las horas
+            # 2. Limpiar offsets y "GMT"/"UTC" del texto
             texto_limpio = re.sub(
-                r"\s*(GMT|UTC)\s*[-+]\d{2}:?\d{2}\s*", " ", texto, flags=re.IGNORECASE
+                r"\s*(GMT|UTC)\s*[-+]\d{1,2}:?\d{2}\s*", " ", texto, flags=re.IGNORECASE
             )
-            texto_limpio = re.sub(
-                r"\s*[-+]\d{2}:?\d{2}\s*", " ", texto_limpio
+            texto_limpio = re.sub(r"\s*[-+]\d{2}:?\d{2}\s*", " ", texto_limpio)
+            texto_limpio = re.sub(r"[\(\)]", "", texto_limpio)
+            texto_limpio = re.sub(r"\s+", " ", texto_limpio).strip()
+
+            ahora_vet = datetime.now(VET)
+            year_default = ahora_vet.year
+
+            # ---------------------------------------------------------
+            # CASO A: "Sep 23, 2026 - 14:29"  (un solo datetime)
+            # ---------------------------------------------------------
+            m_unico = re.match(
+                r"([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{4})\s*-\s*(\d{1,2}):(\d{2})$",
+                texto_limpio,
+                re.IGNORECASE,
             )
-            texto_limpio = texto_limpio.strip()
+            if m_unico:
+                mes_str, dia, year, hora, minuto = m_unico.groups()
+                mes = MESES.get(mes_str[:3].lower())
+                if not mes:
+                    logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
+                    return periodo
 
-            if " - " not in texto_limpio:
-                return periodo
-
-            inicio_str, fin_str = [p.strip() for p in texto_limpio.split(" - ")]
-
-            def parse_fecha_hora(s: str) -> Optional[datetime]:
-                # Formato: "Sep 29, 09:30 AM"
-                m = re.match(
-                    r"([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{1,2}):(\d{2})\s*(am|pm)",
-                    s,
-                    re.IGNORECASE,
+                dt_vet = cls._construir_datetime_vet(
+                    year=int(year), mes=mes, dia=int(dia),
+                    hora=int(hora), minuto=int(minuto),
+                    offset_min=offset_min,
                 )
-                if m:
-                    mes_str, dia, hora, minuto, ampm = m.groups()
-                    mes = MESES.get(mes_str[:3].lower())
-                    if not mes:
-                        return None
-                    hora = int(hora)
-                    if ampm.lower() == "pm" and hora < 12:
-                        hora += 12
-                    if ampm.lower() == "am" and hora == 12:
-                        hora = 0
-                    year = datetime.now().year
-                    if mes == 1 and datetime.now().month == 12:
-                        year += 1
-                    return cls._construir_datetime_vet(
-                        year=year, mes=mes, dia=int(dia),
-                        hora=hora, minuto=int(minuto),
-                        offset_min=offset_global,
+                if not dt_vet:
+                    logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
+                    return periodo
+                return dt_vet.strftime("%b %d, %I:%M %p") + " VET"
+
+            # ---------------------------------------------------------
+            # CASO B: "Aug 31, 16:30 - 18:32"  (rango mismo día, sin año)
+            # ---------------------------------------------------------
+            m_rango_dia = re.match(
+                r"([A-Za-z]{3})\s+(\d{1,2}),\s*"
+                r"(\d{1,2}):(\d{2})\s*-\s*"
+                r"(\d{1,2}):(\d{2})$",
+                texto_limpio,
+                re.IGNORECASE,
+            )
+            if m_rango_dia:
+                mes_str, dia, h1, mi1, h2, mi2 = m_rango_dia.groups()
+                mes = MESES.get(mes_str[:3].lower())
+                if not mes:
+                    logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
+                    return periodo
+
+                ini_vet = cls._construir_datetime_vet(
+                    year=year_default, mes=mes, dia=int(dia),
+                    hora=int(h1), minuto=int(mi1),
+                    offset_min=offset_min,
+                )
+                fin_vet = cls._construir_datetime_vet(
+                    year=year_default, mes=mes, dia=int(dia),
+                    hora=int(h2), minuto=int(mi2),
+                    offset_min=offset_min,
+                )
+                if not ini_vet or not fin_vet:
+                    logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
+                    return periodo
+
+                if fin_vet < ini_vet:
+                    fin_vet = fin_vet + timedelta(days=1)
+
+                if ini_vet.date() == fin_vet.date():
+                    return (
+                        f"{ini_vet.strftime('%b %d, %I:%M %p')} - "
+                        f"{fin_vet.strftime('%I:%M %p')} VET"
                     )
-
-                # Formato: "10:45 AM" (solo hora)
-                m = re.match(r"(\d{1,2}):(\d{2})\s*(am|pm)", s, re.IGNORECASE)
-                if m:
-                    hora, minuto, ampm = m.groups()
-                    hora = int(hora)
-                    if ampm.lower() == "pm" and hora < 12:
-                        hora += 12
-                    if ampm.lower() == "am" and hora == 12:
-                        hora = 0
-                    # Marcamos con year=1 para resolver después
-                    return datetime(1, 1, 1, hora, int(minuto))
-
-                return None
-
-            inicio_dt = parse_fecha_hora(inicio_str)
-            fin_dt = parse_fecha_hora(fin_str)
-
-            if not inicio_dt or not fin_dt:
-                return periodo
-
-            # Si algún extremo vino sin fecha, heredar del otro
-            if inicio_dt.year == 1 and fin_dt.year != 1:
-                inicio_dt = inicio_dt.replace(
-                    year=fin_dt.year, month=fin_dt.month, day=fin_dt.day
-                )
-                # Reaplicar conversión a VET (porque lo construimos sin tz)
-                tz_origen = timezone(timedelta(minutes=offset_global))
-                inicio_dt = (
-                    inicio_dt.replace(tzinfo=tz_origen)
-                    .astimezone(VET)
-                    .replace(tzinfo=None)
-                )
-
-            if fin_dt.year == 1 and inicio_dt.year != 1:
-                fin_dt = fin_dt.replace(
-                    year=inicio_dt.year, month=inicio_dt.month, day=inicio_dt.day
-                )
-                if fin_dt < inicio_dt:
-                    fin_dt += timedelta(days=1)
-                tz_origen = timezone(timedelta(minutes=offset_global))
-                fin_dt = (
-                    fin_dt.replace(tzinfo=tz_origen)
-                    .astimezone(VET)
-                    .replace(tzinfo=None)
-                )
-
-            if inicio_dt.date() == fin_dt.date():
                 return (
-                    f"{inicio_dt.strftime('%b %d, %I:%M %p')} - "
-                    f"{fin_dt.strftime('%I:%M %p')} VET"
+                    f"{ini_vet.strftime('%b %d, %I:%M %p')} - "
+                    f"{fin_vet.strftime('%b %d, %I:%M %p')} VET"
                 )
-            else:
+
+            # ---------------------------------------------------------
+            # CASO C: rango completo con fechas a ambos lados
+            #   "Sep 28, 13:23 - Sep 29, 00:04"
+            #   "Sep 28, 2026, 13:23 - Sep 29, 2026, 00:04"
+            #   "Sep 28 2026 13:23 - Sep 29 2026 00:04"
+            # ---------------------------------------------------------
+            m_completo = re.match(
+                r"([A-Za-z]{3})\s+(\d{1,2})(?:,\s*(\d{4}))?"
+                r"(?:,|\s)\s*"
+                r"(\d{1,2}):(\d{2})\s*-\s*"
+                r"([A-Za-z]{3})\s+(\d{1,2})(?:,\s*(\d{4}))?"
+                r"(?:,|\s)\s*"
+                r"(\d{1,2}):(\d{2})$",
+                texto_limpio,
+                re.IGNORECASE,
+            )
+            if m_completo:
+                (mes1_str, dia1, year1, h1, mi1,
+                 mes2_str, dia2, year2, h2, mi2) = m_completo.groups()
+                mes1 = MESES.get(mes1_str[:3].lower())
+                mes2 = MESES.get(mes2_str[:3].lower())
+                if not mes1 or not mes2:
+                    logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
+                    return periodo
+
+                y1 = int(year1) if year1 else year_default
+                y2 = int(year2) if year2 else year_default
+
+                ini_vet = cls._construir_datetime_vet(
+                    year=y1, mes=mes1, dia=int(dia1),
+                    hora=int(h1), minuto=int(mi1),
+                    offset_min=offset_min,
+                )
+                fin_vet = cls._construir_datetime_vet(
+                    year=y2, mes=mes2, dia=int(dia2),
+                    hora=int(h2), minuto=int(mi2),
+                    offset_min=offset_min,
+                )
+                if not ini_vet or not fin_vet:
+                    logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
+                    return periodo
+
+                # Ajuste por cambio de año (ej: Dec 31 → Jan 01)
+                if fin_vet < ini_vet:
+                    fin_vet = fin_vet.replace(year=fin_vet.year + 1)
+
+                if ini_vet.date() == fin_vet.date():
+                    return (
+                        f"{ini_vet.strftime('%b %d, %I:%M %p')} - "
+                        f"{fin_vet.strftime('%I:%M %p')} VET"
+                    )
                 return (
-                    f"{inicio_dt.strftime('%b %d, %I:%M %p')} - "
-                    f"{fin_dt.strftime('%b %d, %I:%M %p')} VET"
+                    f"{ini_vet.strftime('%b %d, %I:%M %p')} - "
+                    f"{fin_vet.strftime('%b %d, %I:%M %p')} VET"
                 )
+
+            # ---------------------------------------------------------
+            # Si nada matchea, devolver original
+            # ---------------------------------------------------------
+            logger.warning(f"⚠️ Formato de período no reconocido: {repr(periodo)}")
+            return periodo
 
         except Exception:
-            logger.debug("No se pudo convertir periodo a VET", exc_info=True)
+            logger.warning(f"⚠️ Error convirtiendo período a VET: {repr(periodo)}", exc_info=True)
             return periodo

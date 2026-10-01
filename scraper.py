@@ -25,7 +25,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from config import (
     CHROMEDRIVER_PATH, DETAIL_LOAD_SLEEP, FILTROS_GLOBALES, FILTROS_POR_PROVEEDOR,
     MAX_INCIDENTES_POR_PROVEEDOR, PAGE_LOAD_SLEEP, PROVEEDORES_HABILITADOS, 
-    WAIT_TIMEOUT, RESULTADOS_FILE
+    WAIT_TIMEOUT, RESULTADOS_FILE, VET
 )
 from models import IncidentData, ProveedorConfig
 from time_parser import ParseadorTiempo
@@ -337,7 +337,7 @@ class IncidentScraper(AbstractContextManager):
             return []
         
         # Fecha de corte: inicio del mes actual
-        inicio_mes = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        inicio_mes = datetime.now(VET).replace(day=1, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
 
         for i, el in enumerate(elementos[:MAX_INCIDENTES_POR_PROVEEDOR]):
             try:
