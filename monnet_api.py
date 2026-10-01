@@ -1,5 +1,6 @@
 # monnet_api.py
 
+import re
 import requests
 import json
 from datetime import datetime, timedelta
@@ -23,8 +24,68 @@ class MonnetAPI:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
             "Referer": "https://monnetpayments.status.freshservice.com/",
             "Origin": "https://monnetpayments.status.freshservice.com",
+            # ✅ FIX: evitar respuestas cacheadas
+            "Cache-Control": "no-cache",
+            "Pragma": "no-cache",
         })
         self._service_names_cache = {}
+
+    # =========================================================
+    # ✅ NUEVO: Limpieza de HTML
+    # =========================================================
+
+    @staticmethod
+    def _limpiar_html(texto: str) -> str:
+        """Convierte HTML a texto plano, preservando párrafos."""
+        if not texto or texto == "N/A":
+            return texto
+
+        try:
+            # 1. <br>, <br/>, <br /> → salto de línea
+            limpio = re.sub(r"<br\s*/?>", "\n", texto, flags=re.IGNORECASE)
+
+            # 2. Cierres de bloque → salto de línea
+            limpio = re.sub(
+                r"</(div|p|li|tr|h[1-6]|blockquote)>",
+                "\n",
+                limpio,
+                flags=re.IGNORECASE,
+            )
+
+            # 3. Eliminar todas las etiquetas HTML restantes
+            limpio = re.sub(r"<[^>]+>", "", limpio)
+
+            # 4. Decodificar entidades HTML básicas
+            limpio = limpio.replace("&nbsp;", " ")
+            limpio = limpio.replace("&amp;", "&")
+            limpio = limpio.replace("&lt;", "<")
+            limpio = limpio.replace("&gt;", ">")
+            limpio = limpio.replace("&quot;", '"')
+            limpio = limpio.replace("&#39;", "'")
+            limpio = limpio.replace("&apos;", "'")
+
+            # 5. Normalizar espacios horizontales
+            limpio = re.sub(r"[ \t]+", " ", limpio)
+
+            # 6. Colapsar 3+ saltos de línea en 2
+            limpio = re.sub(r"\n{3,}", "\n\n", limpio)
+
+            # 7. Strip por línea
+            lineas = [linea.strip() for linea in limpio.split("\n")]
+            limpio = "\n".join(lineas)
+
+            # 8. Re-colapsar por si quedaron 3+ saltos
+            limpio = re.sub(r"\n{3,}", "\n\n", limpio)
+
+            return limpio.strip()
+
+        except Exception as e:
+            logger.debug(f"Error limpiando HTML: {e}")
+            return texto
+
+    # =========================================================
+    # CONSTRUCCIÓN DE URLS
+    # =========================================================
 
     def _construir_url_filtro(self, filtros: List[Dict[str, Any]], page: int = 1, per_page: int = 100) -> str:
         import urllib.parse
@@ -33,6 +94,10 @@ class MonnetAPI:
         encoded_filter = urllib.parse.quote(filter_str, safe='')
 
         return f"{self.BASE_URL}?filter={encoded_filter}&order_by=started_at&order_type=desc&page={page}&per_page={per_page}"
+
+    # =========================================================
+    # CONSULTAS A LA API
+    # =========================================================
 
     def obtener_historicos(self, start_date: datetime, end_date: datetime) -> List[Dict[str, Any]]:
         all_results = []
@@ -85,8 +150,8 @@ class MonnetAPI:
 
     def obtener_pendientes(self, dias_atras: int = 180) -> List[Dict[str, Any]]:
         """
-        ✅ FIX: ampliar rango de búsqueda a 180 días (era 90) para no perder
-        incidentes activos de larga duración.
+        ✅ Ampliado a 180 días (era 90) para no perder incidentes activos
+        de larga duración.
         """
         try:
             end_date = datetime.now(ZoneInfo("UTC"))
@@ -140,6 +205,10 @@ class MonnetAPI:
             logger.error(f"❌ Error obteniendo actualizaciones del incidente {incident_id}: {e}")
             return []
 
+    # =========================================================
+    # CONVERSIÓN AL FORMATO ESTÁNDAR
+    # =========================================================
+
     def convertir_a_dict(self, incidente_api: Dict[str, Any]) -> Dict[str, Any]:
         componentes_nombres = []
         title = incidente_api.get("title", "")
@@ -177,11 +246,15 @@ class MonnetAPI:
 
         incident_id = str(incidente_api.get("id", ""))
 
+        # ✅ FIX: limpiar HTML del resumen
+        resumen_raw = incidente_api.get("description", "N/A")
+        resumen_limpio = self._limpiar_html(resumen_raw)
+
         return {
             "Proveedor": "Monnet",
             "Titulo": title,
             "Periodo": periodo_vet,
-            "Resumen": incidente_api.get("description", "N/A"),
+            "Resumen": resumen_limpio,  # ✅ texto plano, sin HTML
             "Estado": estado,
             "Componentes": componentes_str,
             "Duracion_Minutos": str(duracion),
@@ -197,11 +270,14 @@ class MonnetAPI:
             "updated_at": incidente_api.get("updated_at"),
         }
 
+    # =========================================================
+    # HELPERS
+    # =========================================================
+
     def _extraer_nombre_servicio_desde_titulo(self, title: str, service_id: str) -> str:
         if service_id in self._service_names_cache:
             return self._service_names_cache[service_id]
 
-        import re
         pattern = r'\[([^\]]+)\]'
         matches = re.findall(pattern, title)
 
