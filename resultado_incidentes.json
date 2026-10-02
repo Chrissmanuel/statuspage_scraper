@@ -3125,5 +3125,31 @@
     "created_at": "2026-10-01T18:20:00Z",
     "updated_at": "2026-10-01T21:36:46Z",
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Service Status Pay-ins Chile | Fintoc Service Degradation",
+    "Periodo": "Oct 01, 03:46 PM - 08:16 PM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Fintoc is currently experiencing a general service degradation in Chile due to an incident affecting its infrastructure provider. This situation may impact payment processing through Fintoc, and some transactions may experience intermittent failures or errors. Fintoc is currently working on a resolution. We will provide further updates as more information becomes available.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 270,
+    "Pendiente": "NO",
+    "ID": "incidents/m61j79dy3cgj",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Oct 1, 16:46 - 21:16 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Fintoc - Payin Mexico - Processing Delays",
+    "Periodo": "Oct 01, 03:44 PM - 08:15 PM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Fintoc is currently experiencing slower transfer processing in Mexico. The service remains available; however, delays may occur in SPEI transfer notifications. Fintoc is currently working on a resolution. We will provide further updates as more information becomes available.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Mexico).",
+    "Duracion_Minutos": 271,
+    "Pendiente": "NO",
+    "ID": "incidents/0xfj3w3dz866",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Oct 1, 16:44 - 21:15 GMT-03:00"
   }
 ]
