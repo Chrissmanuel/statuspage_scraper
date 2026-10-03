@@ -27,19 +27,6 @@
   },
   {
     "Proveedor": "Alps",
-    "Titulo": "Banco Chile Intermittences - FINTOC",
-    "Periodo": "Oct 02, 06:51 PM VET",
-    "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "39",
-    "Pendiente": "SI",
-    "ID": "incidents/wby3vlyvtpd3",
-    "Asignado": "Greider G",
-    "Periodo_Raw": "Oct 2, 19:51 GMT-03:00"
-  },
-  {
-    "Proveedor": "Alps",
     "Titulo": "CHILE INCIDENT - WITHDRAWALS",
     "Periodo": "Oct 02, 06:47 PM VET",
     "Resumen": "In the past few hours, we have experienced intermittencies in the payout service in Chile. As a result, there have been delays in processing payouts. We are currently working on a solution and estimate that it will take approximately to regularize the pending withdrawals. We will keep you informed.",
