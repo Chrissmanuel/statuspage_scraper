@@ -3414,5 +3414,18 @@
     "ID": "incidents/9d9ywph1281b",
     "Asignado": "Airam S",
     "Periodo_Raw": "Oct 4, 12:17 - 13:43 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco BCI Intermittences - FINTOC",
+    "Periodo": "Oct 04, 12:44 PM - 01:55 PM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 71,
+    "Pendiente": "NO",
+    "ID": "incidents/9x09864mknnk",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Oct 4, 13:44 - 14:55 GMT-03:00"
   }
 ]
