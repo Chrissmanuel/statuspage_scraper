@@ -3388,5 +3388,18 @@
     "ID": "incidents/sfmf19qf92kl",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Oct 3, 20:35 - 21:05 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "CHILE INCIDENT - WITHDRAWALS",
+    "Periodo": "Oct 04, 09:32 AM - 11:15 AM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: In the past few hours, we have experienced intermittencies in the payout service in Chile. As a result, there have been delays in processing payouts. We are currently working on a solution to regularize the pending withdrawals. We will keep you informed.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payout (Chile).",
+    "Duracion_Minutos": 103,
+    "Pendiente": "NO",
+    "ID": "incidents/p6d6118bhrh5",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Oct 4, 10:32 - 12:15 GMT-03:00"
   }
 ]
