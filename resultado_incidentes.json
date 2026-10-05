@@ -3447,5 +3447,18 @@
     "created_at": "2026-10-02T17:45:30Z",
     "updated_at": "2026-10-05T11:00:03Z",
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco ITAU Intermittences - ETPAY",
+    "Periodo": "Oct 02, 10:11 AM - Oct 05, 09:29 AM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nIdentified: Intermittent service disruptions have been detected. As a result, ETPAY has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 4278,
+    "Pendiente": "NO",
+    "ID": "incidents/54yr2v3gzpvh",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Oct 2, 11:11 - Oct 5, 10:29 GMT-03:00"
   }
 ]
