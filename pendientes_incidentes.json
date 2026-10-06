@@ -19,10 +19,30 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "258",
+    "Duracion_Minutos": "273",
     "Pendiente": "SI",
     "ID": "incidents/8z7ddp1x7zsj",
     "Asignado": "Greider G",
     "Periodo_Raw": "Oct 6, 13:27 GMT-03:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Processor Intermittence – PO - BT",
+    "Periodo": "Oct 06, 04:15 PM VET (Activo)",
+    "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services. Our team is actively monitoring the situation and working with the relevant teams to identify and resolve the issue.\n\nWe will keep you informed of any relevant updates and provide further information as soon as it becomes available.\n\nFor any questions or assistance, please contact us at support@monnetpayments.com.\n\nWe apologize for any inconvenience this may cause and appreciate your patience and understanding while we work to resolve the issue.\n\nBest regards,\nMonnet Support Team",
+    "Estado": "Investigating",
+    "Componentes": "Servicio 50527",
+    "Duracion_Minutos": "45",
+    "Pendiente": "SI",
+    "ID": "94",
+    "Human_ID": "#SPI-94",
+    "Periodo_Raw": "Oct 06, 04:15 PM VET (Activo)",
+    "start_time": "2026-10-06T20:15:00Z",
+    "end_time": null,
+    "tipo_incidente": 1,
+    "status_code": 1,
+    "created_at": "2026-10-06T20:52:13Z",
+    "updated_at": "2026-10-06T20:52:13Z",
+    "Asignado": "Greider G"
   }
 ]
