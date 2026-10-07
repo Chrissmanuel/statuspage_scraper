@@ -11,5 +11,25 @@
     "ID": "incidents/wck2ltsj7cwv",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 23, 14:29 GMT-03:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Bank Intermittence - [BT/HN] - [PAYOUTS]",
+    "Periodo": "Oct 07, 01:00 AM VET (Activo)",
+    "Resumen": "Hi team,\n\nWe want to let you know that BAC Bank is experiencing an intermittent issue affecting payment processing in Honduras. Our team is actively monitoring the situation and working with the relevant teams to identify and resolve the issue.\n\nWe will keep you informed of updates and share more information as soon as it becomes available.\n\nFor any questions or assistance, please contact us at support@monnetpayments.com.\n\nWe apologize for any inconvenience this may cause and appreciate your patience and understanding while we work to resolve the issue.\n\nBest regards,",
+    "Estado": "Investigating",
+    "Componentes": "BT/HN",
+    "Duracion_Minutos": "765",
+    "Pendiente": "SI",
+    "ID": "96",
+    "Human_ID": "#SPI-96",
+    "Periodo_Raw": "Oct 07, 01:00 AM VET (Activo)",
+    "start_time": "2026-10-07T05:00:00Z",
+    "end_time": null,
+    "tipo_incidente": 1,
+    "status_code": 1,
+    "created_at": "2026-10-07T17:40:31Z",
+    "updated_at": "2026-10-07T17:40:31Z",
+    "Asignado": "Luis G"
   }
 ]
