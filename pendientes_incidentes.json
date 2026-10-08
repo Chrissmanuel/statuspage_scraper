@@ -1,25 +1,12 @@
 [
   {
-    "Proveedor": "Alps",
-    "Titulo": "Service Status Pay-ins Ecuador | SafetyPay Temporary Unavailability",
-    "Periodo": "Sep 23, 14:29 GMT-03:00",
-    "Resumen": "The service disruption has been confirmed to be affecting SafetyPay payments through Banco Guayaquil exclusively. Payments through other banks are not affected. The situation remains under review, and we expect to provide further updates within the next few hours.\n\nHistorial:\nIdentified: The service disruption has been confirmed to be affecting SafetyPay payments through Banco Guayaquil exclusively. Payments through other banks are not affected. The situation remains under review, and we expect to provide further updates within the next few hours.\nInvestigating: The SafetyPay Online payment service in Ecuador is temporarily unavailable due to an incident affecting the processor. We are currently investigating the situation and will provide further updates as more information becomes available.",
-    "Estado": "Update: The service disruption affecting SafetyPay payments through Banco Guayaquil remains ongoing. At this time, there is no confirmed timeframe for service restoration. Payments through other banks remain unaffected. We will provide a further update as soon as new information becomes available.",
-    "Componentes": "This incident affects: Payin (Ecuador).",
-    "Duracion_Minutos": "226",
-    "Pendiente": "SI",
-    "ID": "incidents/wck2ltsj7cwv",
-    "Asignado": "Luis G",
-    "Periodo_Raw": "Sep 23, 14:29 GMT-03:00"
-  },
-  {
     "Proveedor": "Monnet",
     "Titulo": "Intermittence – Banco Internacional - ECU - BankTransfer - Payouts+",
     "Periodo": "Oct 08, 10:15 AM VET (Activo)",
     "Resumen": "Dear team,\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services.\n\nOur team is actively monitoring the situation and working with the relevant teams to identify and resolve the issue.\n\nWe will keep you informed of any relevant updates and provide further information as soon as it becomes available. For any questions or assistance, please contact us at support@monnetpayments.com.\n\nWe apologize for any inconvenience this may cause and appreciate your patience and understanding while we work to resolve the issue.\n\nBest regards, Monnet Support Team",
     "Estado": "Investigating",
     "Componentes": "Servicio 50540",
-    "Duracion_Minutos": "60",
+    "Duracion_Minutos": "75",
     "Pendiente": "SI",
     "ID": "100",
     "Human_ID": "#SPI-100",
@@ -31,5 +18,18 @@
     "created_at": "2026-10-08T15:07:44Z",
     "updated_at": "2026-10-08T15:07:44Z",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Service Status Pay-ins Ecuador | SafetyPay Temporary Unavailability",
+    "Periodo": "Sep 23, 14:29 GMT-03:00",
+    "Resumen": "The service disruption has been confirmed to be affecting SafetyPay payments through Banco Guayaquil exclusively. Payments through other banks are not affected. The situation remains under review, and we expect to provide further updates within the next few hours.\n\nHistorial:\nIdentified: The service disruption has been confirmed to be affecting SafetyPay payments through Banco Guayaquil exclusively. Payments through other banks are not affected. The situation remains under review, and we expect to provide further updates within the next few hours.\nInvestigating: The SafetyPay Online payment service in Ecuador is temporarily unavailable due to an incident affecting the processor. We are currently investigating the situation and will provide further updates as more information becomes available.",
+    "Estado": "Update: The service disruption affecting SafetyPay payments through Banco Guayaquil remains ongoing. At this time, there is no confirmed timeframe for service restoration. Payments through other banks remain unaffected. We will provide a further update as soon as new information becomes available.",
+    "Componentes": "This incident affects: Payin (Ecuador).",
+    "Duracion_Minutos": "226",
+    "Pendiente": "SI",
+    "ID": "incidents/wck2ltsj7cwv",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Sep 23, 14:29 GMT-03:00"
   }
 ]
