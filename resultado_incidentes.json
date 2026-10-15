@@ -4067,5 +4067,18 @@
     "ID": "incidents/pyp5lnj69dr7",
     "Asignado": "Luis G",
     "Periodo_Raw": "Oct 13, 22:00 - Oct 14, 06:00 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Falabella Intermittences - FINTOC",
+    "Periodo": "Oct 14, 08:24 PM - 10:16 PM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nInvestigating: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 112,
+    "Pendiente": "NO",
+    "ID": "incidents/tk8k68nk6bg8",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Oct 14, 21:24 - 23:16 GMT-03:00"
   }
 ]
