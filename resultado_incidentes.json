@@ -4080,5 +4080,18 @@
     "ID": "incidents/tk8k68nk6bg8",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Oct 14, 21:24 - 23:16 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Scheduled Maintenance Notice Transbank Chile",
+    "Periodo": "Oct 14, 09:00 PM - Oct 15, 05:00 AM VET",
+    "Resumen": "The scheduled maintenance has been completed.",
+    "Estado": "N/A",
+    "Componentes": "N/A",
+    "Duracion_Minutos": 480,
+    "Pendiente": "NO",
+    "ID": "incidents/qwlggmq1cgvl",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Oct 14, 22:00 - Oct 15, 06:00 GMT-03:00"
   }
 ]
