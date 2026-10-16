@@ -19,7 +19,7 @@
     "Resumen": "We are experiencing delays in the crediting of payments made through MACH. Transactions are being processed, but their confirmation may take longer than usual. The provider is working on a fix, and the service is expected to return to normal within the next few minutes. We will keep you informed of any updates.",
     "Estado": "Monitoring: We are experiencing delays in the crediting of payments made through MACH. Transactions are being processed, but their confirmation may take longer than usual. The provider is working on a fix, and the service is expected to return to normal within the next few minutes. We will keep you informed of any updates.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "49",
+    "Duracion_Minutos": "64",
     "Pendiente": "SI",
     "ID": "incidents/rd3fr1y54m3x",
     "Asignado": "Luis G",
