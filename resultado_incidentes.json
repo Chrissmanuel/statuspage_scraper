@@ -4145,5 +4145,18 @@
     "ID": "incidents/z5vzmh87x2ny",
     "Asignado": "Luis G",
     "Periodo_Raw": "Oct 16, 22:00 - Oct 17, 06:00 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "MACH Intermittences",
+    "Periodo": "Oct 16, 06:11 PM - Oct 17, 03:28 PM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nMonitoring: We are experiencing delays in the crediting of payments made through MACH. Transactions are being processed, but their confirmation may take longer than usual. The provider is working on a fix, and the service is expected to return to normal within the next few minutes. We will keep you informed of any updates.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 1277,
+    "Pendiente": "NO",
+    "ID": "incidents/rd3fr1y54m3x",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Oct 16, 19:11 - Oct 17, 16:28 GMT-03:00"
   }
 ]
