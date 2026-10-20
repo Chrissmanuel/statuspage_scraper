@@ -4249,5 +4249,18 @@
     "ID": "incidents/2xpy555j6xn9",
     "Asignado": "Airam S",
     "Periodo_Raw": "Oct 20, 09:55 - 10:45 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "BCP - IBK BANK INCIDENT - WITHDRAWALS PERU",
+    "Periodo": "Oct 20, 08:58 AM - 11:02 AM VET",
+    "Resumen": "This incident has been resolved.\n\nHistorial:\nResolved: This incident has been resolved.\nMonitoring: We are currently experiencing delays in the processing of withdrawals to Banco BCP and Banco IBK (Peru). Our team is actively investigating the issue. The affected withdrawals are expected to be processed within the next few hours. We will provide further updates as they become available.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payout (Peru).",
+    "Duracion_Minutos": 124,
+    "Pendiente": "NO",
+    "ID": "incidents/f655jyxh08yn",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Oct 20, 09:58 - 12:02 GMT-03:00"
   }
 ]
