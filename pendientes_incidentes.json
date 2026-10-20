@@ -11,5 +11,31 @@
     "ID": "incidents/wck2ltsj7cwv",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 23, 14:29 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "BCP - IBK BANK INCIDENT - WITHDRAWALS PERU",
+    "Periodo": "Oct 20, 08:58 AM VET",
+    "Resumen": "We are currently experiencing delays in the processing of withdrawals to Banco BCP and Banco IBK (Peru). Our team is actively investigating the issue. The affected withdrawals are expected to be processed within the next few hours. We will provide further updates as they become available.",
+    "Estado": "Monitoring: We are currently experiencing delays in the processing of withdrawals to Banco BCP and Banco IBK (Peru). Our team is actively investigating the issue. The affected withdrawals are expected to be processed within the next few hours. We will provide further updates as they become available.",
+    "Componentes": "This incident affects: Payout (Peru).",
+    "Duracion_Minutos": "32",
+    "Pendiente": "SI",
+    "ID": "incidents/f655jyxh08yn",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Oct 20, 09:58 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "CHILE INCIDENT - WITHDRAWALS",
+    "Periodo": "Oct 20, 08:55 AM VET",
+    "Resumen": "In the past few hours, we have experienced intermittencies in the payout service in Chile. As a result, there have been delays in processing payouts. We are currently working on a solution and estimate that it will take approximately to regularize the pending withdrawals. We will keep you informed.",
+    "Estado": "Identified: In the past few hours, we have experienced intermittencies in the payout service in Chile. As a result, there have been delays in processing payouts. We are currently working on a solution and estimate that it will take approximately to regularize the pending withdrawals. We will keep you informed.",
+    "Componentes": "This incident affects: Payout (Chile).",
+    "Duracion_Minutos": "35",
+    "Pendiente": "SI",
+    "ID": "incidents/2xpy555j6xn9",
+    "Asignado": "Airam S",
+    "Periodo_Raw": "Oct 20, 09:55 GMT-03:00"
   }
 ]
