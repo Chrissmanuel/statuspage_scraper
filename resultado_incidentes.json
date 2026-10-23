@@ -4340,5 +4340,18 @@
     "ID": "incidents/24t8zh51d87r",
     "Asignado": "Airam S",
     "Periodo_Raw": "Oct 22, 22:00 - Oct 23, 06:01 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Scheduled Maintenance Notice FINTOC Mexico",
+    "Periodo": "Oct 23, 05:00 AM - 05:30 AM VET",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: FINTOC Mexico will be performing scheduled maintenance on its platform on Friday, October 23, 2026, between 06:00 AM and 06:30 AM (UTC-6). During this maintenance window, the SPEI service will be temporarily unavailable. We recommend planning your operations accordingly. If you have any questions, please contact us at support@alps.cl",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Payin (Mexico).",
+    "Duracion_Minutos": 30,
+    "Pendiente": "NO",
+    "ID": "incidents/29fpqyhpwmzt",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Oct 23, 06:00 - 06:30 GMT-03:00"
   }
 ]
