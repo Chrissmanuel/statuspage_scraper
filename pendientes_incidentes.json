@@ -11,5 +11,18 @@
     "ID": "incidents/wck2ltsj7cwv",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 23, 14:29 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco Santander Intermittences - CLP",
+    "Periodo": "Oct 25, 05:19 PM VET",
+    "Resumen": "We are continuing to work on a fix for this issue.\n\nHistorial:\nUpdate: We are continuing to work on a fix for this issue.\nIdentified: Intermittent service disruptions have been detected affecting bank transfer payments through Banco Santander in Chile. As a result, payments made through this bank may be affected.",
+    "Estado": "Update: We are continuing to work on a fix for this issue.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "41",
+    "Pendiente": "SI",
+    "ID": "incidents/pndxx2qzxyzd",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Oct 25, 18:19 GMT-03:00"
   }
 ]
