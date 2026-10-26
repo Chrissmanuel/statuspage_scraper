@@ -4470,5 +4470,18 @@
     "ID": "incidents/pndxx2qzxyzd",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Oct 25, 18:19 - 19:14 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Scheduled Maintenance Notice - Banco de Chile, Chile",
+    "Periodo": "Oct 25, 11:00 PM - Oct 26, 03:50 AM VET",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Banco de Chile will be performing scheduled maintenance on its web and app services on October 26, between 00:00 and 04:50 (UTC-4). During this maintenance window, the bank's services will be temporarily unavailable. As a result, the processors will temporarily disable transactions with the bank until the maintenance is completed. We recommend planning your operations accordingly. If you have any questions, please contact us at support@alps.cl.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Payin (Chile).",
+    "Duracion_Minutos": 290,
+    "Pendiente": "NO",
+    "ID": "incidents/mv0jdw1nftxq",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Oct 26, 00:00 - 04:50 GMT-03:00"
   }
 ]
