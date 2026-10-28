@@ -19,23 +19,10 @@
     "Resumen": "Scheduled maintenance is currently in progress. We will provide updates as necessary.\n\nHistorial:\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Transbank Chile will be performing scheduled maintenance on its platform on October 27, between 22:00 and October 28, 06:00 (UTC-3). During this maintenance window, transactions processed through Transbank may experience intermittent disruptions. We recommend planning your operations accordingly. If you have any questions, please contact us at support@alps.cl",
     "Estado": "In progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.",
     "Componentes": "This scheduled maintenance affects: Payin (Chile).",
-    "Duracion_Minutos": "210",
+    "Duracion_Minutos": "225",
     "Pendiente": "SI",
     "ID": "incidents/rc87tzy4yx5q",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Oct 27, 22:00 GMT-03:00"
-  },
-  {
-    "Proveedor": "Directa24",
-    "Titulo": "Chile - Webpay - Transbank Issues",
-    "Periodo": "Oct 27, 11:13 PM VET",
-    "Resumen": "We would like to inform you that Transbank is currently facing issues on their side, resulting in a decrease in the conversion rate that is impacting payments through Webpay for all banks. We want to assure you that all D24 services are fully operational. We are closely monitoring the situation and will update this incident as soon as we have any news.",
-    "Estado": "Monitoring: We are now seeing the conversion rates reaching the expected levels. We will keep monitoring and inform you of further issues.",
-    "Componentes": "This incident affects: Payment methods (Chile - Webpay).",
-    "Duracion_Minutos": "47",
-    "Pendiente": "SI",
-    "ID": "incidents/xc4jt7vjvvmm",
-    "Asignado": "Merlis M",
-    "Periodo_Raw": "Oct 28, 03:13 UTC"
   }
 ]

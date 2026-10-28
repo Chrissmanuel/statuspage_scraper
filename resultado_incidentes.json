@@ -4574,5 +4574,18 @@
     "ID": "incidents/5s98vvy00xhm",
     "Asignado": "Luis G",
     "Periodo_Raw": "Oct 27, 17:59 - 18:40 GMT-03:00"
+  },
+  {
+    "Proveedor": "Directa24",
+    "Titulo": "Chile - Webpay - Transbank Issues",
+    "Periodo": "Oct 27, 11:13 PM VET",
+    "Resumen": "We would like to inform you that Transbank is currently facing issues on their side, resulting in a decrease in the conversion rate that is impacting payments through Webpay for all banks. We want to assure you that all D24 services are fully operational. We are closely monitoring the situation and will update this incident as soon as we have any news.",
+    "Estado": "Resolved: This incident has been resolved.",
+    "Componentes": "This incident affected: Payment methods (Chile - Webpay).",
+    "Duracion_Minutos": 92,
+    "Pendiente": "NO",
+    "ID": "incidents/xc4jt7vjvvmm",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Oct 28, 03:13 UTC"
   }
 ]
