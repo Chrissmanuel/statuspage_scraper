@@ -19,7 +19,7 @@
     "Resumen": "We are seeing intermittent failures on payments with Banco Santander. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
     "Estado": "Investigating: We are seeing intermittent failures on payments with Banco Santander. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "133",
+    "Duracion_Minutos": "148",
     "Pendiente": "SI",
     "ID": "incidents/rkt91cwjrmnp",
     "Asignado": "Airam S",
