@@ -19,7 +19,7 @@
     "Resumen": "We are seeing intermittent failures on payments with Banco Estado. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
     "Estado": "Investigating: We are seeing intermittent failures on payments with Banco Estado. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "67",
+    "Duracion_Minutos": "82",
     "Pendiente": "SI",
     "ID": "incidents/ykp8by6vrr07",
     "Asignado": "Greider G",
