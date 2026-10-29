@@ -11,18 +11,5 @@
     "ID": "incidents/wck2ltsj7cwv",
     "Asignado": "Luis G",
     "Periodo_Raw": "Sep 23, 14:29 GMT-03:00"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Payment intermittences with Banco Falabella",
-    "Periodo": "Oct 29, 08:35 AM VET",
-    "Resumen": "We are seeing intermittent failures on payments with Banco Falabella. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
-    "Estado": "Investigating: We are seeing intermittent failures on payments with Banco Falabella. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "40",
-    "Pendiente": "SI",
-    "ID": "incidents/78n26x91k93r",
-    "Asignado": "Merlis M",
-    "Periodo_Raw": "Oct 29, 09:35 GMT-03:00"
   }
 ]
