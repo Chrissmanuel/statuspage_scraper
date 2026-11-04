@@ -48,6 +48,7 @@ FILTROS_POR_PROVEEDOR: Dict[str, Dict[str, Any]] = {
             "HND", "PER", "MEX", "GTM", "ECU", "HN", "PE", "MX", "GT",
         ],
         "excluye": [
+            "Colombia", "COL", "Chile", "CHL"
 ],
         "monedas": [],
         "duracion_minima": 30,
