@@ -5035,5 +5035,18 @@
     "created_at": "2026-10-31T22:16:24Z",
     "updated_at": "2026-11-01T00:08:30Z",
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Payment intermittences with Banco Estado",
+    "Periodo": "Nov 04, 09:02 AM - 10:46 AM VET",
+    "Resumen": "Payments with Banco Estado have returned to normal operation.\n\nHistorial:\nResolved: Payments with Banco Estado have returned to normal operation.\nInvestigating: We are seeing intermittent failures on payments with Banco Estado. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
+    "Estado": "Resolved: Payments with Banco Estado have returned to normal operation.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 104,
+    "Pendiente": "NO",
+    "ID": "incidents/0l9c5j8jw4rc",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Nov 4, 10:02 - 11:46 GMT-03:00"
   }
 ]
