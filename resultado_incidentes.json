@@ -5088,5 +5088,25 @@
     "created_at": "2026-11-05T05:31:12Z",
     "updated_at": "2026-11-05T06:25:34Z",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "Schedule maintenance - Coinag Bank- Bank Transfer - ARG - Payouts",
+    "Periodo": "Nov 05, 05:00 AM - 07:00 AM VET",
+    "Resumen": "Dear Team,\n\nPlease be informed that one of our partners will be performing scheduled maintenance, which may temporarily affect the availability of the related service. Our team will monitor the service throughout the maintenance period and share updates as soon as further information becomes available.\n\nFor any assistance, please contact support@monnetpayments.com.\n\nWe apologize for any inconvenience this may cause and appreciate your patience and understanding.\n\nKind regards,",
+    "Estado": "Planned",
+    "Componentes": "N/A",
+    "Duracion_Minutos": 120,
+    "Pendiente": "NO",
+    "ID": "195",
+    "Human_ID": "#SPM-195",
+    "Periodo_Raw": "Nov 05, 05:00 AM - 07:00 AM VET",
+    "start_time": "2026-11-05T09:00:00Z",
+    "end_time": "2026-11-05T11:00:00Z",
+    "tipo_incidente": 2,
+    "status_code": 1,
+    "created_at": "2026-11-02T19:32:30Z",
+    "updated_at": "2026-11-05T09:00:01Z",
+    "Asignado": "Luis G"
   }
 ]
