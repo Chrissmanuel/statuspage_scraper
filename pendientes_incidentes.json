@@ -6,7 +6,7 @@
     "Resumen": "Dear team,\n\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services. Our team is actively monitoring the situation and working with the relevant teams to identify and resolve the issue.\n\nWe will keep you informed of any relevant updates and provide further information as soon as it becomes available.\n\nFor any questions or assistance, please contact us at support@monnetpayments.com.\n\nWe apologize for any inconvenience this may cause and appreciate your patience and understanding while we work to resolve the issue.\n\nBest regards,\nMonnet Support Team",
     "Estado": "Investigating",
     "Componentes": "Servicio 50494",
-    "Duracion_Minutos": "135",
+    "Duracion_Minutos": "150",
     "Pendiente": "SI",
     "ID": "210",
     "Human_ID": "#SPI-210",
@@ -39,23 +39,10 @@
     "Resumen": "Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FINTOC has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "1325",
+    "Duracion_Minutos": "1340",
     "Pendiente": "SI",
     "ID": "incidents/9mjkq1xbkxky",
     "Asignado": "Airam S",
     "Periodo_Raw": "Nov 4, 23:40 GMT-03:00"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Payment intermittences with Banco Scotiabank",
-    "Periodo": "Nov 05, 02:52 PM VET",
-    "Resumen": "We are seeing intermittent failures on payments with Banco Scotiabank. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
-    "Estado": "Investigating: We are seeing intermittent failures on payments with Banco Scotiabank. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "353",
-    "Pendiente": "SI",
-    "ID": "incidents/4s842hstn655",
-    "Asignado": "Greider G",
-    "Periodo_Raw": "Nov 5, 15:52 GMT-03:00"
   }
 ]
