@@ -19,10 +19,23 @@
     "Resumen": "We are seeing intermittent failures on payments with Banco Estado. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
     "Estado": "Investigating: We are seeing intermittent failures on payments with Banco Estado. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "35",
+    "Duracion_Minutos": "50",
     "Pendiente": "SI",
     "ID": "incidents/q148ny8qzpv2",
     "Asignado": "Greider G",
     "Periodo_Raw": "Nov 6, 22:55 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco de Chile Intermittences - FLOID",
+    "Periodo": "Nov 06, 10:05 PM VET",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FLOID has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FLOID has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "40",
+    "Pendiente": "SI",
+    "ID": "incidents/gt5n0s2ftmhw",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Nov 6, 23:05 GMT-03:00"
   }
 ]
