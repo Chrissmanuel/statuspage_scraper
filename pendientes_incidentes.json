@@ -32,7 +32,7 @@
     "Resumen": "We are seeing intermittent failures on payments with Banco Falabella. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
     "Estado": "Investigating: We are seeing intermittent failures on payments with Banco Falabella. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
     "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "30",
+    "Duracion_Minutos": "45",
     "Pendiente": "SI",
     "ID": "incidents/dmzbxns1tp6q",
     "Asignado": "Luis G",
