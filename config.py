@@ -27,7 +27,7 @@ MESES = {
     "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12
 }
 
-ASIGNADOS = ["Airam S", "Luis G", "Merlis M", "Greider G"]
+ASIGNADOS = ["Airam S", "Luis G", "Merlis M", "Greider G", "Kenner Z"]
 
 DEFAULT_FILTROS = {
     "incluye": [],
