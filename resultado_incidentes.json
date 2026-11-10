@@ -5385,5 +5385,18 @@
     "created_at": "2026-11-09T22:21:51Z",
     "updated_at": "2026-11-10T12:00:01Z",
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Service Status Pay-ins Ecuador | SafetyPay Temporary Unavailability",
+    "Periodo": "Sep 23, 01:29 PM - Nov 10, 12:54 PM VET",
+    "Resumen": "SafetyPay payments through Banco Guayaquil in Ecuador remain unavailable. Payments through other banks remain unaffected. This is the final update for this notice. We will continue following up directly with the provider and communicate any relevant changes to the availability of this payment option.\n\nHistorial:\nResolved: SafetyPay payments through Banco Guayaquil in Ecuador remain unavailable. Payments through other banks remain unaffected. This is the final update for this notice. We will continue following up directly with the provider and communicate any relevant changes to the availability of this payment option.\nUpdate: The service disruption affecting SafetyPay payments through Banco Guayaquil remains ongoing. At this time, there is no confirmed timeframe for service restoration. Payments through other banks remain unaffected. We will provide a further update as soon as new information becomes available.\nUpdate: The service disruption affecting SafetyPay payments through Banco Guayaquil remains ongoing. At this time, there is no confirmed timeframe for service restoration. Payments through other banks remain unaffected. We will provide a further update as soon as new information becomes available.\nIdentified: The service disruption has been confirmed to be affecting SafetyPay payments through Banco Guayaquil exclusively. Payments through other banks are not affected. The situation remains under review, and we expect to provide further updates within the next few hours.\nInvestigating: The SafetyPay Online payment service in Ecuador is temporarily unavailable due to an incident affecting the processor. We are currently investigating the situation and will provide further updates as more information becomes available.",
+    "Estado": "Resolved: SafetyPay payments through Banco Guayaquil in Ecuador remain unavailable. Payments through other banks remain unaffected. This is the final update for this notice. We will continue following up directly with the provider and communicate any relevant changes to the availability of this payment option.",
+    "Componentes": "This incident affected: Payin (Ecuador).",
+    "Duracion_Minutos": 69085,
+    "Pendiente": "NO",
+    "ID": "incidents/wck2ltsj7cwv",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Sep 23, 14:29 - Nov 10, 13:54 GMT-03:00"
   }
 ]

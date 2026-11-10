@@ -6,7 +6,7 @@
     "Resumen": "Dear Team,\n\nPlease be advised that the bank is experiencing an intermittent service disruption. We are monitoring the situation and will share updates as they become available.\n\nFor assistance, please contact support@monnetpayments.com.\n\nWe apologize for any inconvenience caused and appreciate your understanding.\n\nBest regards,",
     "Estado": "Investigating",
     "Componentes": "Servicio 50534",
-    "Duracion_Minutos": "285",
+    "Duracion_Minutos": "300",
     "Pendiente": "SI",
     "ID": "223",
     "Human_ID": "#SPI-223",
@@ -26,7 +26,7 @@
     "Resumen": "Dear team,\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services.\nOur team is actively monitoring the situation and working with the relevant teams to identify and resolve the issue. We will keep you informed of any relevant updates and provide further information as soon as it becomes available.\nFor any questions or assistance, please contact us at support@monnetpayments.com.\nWe apologize for any inconvenience this may cause and appreciate your patience and understanding while we work to resolve the issue.\nBest regards,\nMonnet Support Team",
     "Estado": "Investigating",
     "Componentes": "Servicio 50494",
-    "Duracion_Minutos": "45",
+    "Duracion_Minutos": "60",
     "Pendiente": "SI",
     "ID": "224",
     "Human_ID": "#SPI-224",
@@ -38,19 +38,6 @@
     "created_at": "2026-11-10T16:16:17Z",
     "updated_at": "2026-11-10T16:16:17Z",
     "Asignado": "Greider G"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Service Status Pay-ins Ecuador | SafetyPay Temporary Unavailability",
-    "Periodo": "Sep 23, 14:29 GMT-03:00",
-    "Resumen": "The service disruption has been confirmed to be affecting SafetyPay payments through Banco Guayaquil exclusively. Payments through other banks are not affected. The situation remains under review, and we expect to provide further updates within the next few hours.\n\nHistorial:\nIdentified: The service disruption has been confirmed to be affecting SafetyPay payments through Banco Guayaquil exclusively. Payments through other banks are not affected. The situation remains under review, and we expect to provide further updates within the next few hours.\nInvestigating: The SafetyPay Online payment service in Ecuador is temporarily unavailable due to an incident affecting the processor. We are currently investigating the situation and will provide further updates as more information becomes available.",
-    "Estado": "Update: The service disruption affecting SafetyPay payments through Banco Guayaquil remains ongoing. At this time, there is no confirmed timeframe for service restoration. Payments through other banks remain unaffected. We will provide a further update as soon as new information becomes available.",
-    "Componentes": "This incident affects: Payin (Ecuador).",
-    "Duracion_Minutos": "226",
-    "Pendiente": "SI",
-    "ID": "incidents/wck2ltsj7cwv",
-    "Asignado": "Luis G",
-    "Periodo_Raw": "Sep 23, 14:29 GMT-03:00"
   },
   {
     "Proveedor": "Alps",
