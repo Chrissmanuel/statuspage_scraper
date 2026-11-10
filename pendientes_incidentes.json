@@ -24,5 +24,18 @@
     "ID": "incidents/gt5n0s2ftmhw",
     "Asignado": "Greider G",
     "Periodo_Raw": "Nov 6, 23:05 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Payment intermittences with Banco BCI",
+    "Periodo": "Nov 09, 11:01 PM VET",
+    "Resumen": "We are seeing intermittent failures on payments with Banco BCI. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
+    "Estado": "Investigating: We are seeing intermittent failures on payments with Banco BCI. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "44",
+    "Pendiente": "SI",
+    "ID": "incidents/0rspsm4nnhx8",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Nov 10, 00:01 GMT-03:00"
   }
 ]
