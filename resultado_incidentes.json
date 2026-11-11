@@ -5484,5 +5484,18 @@
     "created_at": "2026-11-10T20:40:58Z",
     "updated_at": "2026-11-11T05:00:01Z",
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Payment intermittences with Banco Santander",
+    "Periodo": "Nov 11, 09:07 AM - 09:48 AM VET",
+    "Resumen": "Payments with Banco Santander have returned to normal operation.\n\nHistorial:\nResolved: Payments with Banco Santander have returned to normal operation.\nInvestigating: We are seeing intermittent failures on payments with Banco Santander. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
+    "Estado": "Resolved: Payments with Banco Santander have returned to normal operation.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 41,
+    "Pendiente": "NO",
+    "ID": "incidents/8cznc7zkfqyx",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Nov 11, 10:07 - 10:48 GMT-03:00"
   }
 ]
