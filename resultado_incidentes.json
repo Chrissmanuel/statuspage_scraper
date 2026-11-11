@@ -5497,5 +5497,25 @@
     "ID": "incidents/8cznc7zkfqyx",
     "Asignado": "Greider G",
     "Periodo_Raw": "Nov 11, 10:07 - 10:48 GMT-03:00"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "External Intermittence – QR + Perú - Payin",
+    "Periodo": "Nov 10, 12:00 PM VET (Activo)",
+    "Resumen": "Dear team,\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services.\nOur team is actively monitoring the situation and working with the relevant teams to identify and resolve the issue. We will keep you informed of any relevant updates and provide further information as soon as it becomes available.\nFor any questions or assistance, please contact us at support@monnetpayments.com.\nWe apologize for any inconvenience this may cause and appreciate your patience and understanding while we work to resolve the issue.\nBest regards,\nMonnet Support Team",
+    "Estado": "Resolved",
+    "Componentes": "Servicio 50494",
+    "Duracion_Minutos": 1620,
+    "Pendiente": "NO",
+    "ID": "224",
+    "Human_ID": "#SPI-224",
+    "Periodo_Raw": "Nov 10, 12:00 PM VET (Activo)",
+    "start_time": "2026-11-10T16:00:00Z",
+    "end_time": null,
+    "tipo_incidente": 1,
+    "status_code": 1,
+    "created_at": "2026-11-10T16:16:17Z",
+    "updated_at": "2026-11-10T16:16:17Z",
+    "Asignado": "Greider G"
   }
 ]
