@@ -1,5 +1,25 @@
 [
   {
+    "Proveedor": "Monnet",
+    "Titulo": "External Intermittence – Microsoft 365 Incident – Outlook / Exchange",
+    "Periodo": "Nov 12, 02:30 PM VET (Activo)",
+    "Resumen": "Dear Team,\n\nWe are experiencing delays in receiving and responding to emails due to an ongoing incident affecting Microsoft 365 services, particularly Outlook / Exchange Online.\n\nThis issue may affect the timely reception and processing of emails sent to Monnet Payments, resulting in delays in our response times.\n\nMicrosoft is currently investigating the incident. Our team is monitoring the situation and working to minimize its impact on our customer communications.\n\nWe will provide further updates as soon as relevant information becomes available.\n\nBest regards,",
+    "Estado": "Investigating",
+    "Componentes": "N/A",
+    "Duracion_Minutos": "120",
+    "Pendiente": "SI",
+    "ID": "236",
+    "Human_ID": "#SPI-236",
+    "Periodo_Raw": "Nov 12, 02:30 PM VET (Activo)",
+    "start_time": "2026-11-12T18:30:00Z",
+    "end_time": null,
+    "tipo_incidente": 1,
+    "status_code": 1,
+    "created_at": "2026-11-12T20:11:31Z",
+    "updated_at": "2026-11-12T20:11:31Z",
+    "Asignado": "Greider G"
+  },
+  {
     "Proveedor": "Alps",
     "Titulo": "Banco de Chile Intermittences - FLOID",
     "Periodo": "Nov 06, 10:05 PM VET",
@@ -13,23 +33,16 @@
     "Periodo_Raw": "Nov 6, 23:05 GMT-03:00"
   },
   {
-    "Proveedor": "Monnet",
-    "Titulo": "External Intermittence – Microsoft 365 Incident – Outlook / Exchange",
-    "Periodo": "Nov 12, 02:30 PM VET (Activo)",
-    "Resumen": "Dear Team,\n\nWe are experiencing delays in receiving and responding to emails due to an ongoing incident affecting Microsoft 365 services, particularly Outlook / Exchange Online.\n\nThis issue may affect the timely reception and processing of emails sent to Monnet Payments, resulting in delays in our response times.\n\nMicrosoft is currently investigating the incident. Our team is monitoring the situation and working to minimize its impact on our customer communications.\n\nWe will provide further updates as soon as relevant information becomes available.\n\nBest regards,",
-    "Estado": "Investigating",
-    "Componentes": "N/A",
-    "Duracion_Minutos": "105",
+    "Proveedor": "Alps",
+    "Titulo": "Payment intermittences with Banco Scotiabank",
+    "Periodo": "Nov 12, 03:52 PM VET",
+    "Resumen": "We are seeing intermittent failures on payments with Banco Scotiabank. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
+    "Estado": "Investigating: We are seeing intermittent failures on payments with Banco Scotiabank. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "38",
     "Pendiente": "SI",
-    "ID": "236",
-    "Human_ID": "#SPI-236",
-    "Periodo_Raw": "Nov 12, 02:30 PM VET (Activo)",
-    "start_time": "2026-11-12T18:30:00Z",
-    "end_time": null,
-    "tipo_incidente": 1,
-    "status_code": 1,
-    "created_at": "2026-11-12T20:11:31Z",
-    "updated_at": "2026-11-12T20:11:31Z",
-    "Asignado": "Greider G"
+    "ID": "incidents/9l1frvh67x6x",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Nov 12, 16:52 GMT-03:00"
   }
 ]
