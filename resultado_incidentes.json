@@ -5590,5 +5590,18 @@
     "created_at": "2026-11-12T12:35:12Z",
     "updated_at": "2026-11-12T14:01:08Z",
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Payment intermittences with Banco Scotiabank",
+    "Periodo": "Nov 12, 03:52 PM - 04:39 PM VET",
+    "Resumen": "Payments with Banco Scotiabank have returned to normal operation.\n\nHistorial:\nResolved: Payments with Banco Scotiabank have returned to normal operation.\nInvestigating: We are seeing intermittent failures on payments with Banco Scotiabank. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
+    "Estado": "Resolved: Payments with Banco Scotiabank have returned to normal operation.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 47,
+    "Pendiente": "NO",
+    "ID": "incidents/9l1frvh67x6x",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Nov 12, 16:52 - 17:39 GMT-03:00"
   }
 ]
