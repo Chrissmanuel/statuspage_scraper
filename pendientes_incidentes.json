@@ -6,7 +6,7 @@
     "Resumen": "Dear Team,\n\nWe are experiencing delays in receiving and responding to emails due to an ongoing incident affecting Microsoft 365 services, particularly Outlook / Exchange Online.\n\nThis issue may affect the timely reception and processing of emails sent to Monnet Payments, resulting in delays in our response times.\n\nMicrosoft is currently investigating the incident. Our team is monitoring the situation and working to minimize its impact on our customer communications.\n\nWe will provide further updates as soon as relevant information becomes available.\n\nBest regards,",
     "Estado": "Investigating",
     "Componentes": "N/A",
-    "Duracion_Minutos": "1335",
+    "Duracion_Minutos": "1350",
     "Pendiente": "SI",
     "ID": "236",
     "Human_ID": "#SPI-236",
@@ -20,26 +20,13 @@
     "Asignado": "Greider G"
   },
   {
-    "Proveedor": "Alps",
-    "Titulo": "Banco de Chile Intermittences - FLOID",
-    "Periodo": "Nov 06, 10:05 PM VET",
-    "Resumen": "Intermittent service disruptions have been detected. As a result, FLOID has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FLOID has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "70",
-    "Pendiente": "SI",
-    "ID": "incidents/gt5n0s2ftmhw",
-    "Asignado": "Greider G",
-    "Periodo_Raw": "Nov 6, 23:05 GMT-03:00"
-  },
-  {
     "Proveedor": "Monnet",
     "Titulo": "External Intermittence – FICOHSA + Bank Transfer + Guatemala - PO",
     "Periodo": "Nov 13, 12:00 PM VET (Activo)",
     "Resumen": "Dear team,\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services. Our team is actively monitoring the situation and working with the relevant teams to identify and resolve the issue. We will keep you informed of any relevant updates and provide further information as soon as it becomes available.\nFor any questions or assistance, please contact us at support@monnetpayments.com.\nWe apologize for any inconvenience this may cause and appreciate your patience and understanding while we work to resolve the issue. ]\n\nBest regards,\nMonnet Support Team",
     "Estado": "Investigating",
     "Componentes": "Servicio 50547",
-    "Duracion_Minutos": "45",
+    "Duracion_Minutos": "60",
     "Pendiente": "SI",
     "ID": "238",
     "Human_ID": "#SPI-238",
@@ -51,5 +38,18 @@
     "created_at": "2026-11-13T16:42:22Z",
     "updated_at": "2026-11-13T16:42:22Z",
     "Asignado": "Luis G"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco de Chile Intermittences - FLOID",
+    "Periodo": "Nov 06, 10:05 PM VET",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FLOID has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FLOID has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "70",
+    "Pendiente": "SI",
+    "ID": "incidents/gt5n0s2ftmhw",
+    "Asignado": "Greider G",
+    "Periodo_Raw": "Nov 6, 23:05 GMT-03:00"
   }
 ]
