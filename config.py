@@ -27,7 +27,7 @@ MESES = {
     "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12
 }
 
-ASIGNADOS = ["Airam S", "Luis G", "Merlis M", "Greider G", "Kenner Z"]
+ASIGNADOS = ["Airam S", "Luis G", "Merlis M"]
 
 DEFAULT_FILTROS = {
     "incluye": [],
@@ -44,8 +44,8 @@ FILTROS_POR_PROVEEDOR: Dict[str, Dict[str, Any]] = {
     "Monnet": {
         # ✅ FIX: agregar códigos ISO para que matcheen títulos como "HND", "PE", "MX"
         "incluye": [
-            "Peru", "Mexico", "Guatemala", "Ecuador", "Honduras",
-            "HND", "PER", "MEX", "GTM", "ECU", "HN", "PE", "MX", "GT",
+            "Mexico", "Guatemala", "Ecuador", "Honduras",
+            "HND", "MEX", "GTM", "ECU", "HN", "PE", "MX", "GT",
         ],
         "excluye": [
             "Colombia", "COL", "Chile", "CHL"
@@ -54,13 +54,13 @@ FILTROS_POR_PROVEEDOR: Dict[str, Dict[str, Any]] = {
         "duracion_minima": 30,
     },
     "Alps": {
-        "incluye": ["Peru", "Mexico", "Guatemala", "Ecuador", "Chile", "Honduras"],
+        "incluye": ["Mexico", "Guatemala", "Ecuador", "Chile", "Honduras"],
         "excluye": ["Brasil", "Colombia", "Argentina", "khipu", "Cobre"],
         "monedas": [],
         "duracion_minima": 30,
     },
     "Directa24": {
-        "incluye": ["Peru", "Mexico", "Guatemala", "Ecuador", "Chile", "Honduras",
+        "incluye": ["Mexico", "Guatemala", "Ecuador", "Chile", "Honduras",
                     "API", "Cashin", "Cashout", "Maintenance"],
         "excluye": ["Brasil", "Colombia", "Argentina", "Conversion Rates", "PIX", "Brazil"],
         "monedas": [],
