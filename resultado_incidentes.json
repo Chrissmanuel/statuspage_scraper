@@ -6008,5 +6008,38 @@
     "created_at": "2026-11-16T23:40:48Z",
     "updated_at": "2026-11-17T02:46:17Z",
     "Asignado": "Merlis M"
+  },
+  {
+    "Proveedor": "Monnet",
+    "Titulo": "External Intermittence – Interbank - PERU - Wallets - Payouts",
+    "Periodo": "Nov 17, 01:00 AM - 02:12 AM VET",
+    "Resumen": "Dear Team,\n\nPlease be advised that the bank is experiencing an intermittent service disruption. We are monitoring the situation and will share updates as they become available.\n\nFor assistance, please contact support@monnetpayments.com.\n\nWe apologize for any inconvenience caused and appreciate your understanding.\n\nBest regards,",
+    "Estado": "Resolved",
+    "Componentes": "Servicio 50529",
+    "Duracion_Minutos": 72,
+    "Pendiente": "NO",
+    "ID": "260",
+    "Human_ID": "#SPI-260",
+    "Periodo_Raw": "Nov 17, 01:00 AM - 02:12 AM VET",
+    "start_time": "2026-11-17T05:00:00Z",
+    "end_time": "2026-11-17T06:12:31Z",
+    "tipo_incidente": 1,
+    "status_code": 2,
+    "created_at": "2026-11-17T05:58:49Z",
+    "updated_at": "2026-11-17T06:12:31Z",
+    "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Payment intermittences with Banco Estado",
+    "Periodo": "Nov 17, 01:30 AM - 02:03 AM VET",
+    "Resumen": "Payments with Banco Estado have returned to normal operation.\n\nHistorial:\nResolved: Payments with Banco Estado have returned to normal operation.\nInvestigating: We are seeing intermittent failures on payments with Banco Estado. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
+    "Estado": "Resolved: Payments with Banco Estado have returned to normal operation.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 33,
+    "Pendiente": "NO",
+    "ID": "incidents/gqnz66jc62py",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Nov 17, 02:30 - 03:03 GMT-03:00"
   }
 ]
