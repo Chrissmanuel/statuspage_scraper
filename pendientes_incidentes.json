@@ -1,25 +1,12 @@
 [
   {
-    "Proveedor": "Alps",
-    "Titulo": "Banco de Chile Intermittences - FLOID",
-    "Periodo": "Nov 06, 10:05 PM VET",
-    "Resumen": "Intermittent service disruptions have been detected. As a result, FLOID has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FLOID has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "70",
-    "Pendiente": "SI",
-    "ID": "incidents/gt5n0s2ftmhw",
-    "Asignado": "Merlis M",
-    "Periodo_Raw": "Nov 6, 23:05 GMT-03:00"
-  },
-  {
     "Proveedor": "Monnet",
     "Titulo": "External Intermittence – WALLETS + PERÚ - PO",
     "Periodo": "Nov 17, 01:00 AM VET (Activo)",
     "Resumen": "Dear team,\nPlease be informed that we are currently experiencing an intermittent issue affecting one of our partner services. Our team is actively monitoring the situation and working with the relevant teams to identify and resolve the issue. We will keep you informed of any relevant updates and provide further information as soon as it becomes available.\nFor any questions or assistance, please contact us at support@monnetpayments.com.\nWe apologize for any inconvenience this may cause and appreciate your patience and understanding while we work to resolve the issue.\n\nBest regards,\nMonnet Support Team",
     "Estado": "Investigating",
     "Componentes": "Servicio 50529",
-    "Duracion_Minutos": "735",
+    "Duracion_Minutos": "750",
     "Pendiente": "SI",
     "ID": "264",
     "Human_ID": "#SPI-264",
@@ -31,5 +18,18 @@
     "created_at": "2026-11-17T17:07:17Z",
     "updated_at": "2026-11-17T17:07:27Z",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco de Chile Intermittences - FLOID",
+    "Periodo": "Nov 06, 10:05 PM VET",
+    "Resumen": "Intermittent service disruptions have been detected. As a result, FLOID has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Estado": "Identified: Intermittent service disruptions have been detected. As a result, FLOID has temporarily disabled related bank transactions until the situation is resolved and operations return to normal.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "70",
+    "Pendiente": "SI",
+    "ID": "incidents/gt5n0s2ftmhw",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Nov 6, 23:05 GMT-03:00"
   }
 ]
