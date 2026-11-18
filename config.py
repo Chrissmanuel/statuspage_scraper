@@ -45,10 +45,10 @@ FILTROS_POR_PROVEEDOR: Dict[str, Dict[str, Any]] = {
         # ✅ FIX: agregar códigos ISO para que matcheen títulos como "HND", "PE", "MX"
         "incluye": [
             "Mexico", "Guatemala", "Ecuador", "Honduras",
-            "HND", "MEX", "GTM", "ECU", "HN", "PE", "MX", "GT",
+            "HND", "MEX", "GTM", "ECU", "HN", "MX", "GT",
         ],
         "excluye": [
-            "Colombia", "COL", "Chile", "CHL"
+            "Colombia", "COL", "Chile", "CHL", "PEN", "PER", "ARS", "ARG", "Peru", "Argentina"
 ],
         "monedas": [],
         "duracion_minima": 30,
