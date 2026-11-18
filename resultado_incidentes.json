@@ -6134,5 +6134,18 @@
     "created_at": "2026-11-12T03:55:44Z",
     "updated_at": "2026-11-18T05:00:03Z",
     "Asignado": "Airam S"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Payment intermittences with Banco BCI",
+    "Periodo": "Nov 17, 10:53 PM - Nov 18, 02:50 AM VET",
+    "Resumen": "Payments with Banco BCI have returned to normal operation.\n\nHistorial:\nResolved: Payments with Banco BCI have returned to normal operation.\nInvestigating: We are seeing intermittent failures on payments with Banco BCI. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
+    "Estado": "Resolved: Payments with Banco BCI have returned to normal operation.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 237,
+    "Pendiente": "NO",
+    "ID": "incidents/409vtsqv8b9b",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Nov 17, 23:53 - Nov 18, 03:50 GMT-03:00"
   }
 ]
