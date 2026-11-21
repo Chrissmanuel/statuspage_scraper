@@ -6206,5 +6206,18 @@
     "ID": "incidents/7b1ghn2dhtkw",
     "Asignado": "Airam S",
     "Periodo_Raw": "Nov 20, 09:39 - 11:42 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "[Scheduled] Scheduled Maintenance Notice - Banco de Chile - PAYOUT",
+    "Periodo": "Nov 20, 11:00 PM - Nov 21, 03:50 AM VET",
+    "Resumen": "The scheduled maintenance has been completed.\n\nHistorial:\nCompleted: The scheduled maintenance has been completed.\nIn progress: Scheduled maintenance is currently in progress. We will provide updates as necessary.\nScheduled: Banco de Chile will be performing scheduled maintenance on its web and app services on November 21, between 00:00 and 04:50 (UTC-4). During this maintenance window, the bank's services to PAYOUT will be temporarily unavailable. We recommend planning your operations accordingly. If you have any questions, please contact us at support@alps.cl.",
+    "Estado": "Completed: The scheduled maintenance has been completed.",
+    "Componentes": "This scheduled maintenance affected: Payin (Chile).",
+    "Duracion_Minutos": 290,
+    "Pendiente": "NO",
+    "ID": "incidents/kvmzrdwj44z6",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Nov 21, 00:00 - 04:50 GMT-03:00"
   }
 ]
