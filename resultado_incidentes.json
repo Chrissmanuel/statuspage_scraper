@@ -6297,5 +6297,18 @@
     "ID": "incidents/nv1yxqqv8gr4",
     "Asignado": "Luis G",
     "Periodo_Raw": "Nov 24, 16:06 - 16:41 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Banco XXXXX Intermittences - [ETPAY O FINTOC]",
+    "Periodo": "Nov 25, 08:46 AM VET",
+    "Resumen": "Since the afternoon of November 24, 2026 [16:00 CLT], intermittent service disruptions have been detected at BancoEstado, Scotiabank and Santander. As a result, Fintoc has temporarily disabled transactions involving these banks. Payments through other banks available on Fintoc are not affected. We are monitoring the situation together with Fintoc and will share an update as soon as service is fully restored. We apologize for any inconvenience this may cause.",
+    "Estado": "Resolved (Incidente no disponible)",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": 255,
+    "Pendiente": "NO",
+    "ID": "incidents/9xy7qbhgchf9",
+    "Asignado": "Merlis M",
+    "Periodo_Raw": "Nov 25, 09:46 GMT-03:00"
   }
 ]
