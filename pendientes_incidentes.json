@@ -11,5 +11,18 @@
     "ID": "incidents/gt5n0s2ftmhw",
     "Asignado": "Merlis M",
     "Periodo_Raw": "Nov 6, 23:05 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Intermittences - FINTOC Chile",
+    "Periodo": "Nov 26, 06:31 PM VET",
+    "Resumen": "We are currently experiencing a disruption affecting transactions processed through Fintoc with Banco Estado, Banco Santander, Scotiabank and Banco Itau. Transactions with these banks are not being completed at this time. Our team is working to restore normal service and will share updates as they become available.",
+    "Estado": "Identified: We are currently experiencing a disruption affecting transactions processed through Fintoc with Banco Estado, Banco Santander, Scotiabank and Banco Itau. Transactions with these banks are not being completed at this time. Our team is working to restore normal service and will share updates as they become available.",
+    "Componentes": "This incident affects: Payin (Chile).",
+    "Duracion_Minutos": "44",
+    "Pendiente": "SI",
+    "ID": "incidents/wjsbgphpw1zs",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Nov 26, 19:31 GMT-03:00"
   }
 ]
