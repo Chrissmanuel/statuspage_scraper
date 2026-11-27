@@ -6343,5 +6343,18 @@
     "ID": "incidents/3999pnl6msyv",
     "Asignado": "Airam S",
     "Periodo_Raw": "Nov 24, 17:47 - Nov 25, 22:26 GMT-03:00"
+  },
+  {
+    "Proveedor": "Alps",
+    "Titulo": "Payment intermittences with Banco de Chile",
+    "Periodo": "Nov 26, 10:33 PM - Nov 27, 02:39 AM VET",
+    "Resumen": "Payments with Banco de Chile have returned to normal operation.\n\nHistorial:\nResolved: Payments with Banco de Chile have returned to normal operation.\nInvestigating: We are seeing intermittent failures on payments with Banco de Chile. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
+    "Estado": "Resolved: Payments with Banco de Chile have returned to normal operation.",
+    "Componentes": "This incident affected: Payin (Chile).",
+    "Duracion_Minutos": 246,
+    "Pendiente": "NO",
+    "ID": "incidents/ff3nvd9tnn0p",
+    "Asignado": "Luis G",
+    "Periodo_Raw": "Nov 26, 23:33 - Nov 27, 03:39 GMT-03:00"
   }
 ]
