@@ -24,18 +24,5 @@
     "ID": "incidents/wjsbgphpw1zs",
     "Asignado": "Luis G",
     "Periodo_Raw": "Nov 26, 19:31 GMT-03:00"
-  },
-  {
-    "Proveedor": "Alps",
-    "Titulo": "Payment intermittences with Banco BICE",
-    "Periodo": "Nov 28, 08:11 AM VET",
-    "Resumen": "We are seeing intermittent failures on payments with Banco BICE. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
-    "Estado": "Investigating: We are seeing intermittent failures on payments with Banco BICE. Some payment attempts through this bank may fail or take longer than usual to complete. Payments through other banks are not affected. We will post an update within 30 minutes.",
-    "Componentes": "This incident affects: Payin (Chile).",
-    "Duracion_Minutos": "64",
-    "Pendiente": "SI",
-    "ID": "incidents/30kxqqlz6hwf",
-    "Asignado": "Merlis M",
-    "Periodo_Raw": "Nov 28, 09:11 GMT-03:00"
   }
 ]
